@@ -13,7 +13,7 @@
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.RowConstraints?>
 
-<GridPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.121" xmlns:fx="http://javafx.com/fxml/1">
+<GridPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.112-ea" xmlns:fx="http://javafx.com/fxml/1">
   <columnConstraints>
     <ColumnConstraints hgrow="SOMETIMES" maxWidth="100.0" minWidth="10.0" prefWidth="100.0" />
     <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
@@ -31,15 +31,19 @@
   </rowConstraints>
    <children>
       <FlowPane orientation="VERTICAL" prefHeight="200.0" prefWidth="200.0" GridPane.rowIndex="2" GridPane.rowSpan="5" />
-      <Canvas height="200.0" width="200.0" GridPane.columnIndex="1" GridPane.columnSpan="3" GridPane.rowIndex="2" GridPane.rowSpan="4" />
+      <AnchorPane GridPane.columnIndex="1" GridPane.columnSpan="3" GridPane.rowIndex="2" GridPane.rowSpan="4">
+         <children>
+            <Canvas height="200.0" width="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0"/>
+         </children>
+      </AnchorPane>
       <AnchorPane GridPane.rowIndex="1" GridPane.rowSpan="6">
          <children>
             <ToolBar orientation="VERTICAL" prefHeight="40.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
               <items>
-                  <Button mnemonicParsing="false" text="Tool 1" prefWidth="80" prefHeight="80"/>
-                <Button mnemonicParsing="false" text="Tool 2" prefWidth="80" prefHeight="80"/>
-                  <Button mnemonicParsing="false" text="Tool 3" prefWidth="80" prefHeight="80"/>
-                  <Button mnemonicParsing="false" text="Tool 4" prefWidth="80" prefHeight="80"/>
+                  <Button mnemonicParsing="false" prefHeight="80" prefWidth="80" text="Tool 1" />
+                <Button mnemonicParsing="false" prefHeight="80" prefWidth="80" text="Tool 2" />
+                  <Button mnemonicParsing="false" prefHeight="80" prefWidth="80" text="Tool 3" />
+                  <Button mnemonicParsing="false" prefHeight="80" prefWidth="80" text="Tool 4" />
               </items>
             </ToolBar>
          </children>
