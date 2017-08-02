@@ -50,21 +50,20 @@
             </ToolBar>
          </children>
       </AnchorPane>
-      <MenuBar GridPane.columnSpan="4">
+      <MenuBar fx:id="menuBar" GridPane.columnSpan="4">
         <menus>
-          <Menu mnemonicParsing="false" text="File">
+          <Menu fx:id="menu" mnemonicParsing="false" onShown="#prepareFileMenu" text="File">
             <items>
               <MenuItem mnemonicParsing="false" onAction="#menuOpenImage" text="Open Image">
                      <accelerator>
                         <KeyCodeCombination alt="UP" code="O" control="DOWN" meta="UP" shift="UP" shortcut="UP" />
                      </accelerator></MenuItem>
-                  <MenuItem mnemonicParsing="false" onAction="#menuOpenImageWithData" text="Open Image With Metadata" />
+                  <MenuItem mnemonicParsing="false" onAction="#menuOpenImageWithCoco" text="Open Image With Metadata" />
                   <SeparatorMenuItem mnemonicParsing="false" />
-                  <MenuItem mnemonicParsing="false" onAction="#menuSaveData" text="Save">
+                  <MenuItem fx:id="saveMenuItem" mnemonicParsing="false" onAction="#menuSaveData" text="Save">
                      <accelerator>
                         <KeyCodeCombination alt="UP" code="S" control="DOWN" meta="UP" shift="UP" shortcut="UP" />
                      </accelerator></MenuItem>
-                  <MenuItem mnemonicParsing="false" text="Save As..." />
                   <SeparatorMenuItem mnemonicParsing="false" />
                   <MenuItem mnemonicParsing="false" onAction="#menuExit" text="Exit" />
             </items>

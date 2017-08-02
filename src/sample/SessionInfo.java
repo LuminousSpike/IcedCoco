@@ -9,4 +9,8 @@ public class SessionInfo {
     public int imageHeight;
     public boolean imageLoaded;
 
+    public boolean saveFilesReady(){
+        // return true if there are files available and selected to save for the coco caption, segmentation, image info data, etc
+        return false;
+    }
 }
