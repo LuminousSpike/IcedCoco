@@ -35,7 +35,7 @@
       <FlowPane orientation="VERTICAL" prefHeight="200.0" prefWidth="200.0" GridPane.rowIndex="2" GridPane.rowSpan="5" />
       <AnchorPane GridPane.columnIndex="1" GridPane.columnSpan="3" GridPane.rowIndex="2" GridPane.rowSpan="4">
          <children>
-            <Canvas height="242.0" width="352.0" AnchorPane.bottomAnchor="72.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="148.0" AnchorPane.topAnchor="0.0" />
+            <Canvas fx:id="canvas" height="314.0" width="500.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
          </children>
       </AnchorPane>
       <AnchorPane GridPane.rowIndex="1" GridPane.rowSpan="6">
@@ -52,7 +52,7 @@
       </AnchorPane>
       <MenuBar fx:id="menuBar" GridPane.columnSpan="4">
         <menus>
-          <Menu fx:id="menu" mnemonicParsing="false" onShown="#prepareFileMenu" text="File">
+          <Menu fx:id="fileMenu" mnemonicParsing="false" onShown="#prepareFileMenu" text="File">
             <items>
               <MenuItem mnemonicParsing="false" onAction="#menuOpenImage" text="Open Image">
                      <accelerator>
