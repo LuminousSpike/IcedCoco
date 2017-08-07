@@ -15,6 +15,8 @@ import javafx.scene.control.Menu;
 import javafx.scene.control.MenuBar;
 import javafx.scene.control.MenuItem;
 import javafx.scene.image.Image;
+import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.GridPane;
 import javafx.scene.text.Text;
 import javafx.stage.FileChooser;
 
@@ -34,6 +36,8 @@ public class Controller implements Initializable{
     private ResourceBundle resources;
     private SessionInfo sessionInfo = new SessionInfo();
     private Scene scene;
+    @FXML private GridPane masterPane;
+    @FXML private AnchorPane canvasAnchorPane;
     @FXML private MenuBar menuBar;
     @FXML private MenuItem saveMenuItem;
     @FXML private Menu fileMenu;
@@ -44,13 +48,54 @@ public class Controller implements Initializable{
         this.scene = scene;
     }
 
+    private double[] getCanvasArea(){
+        // return the width and height as [width,height], of the space the canvas can expand to fill
+        // canvas can occupy area from (1,1) to (3,5) of the gridpane. (column, row)
+        double w = canvasAnchorPane.getWidth();
+        double h = canvasAnchorPane.getHeight();
+        return new double[] {w, h};
+    }
+
+    private void drawImageInCanvas(Image img){
+        GraphicsContext gfx = canvas.getGraphicsContext2D();
+        // draw the image size to be its actual size if it can fit within the window,
+        // or shrunk to fit the size of the canvas at its biggest
+        // change this when we implement zooming maybe
+        double[] paneBounds = getCanvasArea();
+        if(img.getWidth() < paneBounds[0] && img.getHeight() < paneBounds[1]) {
+            canvas.setWidth(img.getWidth());
+            canvas.setHeight(img.getHeight());
+        }
+        else{
+            double shrinkFactor = 0;
+            if (img.getWidth()/paneBounds[0] > img.getHeight()/paneBounds[1]){
+                shrinkFactor = paneBounds[0] / img.getWidth();
+            }
+            else{
+                shrinkFactor = paneBounds[1] / img.getHeight();
+            }
+            canvas.setWidth(img.getWidth() * shrinkFactor);
+            canvas.setHeight(img.getHeight() * shrinkFactor);
+        }
+        gfx.drawImage(img, 0, 0, canvas.getWidth(), canvas.getHeight());
+
+        //sessionInfo settings
+        sessionInfo.baseImage = img;
+        sessionInfo.imageWidth = img.getWidth();
+        sessionInfo.imageHeight = img.getHeight();
+    }
+
+    // called from listeners defined in Main.java
+    public void onWindowResize(){
+        return;
+    }
+
     @FXML
     public void prepareFileMenu(Event event){
         // validate all the menu items in the menu file
         // disable save if there is no image loaded and no valid .json files to save the metadata to
         saveMenuItem.setDisable(!(sessionInfo.imageLoaded && sessionInfo.saveFilesReady()));
     }
-
 
 
     @FXML
@@ -66,11 +111,7 @@ public class Controller implements Initializable{
         try {
             if (imgFile != null) {
                 Image img = new Image(imgFile.toURI().toURL().toExternalForm());       // test this works on all systems
-                GraphicsContext gfx = canvas.getGraphicsContext2D();
-                // we want to fit the canvas to the window size and the image to the canvas size but idk how
-                canvas.setWidth(img.getWidth());
-                canvas.setHeight(img.getHeight());
-                gfx.drawImage(img, 0, 0, canvas.getWidth(), canvas.getHeight());
+                drawImageInCanvas(img);
             }
         }catch(MalformedURLException mue){
             mue.printStackTrace();
