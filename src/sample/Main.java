@@ -3,12 +3,17 @@ package sample;
 import javafx.application.Application;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
+import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
 public class Main extends Application {
+
+    @FXML
+    Pane canvasPane;
 
     @Override
     public void start(Stage primaryStage) throws Exception{
@@ -21,7 +26,6 @@ public class Main extends Application {
         // add listeners to the scene
         scene.widthProperty().addListener((observableValue, oldWidth, newWidth) -> cont.onWindowResize());
         scene.heightProperty().addListener((observableValue, oldHeight, newHeight) -> cont.onWindowResize());
-
         primaryStage.setScene(scene);
         cont.setScene(scene);
         primaryStage.show();
