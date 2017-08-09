@@ -1,18 +1,35 @@
 package sample;
 
 import javafx.application.Application;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
+import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
 public class Main extends Application {
 
+    @FXML
+    Pane canvasPane;
+
     @Override
     public void start(Stage primaryStage) throws Exception{
-        Parent root = FXMLLoader.load(getClass().getResource("form_main.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("form_main.fxml"));
+        Parent root = loader.load();
+        Controller cont = loader.getController();
         primaryStage.setTitle("Comp314 Project");
-        primaryStage.setScene(new Scene(root, 640, 480));
+        Scene scene = new Scene (root, 640, 480);
+
+        // add listeners to the scene
+        scene.widthProperty().addListener((observableValue, oldWidth, newWidth) -> cont.onWindowResize());
+        scene.heightProperty().addListener((observableValue, oldHeight, newHeight) -> cont.onWindowResize());
+
+        primaryStage.setScene(scene);
+        cont.setScene(scene);
+        cont.setStage(primaryStage);
         primaryStage.show();
     }
 
