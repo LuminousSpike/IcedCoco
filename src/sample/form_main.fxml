@@ -37,7 +37,7 @@
          <children>
             <ToolBar orientation="VERTICAL" prefHeight="40.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
               <items>
-                  <Button fx:id="tool1" mnemonicParsing="false" prefHeight="80" prefWidth="80" text="Tool 1" />
+                  <Button fx:id="tool1" mnemonicParsing="false" prefHeight="80" prefWidth="80" text="Tool 1" onAction="#activatePolygonTool" />
                 <Button fx:id="tool2" mnemonicParsing="false" prefHeight="80" prefWidth="80" text="Tool 2" />
                   <Button mnemonicParsing="false" prefHeight="80" prefWidth="80" text="Tool 3" />
                   <Button mnemonicParsing="false" prefHeight="80" prefWidth="80" text="Tool 4" />
