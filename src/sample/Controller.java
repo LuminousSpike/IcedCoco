@@ -17,11 +17,15 @@ import javafx.scene.image.Image;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
+import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import javafx.stage.FileChooser;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
 
 import javax.annotation.Resources;
 import javax.imageio.ImageIO;
+import javax.swing.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -35,6 +39,7 @@ public class Controller implements Initializable{
     private ResourceBundle resources;
     private SessionInfo sessionInfo = new SessionInfo();
     private Scene scene;
+    private Stage primaryStage;
     private float canvasZoomAmount = 0.05f;   // as a percentage, from 0 - 1
     private float minCanvasSize = 100f;     // min size for both of the width and height of the canvas
     @FXML private GridPane masterPane;
@@ -51,6 +56,10 @@ public class Controller implements Initializable{
 
     public void setScene(Scene scene){
         this.scene = scene;
+    }
+
+    public void setStage(Stage stage){
+        this.primaryStage = stage;
     }
 
     private double[] getCanvasArea(){
@@ -98,6 +107,11 @@ public class Controller implements Initializable{
     // called from listeners defined in Main.java
     public void onWindowResize(){
         return;
+    }
+
+    @FXML
+    public void newMetadataSet(ActionEvent event){
+
     }
 
     @FXML

@@ -26,8 +26,10 @@ public class Main extends Application {
         // add listeners to the scene
         scene.widthProperty().addListener((observableValue, oldWidth, newWidth) -> cont.onWindowResize());
         scene.heightProperty().addListener((observableValue, oldHeight, newHeight) -> cont.onWindowResize());
+
         primaryStage.setScene(scene);
         cont.setScene(scene);
+        cont.setStage(primaryStage);
         primaryStage.show();
     }
 
