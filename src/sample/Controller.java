@@ -34,6 +34,11 @@ import java.net.URL;
 import java.util.Observable;
 import java.util.ResourceBundle;
 
+import javafx.scene.input.MouseEvent;
+import javafx.scene.paint.Color;
+
+import java.util.LinkedList;
+
 public class Controller implements Initializable{
 
     private ResourceBundle resources;
@@ -48,10 +53,21 @@ public class Controller implements Initializable{
     @FXML private MenuItem saveMenuItem;
     @FXML private Canvas canvas;
 
+    @FXML
+    private Button tool1;
+    @FXML
+    private Button tool2;
+
+    private LinkedList<Polygon> polygons;
+
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         this.resources = resources;
         canvasScrollPane.setContent(canvas);
+
+        polygons = new LinkedList<>();
+        // TODO: Refactor this out. (Fixes polygons not being added somehow)
+        polygons.add(new Polygon());
     }
 
     public void setScene(Scene scene){
@@ -182,7 +198,98 @@ public class Controller implements Initializable{
     }
 
     @FXML
-    public void menuExit(ActionEvent event){
+    public void menuExit(ActionEvent event) {
         Platform.exit();
+    }
+
+
+    @FXML
+    private void onMouseClickedListener_Canvas (MouseEvent e) {
+        Vertex selectedVertex = null;
+
+        for (Polygon p : polygons) {
+            if ((selectedVertex = p.findSelected()) != null) {
+                if (polygons.get(polygons.size() - 1).size() > 2) {
+                    polygons.add(new Polygon());
+                }
+                break;
+            }
+        }
+
+        // TODO: Check if we really need this if statement.
+        if (selectedVertex == null) {
+            Polygon p = null;
+
+            p = polygons.getLast();
+            p.add(e.getX(), e.getY());
+
+            draw(canvas);
+        }
+    }
+
+    @FXML
+    private void onMousePressedListener_Canvas (MouseEvent e) {
+        Vertex selectedVertex = null;
+
+        for (Polygon p : polygons) {
+            if ((selectedVertex = p.findSelected())!= null) {
+                selectedVertex.updateSelected(false);
+            }
+
+            p.setVertexColor(Color.BLUE);
+
+            if ((selectedVertex = p.find(e.getX(), e.getY())) != null) {
+                selectedVertex.updateColor(Color.RED);
+                selectedVertex.updateSelected(true);
+                draw(canvas);
+            }
+        }
+    }
+
+    @FXML
+    private void onMouseReleasedListener_Canvas (MouseEvent e) {
+
+    }
+
+    @FXML
+    private void onDragEnteredListener_Canvas (MouseEvent e) {
+        Vertex v = null;
+
+        for (Polygon p : polygons) {
+            p.setVertexColor (Color.BLUE);
+
+            if ((v = p.find(e.getX(), e.getY())) != null) {
+                v.updateColor(Color.RED);
+            }
+        }
+
+        if (v != null) {
+            v.updateAxisX(e.getX());
+            v.updateAxisY(e.getY());
+        }
+    }
+
+    @FXML
+    private void onMouseDraggedListener_Canvas (MouseEvent e) {
+        Vertex selectedVertex  = null;
+
+        for (Polygon p : polygons) {
+            if ((selectedVertex = p.findSelected()) != null) {
+                selectedVertex.updateAxisX(e.getX());
+                selectedVertex.updateAxisY(e.getY());
+                draw(canvas);
+            }
+        }
+    }
+
+    private void draw(Canvas canvas)
+    {
+        GraphicsContext gc = canvas.getGraphicsContext2D();
+
+        gc.clearRect(0, 0, gc.getCanvas().getWidth(), gc.getCanvas().getHeight());
+
+        for (Polygon p : polygons) {
+            p.draws(gc);
+        }
     }
 }

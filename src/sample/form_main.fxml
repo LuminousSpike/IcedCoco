@@ -96,7 +96,7 @@
         <content>
           <AnchorPane fx:id="canvasAnchorPane" minHeight="0.0" minWidth="0.0" prefHeight="200.0" prefWidth="200.0">
                <children>
-                  <Canvas fx:id="canvas" height="314.0" width="500.0" />
+                  <Canvas fx:id="canvas" height="314.0" width="500.0" onMouseClicked="#onMouseClickedListener_Canvas" onMouseDragEntered="#onDragEnteredListener_Canvas" onMouseDragged="#onMouseDraggedListener_Canvas" onMousePressed="#onMousePressedListener_Canvas"/>
                </children>
             </AnchorPane>
         </content>
