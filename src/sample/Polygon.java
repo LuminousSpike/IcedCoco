@@ -38,7 +38,7 @@ class Polygon {
         return null;
     }
 
-    void draws (GraphicsContext gc)
+    void draw (GraphicsContext gc)
     {
         for (int count = 0; count < points.size(); count++)
         {

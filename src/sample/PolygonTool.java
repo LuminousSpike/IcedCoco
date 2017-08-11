@@ -112,7 +112,7 @@ public class PolygonTool implements Tool{
         gc.clearRect(0, 0, gc.getCanvas().getWidth(), gc.getCanvas().getHeight());
 
         for (Polygon p : polygons) {
-            p.draws(gc);
+            p.draw(gc);
         }
     }
 }
