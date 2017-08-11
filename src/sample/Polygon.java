@@ -15,16 +15,28 @@ class Polygon {
 
     }
 
+    /**
+     * @return The count of the vertexes in the polygon.
+     */
     int size ()
     {
         return points.size();
     }
 
+    /**
+     * @param new_x X-pos of the new vertex.
+     * @param new_y Y-pos of the new vertex.
+     */
     void add (double new_x, double new_y)
     {
         points.add(new Vertex(new_x, new_y));
     }
 
+    /**
+     * @param new_x X-pos to find.
+     * @param new_y Y-pos to find.
+     * @return The found vertex or null.
+     */
     Vertex find (double new_x, double new_y)
     {
         for (Vertex v : points)
@@ -38,6 +50,10 @@ class Polygon {
         return null;
     }
 
+    /**
+     * Draws the polygon.
+     * @param gc The canvas to draw on.
+     */
     void draw (GraphicsContext gc)
     {
         for (int count = 0; count < points.size(); count++)
@@ -59,6 +75,11 @@ class Polygon {
             }
         }
     }
+
+
+    /**
+     * @param colour The colour to give the polygon's vertexes.
+     */
     void setVertexColor (Color colour)
     {
         for (Vertex v : points)
@@ -66,6 +87,11 @@ class Polygon {
             v.updateColor(colour);
         }
     }
+
+
+    /**
+     * @return The selected vertex of the polygon.
+     */
     Vertex findSelected ()
     {
         for (Vertex v : points)
