@@ -31,16 +31,14 @@ public class Controller implements Initializable{
     private Stage primaryStage;
     private float canvasZoomAmount = 0.05f;   // as a percentage, from 0 - 1
     private float minCanvasSize = 100f;     // min size for both of the width and height of the canvas
+
     @FXML private GridPane masterPane;
     @FXML private ScrollPane canvasScrollPane;
     @FXML private AnchorPane canvasAnchorPane; // canvas is child of the anchor pane, anchor pane is child of the scroll pane
     @FXML private MenuItem saveMenuItem;
     @FXML private Canvas canvas;
-
-    @FXML
-    private Button tool1;
-    @FXML
-    private Button tool2;
+    @FXML private Button tool1;
+    @FXML private Button tool2;
 
     private PolygonTool polygonTool;
     private Tool currentTool = null;
