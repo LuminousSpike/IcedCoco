@@ -27,19 +27,58 @@ public class Vertex
         nextVertex = new_nextVertex;
     }
 
+    /**
+     * Update the x-axis to the given value.
+     * @param new_x The new x-axis.
+     */
     void updateAxisX (double new_x)
     {
         x = new_x;
     }
+
+    /**
+     * Update the y-axis to the given value.
+     * @param new_y The new y-axis.
+     */
     void updateAxisY (double new_y) { y = new_y; }
+
+    /**
+     * Update the colour to the given colour.
+     * @param new_Color The new colour.
+     */
     void updateColor (Color new_Color) { colour = new_Color; }
+
+    /**
+     * Update the selected state to the given state.
+     * @param new_selected The new selected state.
+     */
     void updateSelected (boolean new_selected) { selected = new_selected; }
+
+    /**
+     * Getter for the x-axis.
+     * @return The x-axis.
+     */
     double getAxisX ()
     {
         return x;
     }
+
+    /**
+     * Getter for the y-axis.
+     * @return The y-axis.
+     */
     double getAxisY () { return y; }
+
+    /**
+     * Getter for the vertex size.
+     * @return The size of the vertex.
+     */
     double getSIZE () { return SIZE; }
+
+    /**
+     * Getter for the selected state.
+     * @return The selected state.
+     */
     boolean getSelected () { return selected; }
 
     void setNextVertex (Vertex new_nextVertex)
@@ -47,12 +86,22 @@ public class Vertex
         nextVertex = new_nextVertex;
     }
 
+    /**
+     * Handles the collision logic for the vertex.
+     * @param new_x X-axis to collide.
+     * @param new_y Y-axis to collide.
+     * @return True if there is a collision between the vertex and the given points.
+     */
     boolean collision (double new_x, double new_y)
     {
         // TODO: Expand for readability.
         return ((x - COLLISION_SIZE) < new_x && (x + COLLISION_SIZE) > new_x) && ((y - COLLISION_SIZE) < new_y && (y + COLLISION_SIZE) > new_y);
     }
 
+    /**
+     * Draws the vertex.
+     * @param gc GraphicsContext to draw on.
+     */
     void draw (GraphicsContext gc)
     {
         gc.setStroke(colour);
