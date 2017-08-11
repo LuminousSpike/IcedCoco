@@ -84,7 +84,7 @@ class Polygon {
     {
         for (Vertex v : points)
         {
-            v.updateColor(colour);
+            v.setColor(colour);
         }
     }
 

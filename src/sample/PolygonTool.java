@@ -30,13 +30,13 @@ public class PolygonTool implements Tool{
             p.setVertexColor (Color.BLUE);
 
             if ((v = p.find(e.getX(), e.getY())) != null) {
-                v.updateColor(Color.RED);
+                v.setColor(Color.RED);
             }
         }
 
         if (v != null) {
-            v.updateAxisX(e.getX());
-            v.updateAxisY(e.getY());
+            v.setAxisX(e.getX());
+            v.setAxisY(e.getY());
         }
     }
 
@@ -70,8 +70,8 @@ public class PolygonTool implements Tool{
 
         for (Polygon p : polygons) {
             if ((selectedVertex = p.findSelected()) != null) {
-                selectedVertex.updateAxisX(e.getX());
-                selectedVertex.updateAxisY(e.getY());
+                selectedVertex.setAxisX(e.getX());
+                selectedVertex.setAxisY(e.getY());
                 draw();
             }
         }
@@ -83,14 +83,14 @@ public class PolygonTool implements Tool{
 
         for (Polygon p : polygons) {
             if ((selectedVertex = p.findSelected())!= null) {
-                selectedVertex.updateSelected(false);
+                selectedVertex.setSelected(false);
             }
 
             p.setVertexColor(Color.BLUE);
 
             if ((selectedVertex = p.find(e.getX(), e.getY())) != null) {
-                selectedVertex.updateColor(Color.RED);
-                selectedVertex.updateSelected(true);
+                selectedVertex.setColor(Color.RED);
+                selectedVertex.setSelected(true);
                 draw();
             }
         }

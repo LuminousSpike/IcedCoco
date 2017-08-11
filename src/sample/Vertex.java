@@ -28,31 +28,36 @@ public class Vertex
     }
 
     /**
-     * Update the x-axis to the given value.
+     * Set the x-axis to the given value.
      * @param new_x The new x-axis.
      */
-    void updateAxisX (double new_x)
+    void setAxisX (double new_x)
     {
         x = new_x;
     }
 
     /**
-     * Update the y-axis to the given value.
+     * Set the y-axis to the given value.
      * @param new_y The new y-axis.
      */
-    void updateAxisY (double new_y) { y = new_y; }
+    void setAxisY (double new_y) { y = new_y; }
 
     /**
-     * Update the colour to the given colour.
+     * Set the colour to the given colour.
      * @param new_Color The new colour.
      */
-    void updateColor (Color new_Color) { colour = new_Color; }
+    void setColor (Color new_Color) { colour = new_Color; }
 
     /**
-     * Update the selected state to the given state.
+     * Set the selected state to the given state.
      * @param new_selected The new selected state.
      */
-    void updateSelected (boolean new_selected) { selected = new_selected; }
+    void setSelected (boolean new_selected) { selected = new_selected; }
+
+    void setNextVertex (Vertex new_nextVertex)
+    {
+        nextVertex = new_nextVertex;
+    }
 
     /**
      * Getter for the x-axis.
@@ -80,11 +85,6 @@ public class Vertex
      * @return The selected state.
      */
     boolean getSelected () { return selected; }
-
-    void setNextVertex (Vertex new_nextVertex)
-    {
-        nextVertex = new_nextVertex;
-    }
 
     /**
      * Handles the collision logic for the vertex.
