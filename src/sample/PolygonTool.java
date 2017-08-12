@@ -106,10 +106,9 @@ public class PolygonTool implements Tool{
      * Do we display them when you change to the tool?
      * Or is it displayed persistently?
      * */
-    private void draw () {
+    @Override
+    public void draw () {
         GraphicsContext gc = drawingCanvas.getGraphicsContext2D();
-
-        gc.clearRect(0, 0, gc.getCanvas().getWidth(), gc.getCanvas().getHeight());
 
         for (Polygon p : polygons) {
             p.draw(gc);
