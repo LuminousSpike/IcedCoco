@@ -43,4 +43,9 @@ public interface Tool {
      * @param e Mouse Event for the tool to process.
      */
     void onMouseReleased (MouseEvent e);
+
+    /**
+     * Draws the tool's contents onto the set canvas.
+     */
+    void draw ();
 }
