@@ -1,37 +1,26 @@
 package sample;
 
 import javafx.application.Platform;
-import javafx.beans.value.ChangeListener;
-import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.Event;
-import javafx.event.EventTarget;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.geometry.Bounds;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
-import javafx.scene.control.*;
+import javafx.scene.control.Button;
+import javafx.scene.control.MenuItem;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.image.Image;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
-import javafx.scene.layout.Pane;
-import javafx.scene.layout.VBox;
-import javafx.scene.text.Text;
 import javafx.stage.FileChooser;
-import javafx.stage.Modality;
 import javafx.stage.Stage;
 
-import javax.annotation.Resources;
-import javax.imageio.ImageIO;
-import javax.swing.*;
-import java.awt.image.BufferedImage;
 import java.io.File;
-import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.util.Observable;
 import java.util.ResourceBundle;
 
 public class Controller implements Initializable{
@@ -42,16 +31,25 @@ public class Controller implements Initializable{
     private Stage primaryStage;
     private float canvasZoomAmount = 0.05f;   // as a percentage, from 0 - 1
     private float minCanvasSize = 100f;     // min size for both of the width and height of the canvas
+    private Image img;
+
     @FXML private GridPane masterPane;
     @FXML private ScrollPane canvasScrollPane;
     @FXML private AnchorPane canvasAnchorPane; // canvas is child of the anchor pane, anchor pane is child of the scroll pane
     @FXML private MenuItem saveMenuItem;
     @FXML private Canvas canvas;
+    @FXML private Button tool1;
+    @FXML private Button tool2;
+
+    private PolygonTool polygonTool;
+    private Tool currentTool = null;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         this.resources = resources;
         canvasScrollPane.setContent(canvas);
+        polygonTool = new PolygonTool();
+        polygonTool.setCanvas(canvas);
     }
 
     public void setScene(Scene scene){
@@ -70,31 +68,32 @@ public class Controller implements Initializable{
         return new double[] {w, h};
     }
 
-    private void drawImageInCanvas(Image img){
+    private void drawImageInCanvas(Image img, boolean newImage){
         if(img==null){
             // for debugging
             System.err.println("Error: image passed to drawImageInCanvas is null");
             return;
         }
         GraphicsContext gfx = canvas.getGraphicsContext2D();
+        gfx.clearRect(0, 0, gfx.getCanvas().getWidth(), gfx.getCanvas().getHeight());
         // draw the image size to be its actual size if it can fit within the window,
         // or shrunk to fit the size of the canvas at its biggest
         // change this when we implement zooming maybe
-        double[] paneBounds = getCanvasArea();
-        if(img.getWidth() < paneBounds[0] && img.getHeight() < paneBounds[1]) {
-            canvas.setWidth(img.getWidth());
-            canvas.setHeight(img.getHeight());
-        }
-        else{
-            double shrinkFactor = 0;
-            if (img.getWidth()/paneBounds[0] > img.getHeight()/paneBounds[1]){
-                shrinkFactor = paneBounds[0] / img.getWidth();
+        if (newImage) {
+            double[] paneBounds = getCanvasArea();
+            if (img.getWidth() < paneBounds[0] && img.getHeight() < paneBounds[1]) {
+                canvas.setWidth(img.getWidth());
+                canvas.setHeight(img.getHeight());
+            } else {
+                double shrinkFactor = 0;
+                if (img.getWidth() / paneBounds[0] > img.getHeight() / paneBounds[1]) {
+                    shrinkFactor = paneBounds[0] / img.getWidth();
+                } else {
+                    shrinkFactor = paneBounds[1] / img.getHeight();
+                }
+                canvas.setWidth(img.getWidth() * shrinkFactor);
+                canvas.setHeight(img.getHeight() * shrinkFactor);
             }
-            else{
-                shrinkFactor = paneBounds[1] / img.getHeight();
-            }
-            canvas.setWidth(img.getWidth() * shrinkFactor);
-            canvas.setHeight(img.getHeight() * shrinkFactor);
         }
         gfx.drawImage(img, 0, 0, canvas.getWidth(), canvas.getHeight());
 
@@ -124,6 +123,7 @@ public class Controller implements Initializable{
         canvas.setWidth(Math.floor(canvas.getWidth() + canvasZoomAmount * sessionInfo.baseImage.getWidth()));
         canvas.setHeight(Math.floor(canvas.getHeight() + canvasZoomAmount * sessionInfo.baseImage.getHeight()));
         canvas.getGraphicsContext2D().drawImage(sessionInfo.baseImage, 0,0,canvas.getWidth(), canvas.getHeight());
+        currentTool.draw();
     }
 
     @FXML
@@ -139,6 +139,7 @@ public class Controller implements Initializable{
         canvas.setWidth(newWidth);
         canvas.setHeight(newHeight);
         canvas.getGraphicsContext2D().drawImage(sessionInfo.baseImage, 0,0,canvas.getWidth(), canvas.getHeight());
+        currentTool.draw();
     }
 
     @FXML
@@ -161,8 +162,14 @@ public class Controller implements Initializable{
         File imgFile = fc.showOpenDialog(scene.getWindow());
         try {
             if (imgFile != null) {
-                Image img = new Image(imgFile.toURI().toURL().toExternalForm());       // test this works on all systems
-                drawImageInCanvas(img);
+                img = new Image(imgFile.toURI().toURL().toExternalForm());       // test this works on all systems
+                // TODO: Implement a proper way to initialize tools upon image load.
+                // For now, set the current tool to null.
+                currentTool = null;
+                // And make a new PolygonTool.
+                polygonTool = new PolygonTool();
+                polygonTool.setCanvas(canvas);
+                drawImageInCanvas(img, true);
             }
         }catch(MalformedURLException mue){
             mue.printStackTrace();
@@ -182,7 +189,53 @@ public class Controller implements Initializable{
     }
 
     @FXML
-    public void menuExit(ActionEvent event){
+    public void menuExit(ActionEvent event) {
         Platform.exit();
+    }
+
+
+    @FXML
+    private void onMouseClickedListener_Canvas (MouseEvent e) {
+        if (currentTool != null) {
+            drawImageInCanvas(img, false);
+            currentTool.onMouseClicked(e);
+        }
+    }
+
+    @FXML
+    private void onMousePressedListener_Canvas (MouseEvent e) {
+        if (currentTool != null) {
+            drawImageInCanvas(img, false);
+            currentTool.onMousePressed(e);
+        }
+    }
+
+    @FXML
+    private void onMouseReleasedListener_Canvas (MouseEvent e) {
+        if (currentTool != null) {
+            drawImageInCanvas(img, false);
+            currentTool.onMouseReleased(e);
+        }
+    }
+
+    @FXML
+    private void onDragEnteredListener_Canvas (MouseEvent e) {
+        if (currentTool != null) {
+            drawImageInCanvas(img, false);
+            currentTool.onDragEntered(e);
+        }
+    }
+
+    @FXML
+    private void onMouseDraggedListener_Canvas (MouseEvent e) {
+        if (currentTool != null) {
+            drawImageInCanvas(img, false);
+            currentTool.onMouseDragged(e);
+        }
+    }
+
+    @FXML
+    private void activatePolygonTool () {
+        currentTool = polygonTool;
     }
 }
