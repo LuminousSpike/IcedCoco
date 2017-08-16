@@ -80,7 +80,7 @@ public class PolygonTool implements Tool{
     @Override
     public void onMousePressed(MouseEvent e) {
         Vertex selectedVertex = null;
-
+        boolean onlyOne = false;
         for (Polygon p : polygons) {
             if ((selectedVertex = p.findSelected())!= null) {
                 selectedVertex.setSelected(false);
@@ -88,10 +88,10 @@ public class PolygonTool implements Tool{
 
             p.setVertexColor(Color.BLUE);
 
-            if ((selectedVertex = p.find(e.getX(), e.getY())) != null) {
+            if ((selectedVertex = p.find(e.getX(), e.getY())) != null && onlyOne == false) {
                 selectedVertex.setColor(Color.RED);
                 selectedVertex.setSelected(true);
-                draw();
+                onlyOne = true;
             }
         }
         draw();
