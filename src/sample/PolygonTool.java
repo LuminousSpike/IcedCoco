@@ -59,9 +59,8 @@ public class PolygonTool implements Tool{
 
             p = polygons.getLast();
             p.add(e.getX(), e.getY());
-
-            draw();
         }
+        draw();
     }
 
     @Override
@@ -75,6 +74,7 @@ public class PolygonTool implements Tool{
                 draw();
             }
         }
+        draw();
     }
 
     @Override
@@ -94,6 +94,7 @@ public class PolygonTool implements Tool{
                 draw();
             }
         }
+        draw();
     }
 
     @Override
