@@ -12,10 +12,13 @@ import javafx.scene.control.Toggle;
 import javafx.scene.image.*;
 import javafx.stage.DirectoryChooser;
 import javafx.stage.FileChooser;
+import javafx.stage.Stage;
 
 import java.awt.event.InputMethodEvent;
 import java.awt.im.spi.InputMethod;
 import java.io.File;
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -76,13 +79,49 @@ public class CreateMetadataController implements Initializable {
 
     @FXML
     public void onCreateButton(ActionEvent event){
-        //for each toggle, if true, create a file using the base file name and the chosen directory.
+        // for each toggle, if true, create a file using the base file name and the chosen directory.
+        String dummyContent = "boop";
 
+        if(baseDirectory==null){
+            return;
+        }
+        if(baseNameTextField.getText().trim().equals("")){
+            return;
+        }
+
+        try {
+            if (imageToggle.isSelected()) {
+                createMetadataFile(imageLabel.getText(), dummyContent);
+            }
+            if(annotationToggle.isSelected()){
+                createMetadataFile(annotationLabel.getText(), dummyContent);
+            }
+            if(segmentationToggle.isSelected()){
+                createMetadataFile(segmentationLabel.getText(), dummyContent);
+            }
+            if(boundingToggle.isSelected()){
+                createMetadataFile(boundingLabel.getText(), dummyContent);
+            }
+        }catch(IOException ioe){
+            ioe.printStackTrace();
+        }
+
+
+        ((Stage)scene.getWindow()).close();
+    }
+
+    private void createMetadataFile(String fileName, String content) throws IOException{
+        File newFile = new File(this.baseDirectory, fileName);
+        PrintWriter writer = new PrintWriter(newFile);
+        writer.write(content);
+        writer.flush();
+        writer.close();
+        newFile.createNewFile();
     }
 
     @FXML
     public void onCancelButton(ActionEvent event){
-
+        ((Stage)scene.getWindow()).close();
     }
 
 }
