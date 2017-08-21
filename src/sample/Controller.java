@@ -117,7 +117,10 @@ public class Controller implements Initializable{
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("form_createMetadata.fxml"));
             createFilesRoot = loader.load();
+            CreateMetadataController cont = loader.getController();
+            cont.setSessionInfo(this.sessionInfo);
             Scene scene = new Scene(createFilesRoot, 640, 480);
+            cont.setScene(scene);
             Stage popup = new Stage();
             popup.setScene(scene);
             popup.show();
