@@ -35,39 +35,43 @@
          <GridPane.margin>
             <Insets bottom="10.0" top="20.0" />
          </GridPane.margin></Label>
-      <Button mnemonicParsing="false" text="Choose Directory" GridPane.columnIndex="5" GridPane.columnSpan="2">
+      <Button mnemonicParsing="false" onAction="#chooseDirectory" text="Choose Directory" GridPane.columnIndex="5" GridPane.columnSpan="2">
          <GridPane.margin>
             <Insets bottom="10.0" top="20.0" />
          </GridPane.margin>
       </Button>
-      <TextField layoutX="190.0" layoutY="23.0" GridPane.columnIndex="2" GridPane.columnSpan="3">
+      <TextField fx:id="directoryTextField" editable="false" layoutX="190.0" layoutY="23.0" GridPane.columnIndex="2" GridPane.columnSpan="3">
          <GridPane.margin>
             <Insets bottom="10.0" left="10.0" right="10.0" top="20.0" />
          </GridPane.margin>
       </TextField>
       <Label text="Base File Name:" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-      <TextField promptText="my_set" GridPane.columnIndex="2" GridPane.columnSpan="3" GridPane.rowIndex="1">
+      <TextField fx:id="baseNameTextField" onAction="#onEditBaseName" onInputMethodTextChanged="#onEditBaseName" onKeyReleased="#onEditBaseName" promptText="My image set" GridPane.columnIndex="2" GridPane.columnSpan="3" GridPane.rowIndex="1">
          <GridPane.margin>
             <Insets left="10.0" right="10.0" />
          </GridPane.margin></TextField>
       <Label text="Select files to create" GridPane.columnIndex="1" GridPane.columnSpan="2" GridPane.rowIndex="2" />
-      <CheckBox mnemonicParsing="false" text="Image Data" GridPane.columnIndex="1" GridPane.columnSpan="3" GridPane.rowIndex="3">
+      <CheckBox fx:id="imageToggle" mnemonicParsing="false" text="Image Data" GridPane.columnIndex="1" GridPane.columnSpan="3" GridPane.rowIndex="3">
          <GridPane.margin>
             <Insets left="20.0" />
          </GridPane.margin></CheckBox>
-      <CheckBox layoutX="95.0" layoutY="127.0" mnemonicParsing="false" text="Segmentation Data" GridPane.columnIndex="1" GridPane.columnSpan="3" GridPane.rowIndex="4">
+      <Label fx:id="imageLabel" textFill="#7c7c7c" GridPane.columnIndex="4" GridPane.columnSpan="3" GridPane.rowIndex="3" />
+      <CheckBox fx:id="segmentationToggle" layoutX="95.0" layoutY="127.0" mnemonicParsing="false" text="Segmentation Data" GridPane.columnIndex="1" GridPane.columnSpan="3" GridPane.rowIndex="4">
          <GridPane.margin>
             <Insets left="20.0" />
          </GridPane.margin></CheckBox>
-      <CheckBox layoutX="95.0" layoutY="177.0" mnemonicParsing="false" text="Annotation Data" GridPane.columnIndex="1" GridPane.columnSpan="3" GridPane.rowIndex="5">
+      <Label fx:id="segmentationLabel" layoutX="352.0" layoutY="165.0" textFill="#7c7c7c" GridPane.columnIndex="4" GridPane.columnSpan="3" GridPane.rowIndex="4" />
+      <CheckBox fx:id="annotationToggle" layoutX="95.0" layoutY="177.0" mnemonicParsing="false" text="Annotation Data" GridPane.columnIndex="1" GridPane.columnSpan="3" GridPane.rowIndex="5">
          <GridPane.margin>
             <Insets left="20.0" />
          </GridPane.margin></CheckBox>
-      <CheckBox layoutX="95.0" layoutY="227.0" mnemonicParsing="false" text="Bounding Box Data" GridPane.columnIndex="1" GridPane.columnSpan="3" GridPane.rowIndex="6">
+      <Label fx:id="annotationLabel" layoutX="10.0" layoutY="29.0" textFill="#7c7c7c" GridPane.columnIndex="4" GridPane.columnSpan="3" GridPane.rowIndex="5" />
+      <CheckBox fx:id="boundingToggle" layoutX="95.0" layoutY="227.0" mnemonicParsing="false" text="Bounding Box Data" GridPane.columnIndex="1" GridPane.columnSpan="3" GridPane.rowIndex="6">
          <GridPane.margin>
             <Insets left="20.0" />
          </GridPane.margin></CheckBox>
-      <Button mnemonicParsing="false" text="Create" GridPane.columnIndex="4" GridPane.rowIndex="7" />
-      <Button mnemonicParsing="false" text="Cancel" GridPane.columnIndex="5" GridPane.rowIndex="7" />
+      <Label fx:id="boundingLabel" layoutX="10.0" layoutY="29.0" textFill="#7c7c7c" GridPane.columnIndex="4" GridPane.columnSpan="3" GridPane.rowIndex="6" />
+      <Button mnemonicParsing="false" onAction="#onCreateButton" text="Create" GridPane.columnIndex="4" GridPane.rowIndex="7" />
+      <Button mnemonicParsing="false" onAction="#onCancelButton" text="Cancel" GridPane.columnIndex="5" GridPane.rowIndex="7" />
    </children>
 </GridPane>
