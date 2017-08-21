@@ -4,7 +4,9 @@ import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.event.Event;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
@@ -19,6 +21,7 @@ import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
 import java.io.File;
+import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -109,8 +112,18 @@ public class Controller implements Initializable{
     }
 
     @FXML
-    public void newMetadataSet(ActionEvent event){
-
+    public void createMetadataFiles(ActionEvent event){
+        Parent createFilesRoot;
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("form_createMetadata.fxml"));
+            createFilesRoot = loader.load();
+            Scene scene = new Scene(createFilesRoot, 640, 480);
+            Stage popup = new Stage();
+            popup.setScene(scene);
+            popup.show();
+        }catch(IOException ioe){
+            ioe.printStackTrace();
+        }
     }
 
     @FXML
