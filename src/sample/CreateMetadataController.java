@@ -14,6 +14,7 @@ import javafx.stage.DirectoryChooser;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
+import javax.swing.*;
 import java.awt.event.InputMethodEvent;
 import java.awt.im.spi.InputMethod;
 import java.io.File;
@@ -79,6 +80,15 @@ public class CreateMetadataController implements Initializable {
 
     @FXML
     public void onCreateButton(ActionEvent event){
+        createAllFiles(false);
+    }
+
+    @FXML
+    public void onCreateAndUse(ActionEvent event){
+        createAllFiles(true);
+    }
+
+    private void createAllFiles(boolean use){
         // for each toggle, if true, create a file using the base file name and the chosen directory.
         String dummyContent = "boop";
 
@@ -91,32 +101,42 @@ public class CreateMetadataController implements Initializable {
 
         try {
             if (imageToggle.isSelected()) {
-                createMetadataFile(imageLabel.getText(), dummyContent);
+                File img = createMetadataFile(imageLabel.getText(), dummyContent);
+                if(use){
+                    sessionInfo.imageDataFile = img;
+                }
             }
             if(annotationToggle.isSelected()){
-                createMetadataFile(annotationLabel.getText(), dummyContent);
+                File ann = createMetadataFile(annotationLabel.getText(), dummyContent);
+                if(use){
+                    sessionInfo.annotationFile = ann;
+                }
             }
             if(segmentationToggle.isSelected()){
-                createMetadataFile(segmentationLabel.getText(), dummyContent);
+                File seg = createMetadataFile(segmentationLabel.getText(), dummyContent);
+                if(use){
+                    sessionInfo.segmentationFile = seg;
+                }
             }
             if(boundingToggle.isSelected()){
-                createMetadataFile(boundingLabel.getText(), dummyContent);
+                File bound = createMetadataFile(boundingLabel.getText(), dummyContent);
+                if(use){
+                    sessionInfo.boundingBoxFile = bound;
+                }
             }
         }catch(IOException ioe){
             ioe.printStackTrace();
         }
-
-
-        ((Stage)scene.getWindow()).close();
     }
 
-    private void createMetadataFile(String fileName, String content) throws IOException{
+    private File createMetadataFile(String fileName, String content) throws IOException{
         File newFile = new File(this.baseDirectory, fileName);
         PrintWriter writer = new PrintWriter(newFile);
         writer.write(content);
         writer.flush();
         writer.close();
         newFile.createNewFile();
+        return newFile;
     }
 
     @FXML
