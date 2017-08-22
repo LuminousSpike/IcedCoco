@@ -130,6 +130,25 @@ public class Controller implements Initializable{
     }
 
     @FXML
+    public void selectMetadataFiles(ActionEvent evet){
+        Parent createFilesRoot;
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("form_selectMetadata.fxml"));
+            createFilesRoot = loader.load();
+            SelectMetadataController cont = loader.getController();
+            cont.setSessionInfo(this.sessionInfo);
+            Scene scene = new Scene(createFilesRoot, 640, 480);
+            cont.setScene(scene);
+            Stage popup = new Stage();
+            popup.setScene(scene);
+            popup.show();
+            cont.start();
+        }catch(IOException ioe){
+            ioe.printStackTrace();
+        }
+    }
+
+    @FXML
     public void growCanvas(Event event){
         // change by ten percent
         if(sessionInfo.baseImage==null){

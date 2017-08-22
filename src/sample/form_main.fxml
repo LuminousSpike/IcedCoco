@@ -60,6 +60,7 @@
                         <KeyCodeCombination alt="UP" code="S" control="DOWN" meta="UP" shift="UP" shortcut="UP" />
                      </accelerator></MenuItem>
                   <MenuItem mnemonicParsing="false" onAction="#createMetadataFiles" text="Create Metadata Files..." />
+                  <MenuItem mnemonicParsing="false" onAction="#selectMetadataFiles" text="Select Metadata Files..." />
                   <SeparatorMenuItem mnemonicParsing="false" />
                   <MenuItem mnemonicParsing="false" onAction="#menuExit" text="Exit" />
             </items>
