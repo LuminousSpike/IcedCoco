@@ -45,6 +45,11 @@
             <Insets left="10.0" />
          </GridPane.margin>
       </Button>
+      <Button mnemonicParsing="false" onAction="#onNoImage" text="No File" GridPane.columnIndex="6" GridPane.rowIndex="2">
+         <GridPane.margin>
+            <Insets left="10.0" />
+         </GridPane.margin>
+      </Button>
       <Label text="Segmentation Data" GridPane.columnSpan="2" GridPane.rowIndex="3">
          <GridPane.margin>
             <Insets left="50.0" />
@@ -56,6 +61,11 @@
          </GridPane.margin>
       </TextField>
        <Button mnemonicParsing="false" onAction="#chooseSegmentationFile" text="Choose File" GridPane.columnIndex="5" GridPane.columnSpan="2" GridPane.rowIndex="3">
+           <GridPane.margin>
+               <Insets left="10.0" />
+           </GridPane.margin>
+       </Button>
+       <Button mnemonicParsing="false" onAction="#onNoSegmentation" text="No File" GridPane.columnIndex="6" GridPane.rowIndex="3">
            <GridPane.margin>
                <Insets left="10.0" />
            </GridPane.margin>
@@ -75,6 +85,11 @@
                <Insets left="10.0" />
            </GridPane.margin>
        </Button>
+       <Button mnemonicParsing="false" onAction="#onNoAnnotation" text="No File" GridPane.columnIndex="6" GridPane.rowIndex="4">
+           <GridPane.margin>
+               <Insets left="10.0" />
+           </GridPane.margin>
+       </Button>
       <Label layoutX="60.0" layoutY="177.0" text="Bounding Box Data" GridPane.columnSpan="2" GridPane.rowIndex="5">
          <GridPane.margin>
             <Insets left="50.0" />
@@ -86,6 +101,11 @@
            </GridPane.margin>
        </TextField>
        <Button mnemonicParsing="false" onAction="#chooseBoundingBoxFile" text="Choose File" GridPane.columnIndex="5" GridPane.columnSpan="2" GridPane.rowIndex="5">
+           <GridPane.margin>
+               <Insets left="10.0" />
+           </GridPane.margin>
+       </Button>
+       <Button mnemonicParsing="false" onAction="#onNoBounding" text="No File" GridPane.columnIndex="6" GridPane.rowIndex="5">
            <GridPane.margin>
                <Insets left="10.0" />
            </GridPane.margin>

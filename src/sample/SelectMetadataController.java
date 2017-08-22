@@ -10,6 +10,7 @@ import javafx.scene.text.Text;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
+import javax.swing.*;
 import java.io.File;
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -23,6 +24,7 @@ public class SelectMetadataController implements Initializable{
     private ResourceBundle resources;
     private SessionInfo sessionInfo;
     private Scene scene;
+    private String noneSelectedText = "No File Selected";
 
     @FXML private TextField imageTextField;
     @FXML private TextField segmentationTextField;
@@ -44,7 +46,7 @@ public class SelectMetadataController implements Initializable{
 
     private void initialiseFileText(TextField textField, File file){
         if(file==null){
-            textField.setText("No File Selected");
+            textField.setText(noneSelectedText);
         }
         else{
             textField.setText(file.getAbsolutePath());
@@ -119,5 +121,28 @@ public class SelectMetadataController implements Initializable{
         ((Stage)scene.getWindow()).close();
     }
 
+    @FXML
+    public void onNoImage(ActionEvent event){
+        imageTextField.setText(noneSelectedText);
+        sessionInfo.imageDataFile = null;
+    }
+
+    @FXML
+    public void onNoSegmentation(ActionEvent event){
+        segmentationTextField.setText(noneSelectedText);
+        sessionInfo.segmentationFile = null;
+    }
+
+    @FXML
+    public void onNoAnnotation(ActionEvent event){
+        annotationTextField.setText(noneSelectedText);
+        sessionInfo.annotationFile = null;
+    }
+
+    @FXML
+    public void onNoBounding(ActionEvent event){
+        boundingBoxTextField.setText(noneSelectedText);
+        sessionInfo.boundingBoxFile = null;
+    }
 
 }
