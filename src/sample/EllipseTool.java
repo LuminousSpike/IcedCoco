@@ -7,12 +7,26 @@ import javafx.scene.paint.Color;
 
 import java.util.LinkedList;
 
-public class PolygonTool implements Tool{
+public class EllipseTool implements Tool{
     private LinkedList<Polygon> polygons;
     private Canvas drawingCanvas;
+    private double startingX;
+    private double startingY;
+    private double endX =0;
+    private double endY =0;
+    private int size = 10;
+    private boolean drawSquare = false;
 
-    public PolygonTool(LinkedList<Polygon> new_Polygon) {
+
+    public EllipseTool(LinkedList<Polygon> new_Polygon) {
         polygons = new_Polygon;
+        // TODO: Refactor this out. (Fixes polygons not being added somehow)
+        polygons.add(new Polygon());
+    }
+
+    public EllipseTool(LinkedList<Polygon> new_Polygon, int new_Size) {
+        polygons = new_Polygon;
+        size = new_Size;
         // TODO: Refactor this out. (Fixes polygons not being added somehow)
         polygons.add(new Polygon());
     }
@@ -42,60 +56,36 @@ public class PolygonTool implements Tool{
 
     @Override
     public void onMouseClicked(MouseEvent e) {
-        Vertex selectedVertex = null;
-
-        for (Polygon p : polygons) {
-            if ((selectedVertex = p.findSelected()) != null) {
-                if (polygons.get(polygons.size() - 1).size() > 2) {
-                    polygons.add(new Polygon());
-                }
-                break;
-            }
-        }
-
-        // TODO: Check if we really need this if statement.
-        if (selectedVertex == null) {
+        drawSquare = false;
+        for(int i = 0; i < size; i++)
+        {
+            double t = (360/size)*i;
+            double newX = (startingX + ((endX - startingX)/2)) + ((endX - startingX)/2) * Math.cos(t * Math.PI / 180.0);
+            double newY = (startingY + ((endY - startingY)/2)) + ((endY - startingY)/2) * Math.sin(t * Math.PI / 180.0);
             Polygon p = null;
-
             p = polygons.getLast();
-            p.add(e.getX(), e.getY());
+            p.add(newX, newY);
         }
+        polygons.add(new Polygon());
         draw();
     }
 
     @Override
     public void onMouseDragged(MouseEvent e) {
-        Vertex selectedVertex  = null;
-
-        for (Polygon p : polygons) {
-            if ((selectedVertex = p.findSelected()) != null) {
-                selectedVertex.setAxisX(e.getX());
-                selectedVertex.setAxisY(e.getY());
-                draw();
-            }
-        }
+        endX = e.getX();
+        endY = e.getY();
         draw();
     }
 
     @Override
     public void onMousePressed(MouseEvent e) {
-        Vertex selectedVertex = null;
-        boolean onlyOne = false;
-        for (Polygon p : polygons) {
-            if ((selectedVertex = p.findSelected())!= null) {
-                selectedVertex.setSelected(false);
-            }
-
-            p.setVertexColor(Color.BLUE);
-
-            if ((selectedVertex = p.find(e.getX(), e.getY())) != null && onlyOne == false) {
-                selectedVertex.setColor(Color.RED);
-                selectedVertex.setSelected(true);
-                onlyOne = true;
-            }
-        }
+        startingX = e.getX();
+        startingY = e.getY();
+        endX = e.getX();
+        endY = e.getY();
+        drawSquare = true;
         draw();
-    }
+}
 
     @Override
     public void onMouseReleased(MouseEvent e) {
@@ -110,7 +100,14 @@ public class PolygonTool implements Tool{
     @Override
     public void draw () {
         GraphicsContext gc = drawingCanvas.getGraphicsContext2D();
-
+        gc.setStroke(Color.BLACK);
+        if(drawSquare == true)
+        {
+            gc.strokeLine(startingX, startingY, startingX, endY);
+            gc.strokeLine(startingX, startingY, endX, startingY);
+            gc.strokeLine(startingX, endY, endX, endY);
+            gc.strokeLine(endX, startingY, endX, endY);
+        }
         for (Polygon p : polygons) {
             p.draw(gc);
         }
