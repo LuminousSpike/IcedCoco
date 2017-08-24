@@ -14,7 +14,7 @@ public class EllipseTool implements Tool{
     private double startingY;
     private double endX =0;
     private double endY =0;
-    private int size = 10;
+    private double size = 50;
     private boolean drawSquare = false;
 
 
@@ -57,7 +57,7 @@ public class EllipseTool implements Tool{
     @Override
     public void onMouseClicked(MouseEvent e) {
         drawSquare = false;
-        for(int i = 0; i < size; i++)
+        for(double i = 0; i < size; i++)
         {
             double t = (360/size)*i;
             double newX = (startingX + ((endX - startingX)/2)) + ((endX - startingX)/2) * Math.cos(t * Math.PI / 180.0);
