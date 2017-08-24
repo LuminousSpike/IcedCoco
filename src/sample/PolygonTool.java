@@ -46,7 +46,7 @@ public class PolygonTool implements Tool{
 
         for (Polygon p : polygons) {
             if ((selectedVertex = p.findSelected()) != null) {
-                if (polygons.get(polygons.size() - 1).size() > 2) {
+                if (polygons.get(polygons.size() - 1).size() > 3) {
                     polygons.add(new Polygon());
                 }
                 break;
