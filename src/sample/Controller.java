@@ -80,8 +80,7 @@ public class Controller implements Initializable{
 
     private void drawImageInCanvas(Image img, boolean newImage){
         if(img==null){
-            // for debugging
-            System.err.println("Error: image passed to drawImageInCanvas is null");
+            // do nothing
             return;
         }
         GraphicsContext gfx = canvas.getGraphicsContext2D();
@@ -116,6 +115,22 @@ public class Controller implements Initializable{
     // called from listeners defined in Main.java
     public void onWindowResize(){
         return;
+    }
+
+    @FXML
+    public void OpenHelpWindow(Event event) {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("form_help.fxml"));
+            Parent root = loader.load();
+            ControllerHelp cont = loader.getController();
+
+            Scene scene = new Scene(root);
+            Stage stage = new Stage();
+            stage.setScene(scene);
+            stage.show();
+        }catch(IOException ioe){
+            ioe.printStackTrace();
+        }
     }
 
     @FXML
@@ -165,7 +180,7 @@ public class Controller implements Initializable{
         canvas.setWidth(Math.floor(canvas.getWidth() + canvasZoomAmount * sessionInfo.baseImage.getWidth()));
         canvas.setHeight(Math.floor(canvas.getHeight() + canvasZoomAmount * sessionInfo.baseImage.getHeight()));
         canvas.getGraphicsContext2D().drawImage(sessionInfo.baseImage, 0,0,canvas.getWidth(), canvas.getHeight());
-        currentTool.draw();
+        if(currentTool!=null) currentTool.draw();
     }
 
     @FXML
@@ -181,7 +196,7 @@ public class Controller implements Initializable{
         canvas.setWidth(newWidth);
         canvas.setHeight(newHeight);
         canvas.getGraphicsContext2D().drawImage(sessionInfo.baseImage, 0,0,canvas.getWidth(), canvas.getHeight());
-        currentTool.draw();
+        if(currentTool!=null) currentTool.draw();
     }
 
     @FXML
