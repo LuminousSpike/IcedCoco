@@ -24,6 +24,7 @@ import java.io.File;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.LinkedList;
 import java.util.ResourceBundle;
 
 public class Controller implements Initializable{
@@ -45,14 +46,20 @@ public class Controller implements Initializable{
     @FXML private Button tool2;
 
     private PolygonTool polygonTool;
+    private EllipseTool ellipseTool;
     private Tool currentTool = null;
+
+    private LinkedList<Polygon> polygons = new LinkedList<Polygon>();
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         this.resources = resources;
         canvasScrollPane.setContent(canvas);
-        polygonTool = new PolygonTool();
+        polygonTool = new PolygonTool(polygons);
         polygonTool.setCanvas(canvas);
+
+        ellipseTool = new EllipseTool(polygons);
+        ellipseTool.setCanvas(canvas);
     }
 
     public void setScene(Scene scene){
@@ -202,8 +209,11 @@ public class Controller implements Initializable{
                 // For now, set the current tool to null.
                 currentTool = null;
                 // And make a new PolygonTool.
-                polygonTool = new PolygonTool();
+                polygons = new LinkedList<Polygon>();
+                polygonTool = new PolygonTool(polygons);
                 polygonTool.setCanvas(canvas);
+                ellipseTool = new EllipseTool(polygons);
+                ellipseTool.setCanvas(canvas);
                 drawImageInCanvas(img, true);
             }
         }catch(MalformedURLException mue){
@@ -272,5 +282,10 @@ public class Controller implements Initializable{
     @FXML
     private void activatePolygonTool () {
         currentTool = polygonTool;
+    }
+
+    @FXML
+    private void activateEllipseTool () {
+        currentTool = ellipseTool;
     }
 }
