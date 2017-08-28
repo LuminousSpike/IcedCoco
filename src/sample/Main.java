@@ -13,7 +13,7 @@ public class Main extends Application {
         Parent root = loader.load();
         Controller cont = loader.getController();
         primaryStage.setTitle("Comp314 Project");
-        Scene scene = new Scene (root, 640, 480);
+        Scene scene = new Scene (root, 1280, 720);
 
         // add listeners to the scene
         scene.widthProperty().addListener((observableValue, oldWidth, newWidth) -> cont.onWindowResize());
@@ -23,6 +23,19 @@ public class Main extends Application {
         cont.setScene(scene);
         cont.setStage(primaryStage);
         primaryStage.show();
+
+        HelpUI();
+    }
+
+    public void HelpUI() throws Exception {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("form_help.fxml"));
+        Parent root = loader.load();
+        ControllerHelp cont = loader.getController();
+
+        Scene scene = new Scene(root);
+        Stage stage = new Stage();
+        stage.setScene(scene);
+        stage.show();
     }
 
     public static void main(String[] args) {
