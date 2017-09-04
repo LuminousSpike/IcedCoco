@@ -104,6 +104,7 @@ public class EllipseTool implements Tool{
     @Override
     public void onMousePressed(MouseEvent e) {
 
+        polygons.add(new Polygon());
         Vertex selectedVertex = null;
         boolean onlyOne = false;
         for (Polygon p : polygons) {
