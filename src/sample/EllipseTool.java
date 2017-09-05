@@ -57,16 +57,17 @@ public class EllipseTool implements Tool{
     @Override
     public void onMouseClicked(MouseEvent e) {
         drawSquare = false;
-        for(double i = 0; i < size; i++)
-        {
-            double t = (360/size)*i;
-            double newX = (startingX + ((endX - startingX)/2)) + ((endX - startingX)/2) * Math.cos(t * Math.PI / 180.0);
-            double newY = (startingY + ((endY - startingY)/2)) + ((endY - startingY)/2) * Math.sin(t * Math.PI / 180.0);
-            Polygon p = null;
-            p = polygons.getLast();
-            p.add(newX, newY);
+        if((startingX +10 < endX || startingX -10 > endX)&&(startingY +10 < endY ||startingY +10 > endY)) {
+            for (double i = 0; i < size; i++) {
+                double t = (360 / size) * i;
+                double newX = (startingX + ((endX - startingX) / 2)) + ((endX - startingX) / 2) * Math.cos(t * Math.PI / 180.0);
+                double newY = (startingY + ((endY - startingY) / 2)) + ((endY - startingY) / 2) * Math.sin(t * Math.PI / 180.0);
+                Polygon p = null;
+                p = polygons.getLast();
+                p.add(newX, newY);
+            }
+            polygons.add(new Polygon());
         }
-        polygons.add(new Polygon());
         draw();
     }
 
