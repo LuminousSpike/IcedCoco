@@ -40,6 +40,7 @@ public class Controller implements Initializable{
     private Stage primaryStage;
     private float canvasZoomAmount = 0.05f;   // as a percentage, from 0 - 1
     private float minCanvasSize = 100f;     // min size for both of the width and height of the canvas
+    private float startingCanvasSize = 1;
     private Image img;
 
     @FXML private GridPane masterPane;
@@ -113,6 +114,7 @@ public class Controller implements Initializable{
                 }
                 canvas.setWidth(img.getWidth() * shrinkFactor);
                 canvas.setHeight(img.getHeight() * shrinkFactor);
+                startingCanvasSize = (float) (img.getWidth() * shrinkFactor);
             }
         }
         gfx.drawImage(img, 0, 0, canvas.getWidth(), canvas.getHeight());
@@ -121,6 +123,8 @@ public class Controller implements Initializable{
         sessionInfo.baseImage = img;
         sessionInfo.imageWidth = img.getWidth();
         sessionInfo.imageHeight = img.getHeight();
+
+
     }
 
     // called from listeners defined in Main.java
@@ -211,12 +215,15 @@ public class Controller implements Initializable{
     @FXML
     public void growCanvas(Event event){
         // change by ten percent
+
         if(sessionInfo.baseImage==null){
             return;
         }
         // important to floor, otherwise the actual canvas size may end up one pixel larger than the image drawn inside it
         canvas.setWidth(Math.floor(canvas.getWidth() + canvasZoomAmount * sessionInfo.baseImage.getWidth()));
         canvas.setHeight(Math.floor(canvas.getHeight() + canvasZoomAmount * sessionInfo.baseImage.getHeight()));
+        polygonTool.scale = canvas.getWidth()/startingCanvasSize;
+        ellipseTool.scale = canvas.getWidth()/startingCanvasSize;
         canvas.getGraphicsContext2D().drawImage(sessionInfo.baseImage, 0,0,canvas.getWidth(), canvas.getHeight());
         if(currentTool!=null) currentTool.draw();
     }
@@ -233,6 +240,8 @@ public class Controller implements Initializable{
         }
         canvas.setWidth(newWidth);
         canvas.setHeight(newHeight);
+        polygonTool.scale = canvas.getWidth()/startingCanvasSize;
+        ellipseTool.scale = canvas.getWidth()/startingCanvasSize;
         canvas.getGraphicsContext2D().drawImage(sessionInfo.baseImage, 0,0,canvas.getWidth(), canvas.getHeight());
         if(currentTool!=null) currentTool.draw();
     }

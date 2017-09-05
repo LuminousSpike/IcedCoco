@@ -10,6 +10,9 @@ import java.util.LinkedList;
 public class PolygonTool implements Tool{
     private LinkedList<Polygon> polygons;
     private Canvas drawingCanvas;
+    private double startingWidth;
+    private double startingHeight;
+    public double scale = 1;
 
     public PolygonTool(LinkedList<Polygon> new_Polygon) {
         polygons = new_Polygon;
@@ -20,6 +23,8 @@ public class PolygonTool implements Tool{
     @Override
     public void setCanvas(Canvas canvas) {
         drawingCanvas = canvas;
+        startingWidth = canvas.getWidth();
+        startingHeight = canvas.getHeight();
     }
 
     @Override
@@ -29,14 +34,14 @@ public class PolygonTool implements Tool{
         for (Polygon p : polygons) {
             p.setVertexColor (Color.BLUE);
 
-            if ((v = p.find(e.getX(), e.getY())) != null) {
+            if ((v = p.find(e.getX()/scale, e.getY()/scale)) != null) {
                 v.setColor(Color.RED);
             }
         }
 
         if (v != null) {
-            v.setAxisX(e.getX());
-            v.setAxisY(e.getY());
+            v.setAxisX(e.getX()/scale);
+            v.setAxisY(e.getY()/scale);
         }
     }
 
@@ -58,7 +63,7 @@ public class PolygonTool implements Tool{
             Polygon p = null;
 
             p = polygons.getLast();
-            p.add(e.getX(), e.getY());
+            p.add(e.getX()/scale, e.getY()/scale);
         }
         draw();
     }
@@ -69,8 +74,8 @@ public class PolygonTool implements Tool{
 
         for (Polygon p : polygons) {
             if ((selectedVertex = p.findSelected()) != null) {
-                selectedVertex.setAxisX(e.getX());
-                selectedVertex.setAxisY(e.getY());
+                selectedVertex.setAxisX(e.getX()/scale);
+                selectedVertex.setAxisY(e.getY()/scale);
                 draw();
             }
         }
@@ -88,7 +93,7 @@ public class PolygonTool implements Tool{
 
             p.setVertexColor(Color.BLUE);
 
-            if ((selectedVertex = p.find(e.getX(), e.getY())) != null && onlyOne == false) {
+            if ((selectedVertex = p.find(e.getX()/scale, e.getY()/scale)) != null && onlyOne == false) {
                 selectedVertex.setColor(Color.RED);
                 selectedVertex.setSelected(true);
                 onlyOne = true;
@@ -112,7 +117,7 @@ public class PolygonTool implements Tool{
         GraphicsContext gc = drawingCanvas.getGraphicsContext2D();
 
         for (Polygon p : polygons) {
-            p.draw(gc);
+            p.draw(gc,scale);
         }
     }
 }

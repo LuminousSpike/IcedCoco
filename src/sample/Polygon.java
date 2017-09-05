@@ -8,7 +8,7 @@ import java.util.List;
 
 class Polygon {
     private List<Vertex> points = new LinkedList<>();
-    private boolean complete = false;
+    private double offset = 1;
 
     Polygon ()
     {
@@ -54,24 +54,24 @@ class Polygon {
      * Draws the polygon.
      * @param gc The canvas to draw on.
      */
-    void draw (GraphicsContext gc)
+    void draw (GraphicsContext gc, double offset)
     {
         for (int count = 0; count < points.size(); count++)
         {
             double SIZE = points.get(count).getSIZE();
 
-            points.get(count).draw(gc);
+            points.get(count).draw(gc,offset);
             gc.setStroke(Color.BLACK);
 
             if ((count + 1) == points.size())
             {
                 // TODO: expand this for readability.
-                gc.strokeLine(points.get(count).getAxisX()+SIZE/2, points.get(count).getAxisY()+SIZE/2, points.get(0).getAxisX()+SIZE/2, points.get(0).getAxisY()+SIZE/2);
+                gc.strokeLine(points.get(count).getAxisX()*offset, points.get(count).getAxisY()*offset, points.get(0).getAxisX()*offset, points.get(0).getAxisY()*offset);
             }
             else
             {
                 // TODO: expand this for readability.
-                gc.strokeLine(points.get(count).getAxisX()+SIZE/2, points.get(count).getAxisY()+SIZE/2, points.get(count + 1).getAxisX()+SIZE/2, points.get(count + 1).getAxisY()+SIZE/2);
+                gc.strokeLine(points.get(count).getAxisX()*offset, points.get(count).getAxisY()*offset, points.get(count + 1).getAxisX()*offset, points.get(count + 1).getAxisY()*offset);
             }
         }
     }

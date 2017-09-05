@@ -102,10 +102,10 @@ public class Vertex
      * Draws the vertex.
      * @param gc GraphicsContext to draw on.
      */
-    void draw (GraphicsContext gc)
+    void draw (GraphicsContext gc, double offset)
     {
         gc.setStroke(colour);
-        gc.strokeOval(x, y,SIZE,SIZE);
+        gc.strokeOval(x*offset-SIZE/2, y*offset-SIZE/2,SIZE,SIZE);
 
         if (nextVertex!=null) {
             gc.strokeLine(x, y, nextVertex.getAxisX(), nextVertex.getAxisY());
