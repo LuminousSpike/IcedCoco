@@ -19,6 +19,7 @@ public class EllipseTool implements Tool{
     private double size = 50;
     private boolean selectOn = false;
     private boolean drawSquare = false;
+    public double scale = 1;
 
 
     public EllipseTool(LinkedList<Polygon> new_Polygon) {
@@ -54,14 +55,14 @@ public class EllipseTool implements Tool{
         for (Polygon p : polygons) {
             p.setVertexColor (Color.BLUE);
 
-            if ((v = p.find(e.getX(), e.getY())) != null) {
+            if ((v = p.find(e.getX()/scale, e.getY()/scale)) != null) {
                 v.setColor(Color.RED);
             }
         }
 
         if (v != null) {
-            v.setAxisX(e.getX());
-            v.setAxisY(e.getY());
+            v.setAxisX(e.getX()/scale);
+            v.setAxisY(e.getY()/scale);
         }
     }
 
@@ -92,14 +93,14 @@ public class EllipseTool implements Tool{
 
         for (Polygon p : polygons) {
             if ((selectedVertex = p.findSelected()) != null) {
-                selectedVertex.setAxisX(e.getX());
-                selectedVertex.setAxisY(e.getY());
+                selectedVertex.setAxisX(e.getX()/scale);
+                selectedVertex.setAxisY(e.getY()/scale);
                 draw();
             }
         }
 
-        endX = e.getX();
-        endY = e.getY();
+        endX = e.getX()/scale;
+        endY = e.getY()/scale;
         draw();
     }
 
@@ -116,7 +117,7 @@ public class EllipseTool implements Tool{
 
             p.setVertexColor(Color.BLUE);
 
-            if ((selectedVertex = p.find(e.getX(), e.getY())) != null && onlyOne == false) {
+            if ((selectedVertex = p.find(e.getX()/scale, e.getY()/scale)) != null && onlyOne == false) {
                 selectedVertex.setColor(Color.RED);
                 selectedVertex.setSelected(true);
                 onlyOne = true;
@@ -124,10 +125,10 @@ public class EllipseTool implements Tool{
             }
         }
         if(onlyOne == false) {
-            startingX = e.getX();
-            startingY = e.getY();
-            endX = e.getX();
-            endY = e.getY();
+            startingX = e.getX()/scale;
+            startingY = e.getY()/scale;
+            endX = e.getX()/scale;
+            endY = e.getY()/scale;
             drawSquare = true;
         }
         draw();
@@ -164,7 +165,7 @@ public class EllipseTool implements Tool{
         }
         gc.setLineDashes(null);
         for (Polygon p : polygons) {
-            p.draw(gc);
+            p.draw(gc,scale);
         }
 
     }
