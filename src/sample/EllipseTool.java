@@ -66,8 +66,10 @@ public class EllipseTool implements Tool{
     }
 
     @Override
-    public void onMouseClicked(MouseEvent e) {
-        if(selectOn ==false) {
+    public void onMouseClicked(MouseEvent e)
+    {
+        if(selectOn ==false && ((startingX + 10 < endX || startingX - 10 > endX) && (startingY + 10 < endY || startingY - 10 > endY)))
+        {
             drawSquare = false;
             for (double i = 0; i < size; i++) {
                 double t = (360 / size) * i;
