@@ -247,6 +247,7 @@ public class Controller implements Initializable{
     @FXML
     public void menuSaveData(ActionEvent event){
         System.out.println("saving to .json files...");
+        sessionInfo.overwriteMetadata();
     }
 
     @FXML

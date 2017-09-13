@@ -43,4 +43,26 @@ public class SessionInfo {
             // load the metadata info for this image for editing.
         }
     }
+
+    public void overwriteMetadata(){
+        if(baseImage==null) return;
+
+        String imageID = "";
+        if(imageDataFile==null){
+            // prompt warning - no file to save to?
+        }
+        else{
+            // load the image ID to use in saving the other files.
+        }
+        // then for each metadata file
+        if(annotationFile!=null){
+            // overwrite annotation for this image
+        }
+        if(segmentationFile!=null){
+            // overwrite segmentation for this image
+        }
+        if(boundingBoxFile!=null){
+            // overwrite bounding box for this image
+        }
+    }
 }
