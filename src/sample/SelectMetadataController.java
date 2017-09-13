@@ -113,6 +113,7 @@ public class SelectMetadataController implements Initializable{
 
     @FXML
     public void onDoneButton(ActionEvent event){
+        sessionInfo.checkImageMetadata();
         ((Stage)scene.getWindow()).close();
     }
 

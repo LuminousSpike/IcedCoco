@@ -230,6 +230,7 @@ public class Controller implements Initializable{
                 ellipseTool = new EllipseTool(polygons);
                 ellipseTool.setCanvas(canvas);
                 drawImageInCanvas(img, true);
+                sessionInfo.checkImageMetadata();
             }
         }catch(MalformedURLException mue){
             mue.printStackTrace();
