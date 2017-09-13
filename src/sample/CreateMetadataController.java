@@ -86,6 +86,7 @@ public class CreateMetadataController implements Initializable {
     @FXML
     public void onCreateAndUse(ActionEvent event){
         createAllFiles(true);
+        sessionInfo.checkImageMetadata();
     }
 
     private void createAllFiles(boolean use){
