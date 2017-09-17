@@ -8,7 +8,6 @@ import java.util.List;
 
 class Polygon {
     private List<Vertex> points = new LinkedList<>();
-    private double offset = 1;
 
     Polygon ()
     {
