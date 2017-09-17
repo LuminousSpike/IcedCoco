@@ -87,8 +87,8 @@ public class PolygonTool implements Tool{
             if ((selectedVertex = p.findSelected()) != null) {
                 for (Vertex v : p.points) {
                     if(v.getSelected() == true) {
-                        v.setAxisX((v.getAxisX() - (offsetX - e.getX())) / scale);
-                        v.setAxisY((v.getAxisY() - (offsetY - e.getY())) / scale);
+                        v.setAxisX((v.getAxisX() - (offsetX/ scale - e.getX()/ scale)));
+                        v.setAxisY((v.getAxisY() - (offsetY/ scale - e.getY()/ scale)) );
                     }
                 }
 
@@ -154,7 +154,7 @@ public class PolygonTool implements Tool{
 
     public void onKeyPress(KeyEvent e)
     {
-        System.out.println("yes");
+        //System.out.println("yes");
         if(e.getCode() == KeyCode.DELETE)
         {
             for (Polygon p : polygons) {
