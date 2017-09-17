@@ -5,10 +5,7 @@ import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Scene;
-import javafx.scene.control.CheckBox;
-import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
-import javafx.scene.control.Toggle;
+import javafx.scene.control.*;
 import javafx.scene.image.*;
 import javafx.stage.DirectoryChooser;
 import javafx.stage.FileChooser;
@@ -81,6 +78,11 @@ public class CreateMetadataController implements Initializable {
     @FXML
     public void onCreateButton(ActionEvent event){
         createAllFiles(false);
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle("Success");
+        alert.setHeaderText(null);
+        alert.setContentText("Files created successfully");
+        alert.showAndWait();
     }
 
     @FXML
@@ -91,7 +93,7 @@ public class CreateMetadataController implements Initializable {
 
     private void createAllFiles(boolean use){
         // for each toggle, if true, create a file using the base file name and the chosen directory.
-        String dummyContent = "boop";
+        String dummyContent = "{}";
 
         if(baseDirectory==null){
             return;
