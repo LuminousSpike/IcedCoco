@@ -19,6 +19,8 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ResourceBundle;
 
 /**
@@ -91,9 +93,24 @@ public class CreateMetadataController implements Initializable {
         sessionInfo.checkImageMetadata();
     }
 
+    private String getEmptyImageDataText(){
+        // return a string for the content of an empty image info file, instead of using the JSON tools
+        String contributor = "COMP314 Project Tool User";
+        LocalDateTime now = LocalDateTime.now();
+        String year = Integer.toString(now.getYear());
+        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd"); // note the format
+        String datetime = now.toString();
+        return "{\"info\": {\"description\": \"This is a dataset created with the COMP314 Project Tool\"," +
+                "\"url\": \"\", \"version\": \"1.0\", \"year\": " + year + ", " +
+                "\"contributor\": \"" + contributor + "\", " +
+                "\"date_created\": \"" + datetime + "\"}, " +
+                "\"images\": []}";
+    }
+
     private void createAllFiles(boolean use){
         // for each toggle, if true, create a file using the base file name and the chosen directory.
-        String dummyContent = "{}";
+        String emptyObject = "{}";     // mimic an empty JSONObject
+        String emptyArray = "[]";
 
         if(baseDirectory==null){
             return;
@@ -104,25 +121,25 @@ public class CreateMetadataController implements Initializable {
 
         try {
             if (imageToggle.isSelected()) {
-                File img = createMetadataFile(imageLabel.getText(), dummyContent);
+                File img = createMetadataFile(imageLabel.getText(), getEmptyImageDataText());
                 if(use){
                     sessionInfo.imageDataFile = img;
                 }
             }
             if(annotationToggle.isSelected()){
-                File ann = createMetadataFile(annotationLabel.getText(), dummyContent);
+                File ann = createMetadataFile(annotationLabel.getText(), emptyArray);
                 if(use){
                     sessionInfo.annotationFile = ann;
                 }
             }
             if(segmentationToggle.isSelected()){
-                File seg = createMetadataFile(segmentationLabel.getText(), dummyContent);
+                File seg = createMetadataFile(segmentationLabel.getText(), emptyArray);
                 if(use){
                     sessionInfo.segmentationFile = seg;
                 }
             }
             if(boundingToggle.isSelected()){
-                File bound = createMetadataFile(boundingLabel.getText(), dummyContent);
+                File bound = createMetadataFile(boundingLabel.getText(), emptyArray);
                 if(use){
                     sessionInfo.boundingBoxFile = bound;
                 }
