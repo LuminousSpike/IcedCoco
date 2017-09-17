@@ -203,9 +203,8 @@ public class Controller implements Initializable{
     public void prepareFileMenu(Event event){
         // validate all the menu items in the menu file
         // disable save if there is no image loaded and no valid .json files to save the metadata to
-        saveMenuItem.setDisable(!(sessionInfo.imageLoaded && sessionInfo.saveFilesReady()));
+        saveMenuItem.setDisable(sessionInfo.baseImage==null | sessionInfo.imageDataFile==null);
     }
-
 
     @FXML
     public void menuOpenImage(ActionEvent event){
@@ -237,7 +236,6 @@ public class Controller implements Initializable{
         }
     }
 
-
     @FXML
     public void menuOpenImageWithCoco(ActionEvent event){
         // load the image to the canvas with the metadata (make default opening method?)
@@ -247,7 +245,7 @@ public class Controller implements Initializable{
     @FXML
     public void menuSaveData(ActionEvent event){
         System.out.println("saving to .json files...");
-        sessionInfo.overwriteMetadata();
+        sessionInfo.overwriteMetadata(primaryStage);
     }
 
     @FXML
@@ -289,6 +287,7 @@ public class Controller implements Initializable{
     }
 
     @FXML
+
     private void onMouseDraggedListener_Canvas (MouseEvent e) {
         if (currentTool != null) {
             drawImageInCanvas(img, false);
