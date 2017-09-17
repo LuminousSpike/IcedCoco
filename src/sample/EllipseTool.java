@@ -137,8 +137,9 @@ public class EllipseTool implements Tool{
                 endY = e.getY() / scale;
                 drawSquare = true;
             }
-            draw();
+
         }
+        draw();
 }
 
     @Override

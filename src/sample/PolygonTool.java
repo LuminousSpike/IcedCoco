@@ -13,6 +13,7 @@ public class PolygonTool implements Tool{
     private double startingWidth;
     private double startingHeight;
     public double scale = 1;
+    private Boolean rightClick = false;
 
     public PolygonTool(LinkedList<Polygon> new_Polygon) {
         polygons = new_Polygon;
@@ -48,22 +49,28 @@ public class PolygonTool implements Tool{
     @Override
     public void onMouseClicked(MouseEvent e) {
         Vertex selectedVertex = null;
-
-        for (Polygon p : polygons) {
-            if ((selectedVertex = p.findSelected()) != null) {
-                if (polygons.get(polygons.size() - 1).size() > 3) {
-                    polygons.add(new Polygon());
-                }
-                break;
-            }
+        if(rightClick == true)
+        {
+            rightClick = false;
         }
+        else {
+            for (Polygon p : polygons) {
+                if ((selectedVertex = p.findSelected()) != null) {
+                    if (polygons.get(polygons.size() - 1).size() > 3) {
+                        polygons.add(new Polygon());
+                    }
+                    break;
+                }
+            }
 
-        // TODO: Check if we really need this if statement.
-        if (selectedVertex == null) {
-            Polygon p = null;
+            // TODO: Check if we really need this if statement.
+            if (selectedVertex == null) {
+                Polygon p = null;
 
-            p = polygons.getLast();
-            p.add(e.getX()/scale, e.getY()/scale);
+                p = polygons.getLast();
+                p.add(e.getX() / scale, e.getY() / scale);
+            }
+
         }
         draw();
     }
@@ -84,20 +91,31 @@ public class PolygonTool implements Tool{
 
     @Override
     public void onMousePressed(MouseEvent e) {
-        Vertex selectedVertex = null;
-        boolean onlyOne = false;
-        for (Polygon p : polygons) {
-            if ((selectedVertex = p.findSelected())!= null) {
-                selectedVertex.setSelected(false);
+        if(e.isSecondaryButtonDown())
+        {
+            if (polygons.get(polygons.size() - 1).size() > 3)
+            {
+                polygons.add(new Polygon());
+                rightClick = true;
+            }
+        }
+        else {
+            Vertex selectedVertex = null;
+            boolean onlyOne = false;
+            for (Polygon p : polygons) {
+                if ((selectedVertex = p.findSelected()) != null) {
+                    selectedVertex.setSelected(false);
+                }
+
+                p.setVertexColor(Color.BLUE);
+
+                if ((selectedVertex = p.find(e.getX() / scale, e.getY() / scale)) != null && onlyOne == false) {
+                    selectedVertex.setColor(Color.RED);
+                    selectedVertex.setSelected(true);
+                    onlyOne = true;
+                }
             }
 
-            p.setVertexColor(Color.BLUE);
-
-            if ((selectedVertex = p.find(e.getX()/scale, e.getY()/scale)) != null && onlyOne == false) {
-                selectedVertex.setColor(Color.RED);
-                selectedVertex.setSelected(true);
-                onlyOne = true;
-            }
         }
         draw();
     }
