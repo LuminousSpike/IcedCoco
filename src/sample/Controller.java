@@ -13,6 +13,7 @@ import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Button;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.ScrollPane;
+import javafx.scene.control.TextArea;
 import javafx.scene.image.Image;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
@@ -44,6 +45,7 @@ public class Controller implements Initializable{
     @FXML private Canvas canvas;
     @FXML private Button tool1;
     @FXML private Button tool2;
+    @FXML private TextArea captionTextArea;
 
     private PolygonTool polygonTool;
     private EllipseTool ellipseTool;
@@ -68,6 +70,11 @@ public class Controller implements Initializable{
 
     public void setStage(Stage stage){
         this.primaryStage = stage;
+    }
+
+    public void start(){
+        // call from main, initialising variables and things
+        sessionInfo.captionTextArea = this.captionTextArea;
     }
 
     private double[] getCanvasArea(){
