@@ -152,17 +152,24 @@ public class EllipseTool implements Tool{
         gc.setStroke(Color.BLACK);
         if(drawSquare == true)
         {
-            gc.strokeLine(startingX, startingY, startingX, endY);
-            gc.strokeLine(startingX, startingY, endX, startingY);
-            gc.strokeLine(startingX, endY, endX, endY);
-            gc.strokeLine(endX, startingY, endX, endY);
+            //square
+            //gc.strokeLine(startingX, startingY, startingX, endY);
+            //gc.strokeLine(startingX, startingY, endX, startingY);
+            //gc.strokeLine(startingX, endY, endX, endY);
+            //gc.strokeLine(endX, startingY, endX, endY);
+            //gc.setLineDashOffset(10d);
+            //gc.setStroke(Color.WHITE);
+            //gc.strokeLine(startingX, startingY, startingX, endY);
+            //gc.strokeLine(startingX, startingY, endX, startingY);
+            //gc.strokeLine(startingX, endY, endX, endY);
+            //gc.strokeLine(endX, startingY, endX, endY);
+            //circle
+            gc.strokeOval(startingX*scale, startingY*scale, (endX-startingX)*scale,(endY-startingY)*scale);
             gc.setLineDashOffset(10d);
             gc.setStroke(Color.WHITE);
-            gc.strokeLine(startingX, startingY, startingX, endY);
-            gc.strokeLine(startingX, startingY, endX, startingY);
-            gc.strokeLine(startingX, endY, endX, endY);
-            gc.strokeLine(endX, startingY, endX, endY);
+            gc.strokeOval(startingX*scale, startingY*scale, (endX-startingX)*scale,(endY-startingY)*scale);
         }
+
         gc.setLineDashes(null);
         for (Polygon p : polygons) {
             p.draw(gc,scale);
