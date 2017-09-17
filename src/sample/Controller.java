@@ -15,6 +15,7 @@ import javafx.scene.control.MenuItem;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextArea;
 import javafx.scene.image.Image;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
@@ -340,6 +341,14 @@ public class Controller implements Initializable{
         if (currentTool != null) {
             drawImageInCanvas(img, false);
             currentTool.onMouseDragged(e);
+        }
+    }
+    @FXML
+    private void onKeyPressListener (KeyEvent e)
+    {
+        if (currentTool != null) {
+            drawImageInCanvas(img, false);
+            currentTool.onKeyPress(e);
         }
     }
 

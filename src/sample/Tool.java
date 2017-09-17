@@ -1,6 +1,7 @@
 package sample;
 
 import javafx.scene.canvas.Canvas;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 
 public interface Tool {
@@ -14,6 +15,7 @@ public interface Tool {
      */
     void setCanvas (Canvas canvas);
 
+     void onKeyPress (KeyEvent e);
     /**
      * Handles the tool logic for when the mouse enters a drag motion.
      * @param e Mouse Event for the tool to process.

@@ -2,6 +2,7 @@ package sample;
 
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Line;
@@ -19,7 +20,6 @@ public class EllipseTool implements Tool{
     private double size = 50;
     private boolean selectOn = false;
     private boolean drawSquare = false;
-    private boolean cancelAdd = false;
     public double scale = 1;
 
 
@@ -95,14 +95,21 @@ public class EllipseTool implements Tool{
 
         for (Polygon p : polygons) {
             if ((selectedVertex = p.findSelected()) != null) {
-                selectedVertex.setAxisX(e.getX()/scale);
-                selectedVertex.setAxisY(e.getY()/scale);
+                    selectedVertex.setAxisX(e.getX() / scale);
+                    selectedVertex.setAxisY(e.getY() / scale);
                 draw();
             }
         }
+        if(e.isShiftDown())
+        {
+            //endX = e.getX()*(Math.abs(e.getY())/Math.abs(e.getX()))  / scale;
+            //endY = e.getY()*(Math.abs(e.getX())/Math.abs(e.getY())) / scale;
 
-        endX = e.getX()/scale;
-        endY = e.getY()/scale;
+        }
+        else {
+            endX = e.getX() / scale;
+            endY = e.getY() / scale;
+        }
         draw();
     }
 
@@ -184,4 +191,7 @@ public class EllipseTool implements Tool{
         }
 
     }
+
+    public void onKeyPress(KeyEvent e)
+    {}
 }

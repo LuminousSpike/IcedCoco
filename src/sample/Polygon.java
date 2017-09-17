@@ -7,7 +7,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 class Polygon {
-    private List<Vertex> points = new LinkedList<>();
+    public List<Vertex> points = new LinkedList<>();
 
     Polygon ()
     {
@@ -30,7 +30,30 @@ class Polygon {
     {
         points.add(new Vertex(new_x, new_y));
     }
-
+    void deleteAllSelected()
+    {
+        for (int i = 0; i < size(); i++) {
+            if(points.get(i).getSelected() ==true)
+            {
+                points.remove(i);
+                i--;
+            }
+        }
+    }
+    void selectAll(boolean setValue)
+    {
+        for (Vertex v: points) {
+            if(setValue == true) {
+                v.setSelected(true);
+                v.setColor(Color.RED);
+            }
+            else
+            {
+                v.setSelected(false);
+                v.setColor(Color.BLUE);
+            }
+        }
+    }
     /**
      * @param new_x X-pos to find.
      * @param new_y Y-pos to find.

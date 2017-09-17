@@ -19,7 +19,7 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.text.Font?>
 
-<GridPane fx:id="masterPane" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="800.0" minWidth="1280.0" prefHeight="800.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/8.0.112-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.Controller">
+<GridPane fx:id="masterPane" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="800.0" minWidth="1280.0" onKeyPressed="#onKeyPressListener" prefHeight="800.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/8.0.121" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.Controller">
     <columnConstraints>
         <ColumnConstraints hgrow="SOMETIMES" maxWidth="139.0" minWidth="10.0" prefWidth="139.0" />
         <ColumnConstraints hgrow="SOMETIMES" maxWidth="389.0" minWidth="10.0" prefWidth="355.0" />
@@ -58,7 +58,7 @@
                 </ToolBar>
             </children>
         </AnchorPane>
-        <MenuBar fx:id="menuBar" style="-fx-background-color: #ffffff;" GridPane.columnSpan="4">
+        <MenuBar fx:id="menuBar" onKeyPressed="#onKeyPressListener" style="-fx-background-color: #ffffff;" GridPane.columnSpan="4">
             <menus>
                 <Menu fx:id="fileMenu" mnemonicParsing="false" onShown="#prepareFileMenu" text="File">
                     <items>
@@ -111,7 +111,7 @@
             <content>
                 <AnchorPane fx:id="canvasAnchorPane" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="0.0" minWidth="0.0" prefHeight="632.0" prefWidth="1168.0">
                     <children>
-                        <Canvas fx:id="canvas" height="650.0" layoutX="14.0" layoutY="14.0" onMouseClicked="#onMouseClickedListener_Canvas" onMouseDragEntered="#onDragEnteredListener_Canvas" onMouseDragged="#onMouseDraggedListener_Canvas" onMousePressed="#onMousePressedListener_Canvas" width="1100.0" />
+                        <Canvas fx:id="canvas" height="650.0" layoutX="14.0" layoutY="14.0" onKeyPressed="#onKeyPressListener" onMouseClicked="#onMouseClickedListener_Canvas" onMouseDragEntered="#onDragEnteredListener_Canvas" onMouseDragged="#onMouseDraggedListener_Canvas" onMousePressed="#onMousePressedListener_Canvas" width="1100.0" />
                     </children>
                 </AnchorPane>
             </content>
