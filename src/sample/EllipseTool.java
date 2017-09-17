@@ -19,6 +19,7 @@ public class EllipseTool implements Tool{
     private double size = 50;
     private boolean selectOn = false;
     private boolean drawSquare = false;
+    private boolean cancelAdd = false;
     public double scale = 1;
 
 
@@ -69,21 +70,22 @@ public class EllipseTool implements Tool{
     @Override
     public void onMouseClicked(MouseEvent e)
     {
-        if(selectOn ==false && ((startingX + 10 < endX || startingX - 10 > endX) && (startingY + 10 < endY || startingY - 10 > endY)))
-        {
-            drawSquare = false;
-            for (double i = 0; i < size; i++) {
-                double t = (360 / size) * i;
-                double newX = (startingX + ((endX - startingX) / 2)) + ((endX - startingX) / 2) * Math.cos(t * Math.PI / 180.0);
-                double newY = (startingY + ((endY - startingY) / 2)) + ((endY - startingY) / 2) * Math.sin(t * Math.PI / 180.0);
-                Polygon p = null;
-                p = polygons.getLast();
-                p.add(newX, newY);
+
+            if (selectOn == false && drawSquare == true && ((startingX + 10 < endX || startingX - 10 > endX) && (startingY + 10 < endY || startingY - 10 > endY))) {
+                drawSquare = false;
+                for (double i = 0; i < size; i++) {
+                    double t = (360 / size) * i;
+                    double newX = (startingX + ((endX - startingX) / 2)) + ((endX - startingX) / 2) * Math.cos(t * Math.PI / 180.0);
+                    double newY = (startingY + ((endY - startingY) / 2)) + ((endY - startingY) / 2) * Math.sin(t * Math.PI / 180.0);
+                    Polygon p = null;
+                    p = polygons.getLast();
+                    p.add(newX, newY);
+                }
+                polygons.add(new Polygon());
             }
-            polygons.add(new Polygon());
-        }
-        selectOn = false;
-        draw();
+            selectOn = false;
+            draw();
+
     }
 
     @Override
@@ -106,32 +108,37 @@ public class EllipseTool implements Tool{
 
     @Override
     public void onMousePressed(MouseEvent e) {
-
-        polygons.add(new Polygon());
-        Vertex selectedVertex = null;
-        boolean onlyOne = false;
-        for (Polygon p : polygons) {
-            if ((selectedVertex = p.findSelected())!= null) {
-                selectedVertex.setSelected(false);
-            }
-
-            p.setVertexColor(Color.BLUE);
-
-            if ((selectedVertex = p.find(e.getX()/scale, e.getY()/scale)) != null && onlyOne == false) {
-                selectedVertex.setColor(Color.RED);
-                selectedVertex.setSelected(true);
-                onlyOne = true;
-                selectOn = true;
-            }
+        if(e.isSecondaryButtonDown())
+        {
+            drawSquare = false;
         }
-        if(onlyOne == false) {
-            startingX = e.getX()/scale;
-            startingY = e.getY()/scale;
-            endX = e.getX()/scale;
-            endY = e.getY()/scale;
-            drawSquare = true;
+        else {
+            polygons.add(new Polygon());
+            Vertex selectedVertex = null;
+            boolean onlyOne = false;
+            for (Polygon p : polygons) {
+                if ((selectedVertex = p.findSelected()) != null) {
+                    selectedVertex.setSelected(false);
+                }
+
+                p.setVertexColor(Color.BLUE);
+
+                if ((selectedVertex = p.find(e.getX() / scale, e.getY() / scale)) != null && onlyOne == false) {
+                    selectedVertex.setColor(Color.RED);
+                    selectedVertex.setSelected(true);
+                    onlyOne = true;
+                    selectOn = true;
+                }
+            }
+            if (onlyOne == false) {
+                startingX = e.getX() / scale;
+                startingY = e.getY() / scale;
+                endX = e.getX() / scale;
+                endY = e.getY() / scale;
+                drawSquare = true;
+            }
+            draw();
         }
-        draw();
 }
 
     @Override
@@ -164,10 +171,10 @@ public class EllipseTool implements Tool{
             //gc.strokeLine(startingX, endY, endX, endY);
             //gc.strokeLine(endX, startingY, endX, endY);
             //circle
-            gc.strokeOval(startingX*scale, startingY*scale, (endX-startingX)*scale,(endY-startingY)*scale);
+            gc.strokeOval(Math.min(startingX, endX)*scale, Math.min(startingY, endY)*scale, (Math.max(startingX, endX)-Math.min(startingX, endX))*scale,(Math.max(startingY, endY)-Math.min(startingY, endY))*scale);
             gc.setLineDashOffset(10d);
             gc.setStroke(Color.WHITE);
-            gc.strokeOval(startingX*scale, startingY*scale, (endX-startingX)*scale,(endY-startingY)*scale);
+            gc.strokeOval(Math.min(startingX, endX)*scale, Math.min(startingY, endY)*scale, (Math.max(startingX, endX)-Math.min(startingX, endX))*scale,(Math.max(startingY, endY)-Math.min(startingY, endY))*scale);
         }
 
         gc.setLineDashes(null);
