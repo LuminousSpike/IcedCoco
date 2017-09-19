@@ -55,6 +55,7 @@ public class Controller implements Initializable{
 
     private PolygonTool polygonTool;
     private EllipseTool ellipseTool;
+    private SelectTool selectTool;
     private Tool currentTool = null;
 
     private LinkedList<Polygon> polygons = new LinkedList<Polygon>();
@@ -68,6 +69,9 @@ public class Controller implements Initializable{
 
         ellipseTool = new EllipseTool(polygons);
         ellipseTool.setCanvas(canvas);
+
+        selectTool = new SelectTool(polygons);
+        selectTool.setCanvas(canvas);
     }
 
     public void setScene(Scene scene){
@@ -225,6 +229,7 @@ public class Controller implements Initializable{
         canvas.setHeight(Math.floor(canvas.getHeight() + canvasZoomAmount * sessionInfo.baseImage.getHeight()));
         polygonTool.scale = canvas.getWidth()/startingCanvasSize;
         ellipseTool.scale = canvas.getWidth()/startingCanvasSize;
+        selectTool.scale = canvas.getWidth()/startingCanvasSize;
         canvas.getGraphicsContext2D().drawImage(sessionInfo.baseImage, 0,0,canvas.getWidth(), canvas.getHeight());
         if(currentTool!=null) currentTool.draw();
     }
@@ -243,6 +248,7 @@ public class Controller implements Initializable{
         canvas.setHeight(newHeight);
         polygonTool.scale = canvas.getWidth()/startingCanvasSize;
         ellipseTool.scale = canvas.getWidth()/startingCanvasSize;
+        selectTool.scale = canvas.getWidth()/startingCanvasSize;
         canvas.getGraphicsContext2D().drawImage(sessionInfo.baseImage, 0,0,canvas.getWidth(), canvas.getHeight());
         if(currentTool!=null) currentTool.draw();
     }
@@ -276,6 +282,8 @@ public class Controller implements Initializable{
                 polygonTool.setCanvas(canvas);
                 ellipseTool = new EllipseTool(polygons);
                 ellipseTool.setCanvas(canvas);
+                selectTool = new SelectTool(polygons);
+                selectTool.setCanvas(canvas);
                 drawImageInCanvas(img, true);
                 sessionInfo.baseImageFile = imgFile;
                 sessionInfo.checkImageMetadata();
@@ -360,5 +368,10 @@ public class Controller implements Initializable{
     @FXML
     private void activateEllipseTool () {
         currentTool = ellipseTool;
+    }
+
+    @FXML
+    private void activateSelectTool () {
+        currentTool = selectTool;
     }
 }

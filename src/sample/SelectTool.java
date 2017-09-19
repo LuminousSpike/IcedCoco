@@ -2,22 +2,29 @@ package sample;
 
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
-import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
 
 import java.util.LinkedList;
 
-public class PolygonTool implements Tool{
+public class SelectTool implements Tool {
     private LinkedList<Polygon> polygons;
     private Canvas drawingCanvas;
+    private double startingX;
+    private double startingY;
+    private double endX = 0;
+    private double endY = 0;
+    private double size = 50;
+    private boolean selectOn = false;
+    private boolean drawSquare = false;
     public double scale = 1;
     public double offsetX = 0;
     public double offsetY = 0;
     private Boolean rightClick = false;
 
-    public PolygonTool(LinkedList<Polygon> new_Polygon) {
+
+    public SelectTool(LinkedList<Polygon> new_Polygon) {
         polygons = new_Polygon;
         // TODO: Refactor this out. (Fixes polygons not being added somehow)
         polygons.add(new Polygon());
@@ -26,6 +33,11 @@ public class PolygonTool implements Tool{
     @Override
     public void setCanvas(Canvas canvas) {
         drawingCanvas = canvas;
+    }
+
+    @Override
+    public void onKeyPress(KeyEvent e) {
+        draw();
     }
 
     @Override
@@ -39,46 +51,39 @@ public class PolygonTool implements Tool{
                 v.setColor(Color.RED);
             }
         }
-
         if (v != null) {
             v.setAxisX(e.getX()/scale);
             v.setAxisY(e.getY()/scale);
         }
+
     }
 
     @Override
     public void onMouseClicked(MouseEvent e) {
         Vertex selectedVertex = null;
-        if(rightClick == true)
-        {
-            rightClick = false;
+        for (Polygon p : polygons) {
+            if ((selectedVertex = p.findSelected()) != null) {
+                if (polygons.get(polygons.size() - 1).size() > 3) {
+                    polygons.add(new Polygon());
+                }
+                break;
+            }
         }
-        else {
+        if(drawSquare  == true)
+        {
             for (Polygon p : polygons) {
-                if ((selectedVertex = p.findSelected()) != null) {
-                    if (polygons.get(polygons.size() - 1).size() > 3) {
-                        polygons.add(new Polygon());
-                    }
-                    break;
+                {
+
                 }
             }
-
-            // TODO: Check if we really need this if statement.
-            if (selectedVertex == null) {
-                Polygon p = null;
-
-                p = polygons.getLast();
-                p.add(e.getX() / scale, e.getY() / scale);
-            }
-
         }
+        drawSquare = false;
         draw();
     }
 
     @Override
     public void onMouseDragged(MouseEvent e) {
         Vertex selectedVertex  = null;
-
         for (Polygon p : polygons) {
             if ((selectedVertex = p.findSelected()) != null) {
                 for (Vertex v : p.points) {
@@ -90,9 +95,12 @@ public class PolygonTool implements Tool{
 
             }
         }
+        endX = e.getX() / scale;
+        endY = e.getY() / scale;
         draw();
         offsetX = e.getX();
         offsetY = e.getY();
+
     }
 
     @Override
@@ -139,6 +147,13 @@ public class PolygonTool implements Tool{
                     p.selectAll(false);
                 }
             }
+            if (onlyOne == false) {
+                startingX = e.getX() / scale;
+                startingY = e.getY() / scale;
+                endX = e.getX() / scale;
+                endY = e.getY() / scale;
+                drawSquare = true;
+            }
 
         }
         draw();
@@ -149,28 +164,28 @@ public class PolygonTool implements Tool{
 
     }
 
-    public void onKeyPress(KeyEvent e)
-    {
-        //System.out.println("yes");
-        if(e.getCode() == KeyCode.DELETE)
-        {
-            for (Polygon p : polygons) {
-                p.deleteAllSelected();
-
-            }
-        }
-        draw();
-    }
-
-    /* I'm not too sure about this as of yet.
-     * It really depends on how we want to separate the tool modes.
-     * Do we display them when you change to the tool?
-     * Or is it displayed persistently?
-     * */
     @Override
-    public void draw () {
+    public void draw() {
         GraphicsContext gc = drawingCanvas.getGraphicsContext2D();
+        gc.setLineDashOffset(0d);
+        gc.setLineDashes(10d, 10d);
+        gc.setStroke(Color.BLACK);
+        if(drawSquare == true)
+        {
+            //square
+            gc.strokeLine(startingX, startingY, startingX, endY);
+            gc.strokeLine(startingX, startingY, endX, startingY);
+            gc.strokeLine(startingX, endY, endX, endY);
+            gc.strokeLine(endX, startingY, endX, endY);
+            gc.setLineDashOffset(10d);
+            gc.setStroke(Color.WHITE);
+            gc.strokeLine(startingX, startingY, startingX, endY);
+            gc.strokeLine(startingX, startingY, endX, startingY);
+            gc.strokeLine(startingX, endY, endX, endY);
+            gc.strokeLine(endX, startingY, endX, endY);
+        }
 
+        gc.setLineDashes(null);
         for (Polygon p : polygons) {
             p.draw(gc,scale);
         }
