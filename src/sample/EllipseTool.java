@@ -102,8 +102,53 @@ public class EllipseTool implements Tool{
         }
         if(e.isShiftDown())
         {
-            //endX = e.getX()*(Math.abs(e.getY())/Math.abs(e.getX()))  / scale;
-            //endY = e.getY()*(Math.abs(e.getX())/Math.abs(e.getY())) / scale;
+            double tempX = ((e.getX()/scale)-startingX);
+            double tempY = ((e.getY()/scale)-startingY);
+            if(Math.abs(tempX) > Math.abs(tempY))
+            {
+                if(tempY < 0)
+                {
+                    tempY = - Math.abs(tempX);
+                }
+                else
+                {
+                    tempY = Math.abs(tempX);
+                }
+            }
+            else
+            {
+                if(tempX < 0)
+                {
+                    tempX = - Math.abs(tempY);
+                }
+                else
+                {
+                    tempX = Math.abs(tempY);
+                }
+            }
+            endX = (tempX+startingX);
+            endY = (tempY+startingY);
+
+            /*
+            if(startingX > (e.getX()/scale) ^ startingY > (e.getY()/scale))
+            {
+                if(startingY > (e.getY()/scale)) {
+                    temp = (((e.getX()/scale)-startingX)+ ((e.getY()/scale)-startingY))/2;
+                }
+                else {
+                    temp = ((startingX + (startingX - (e.getX() / scale))) + e.getY()) / 2;
+                }
+            }
+            endX = temp / scale;
+            endY = temp / scale;
+            */
+
+
+
+
+
+
+
 
         }
         else {

@@ -54,6 +54,11 @@
                             <font>
                                 <Font name="Calibri" size="18.0" />
                             </font></Button>
+                  <Button fx:id="btnEllipse1" layoutX="10.0" layoutY="110.0" mnemonicParsing="false" onAction="#activateSelectTool" prefHeight="50.0" prefWidth="120.0" style="-fx-background-color: #4BA5EA;" text="Select" textFill="WHITE">
+                     <font>
+                        <Font name="Calibri" size="18.0" />
+                     </font>
+                  </Button>
                     </items>
                 </ToolBar>
             </children>
