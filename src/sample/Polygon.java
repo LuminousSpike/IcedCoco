@@ -103,4 +103,34 @@ class Polygon {
         }
         return null;
     }
+
+    /**
+     *  @return Array of the x co-ordinates for every vertex
+     */
+    int[] getXPoints(){
+        int[] out = new int[this.size()];
+        int i = 0;
+        for(Vertex v : points){
+            out[i] = (int)v.getAxisX();
+            ++i;
+        }
+        return out;
+    }
+
+    /**
+     *  @return Array of the y co-ordinates for every vertex
+     */
+    int[] getYPoints(){
+        int[] out = new int[this.size()];
+        int i = 0;
+        for(Vertex v : points){
+            out[i] = (int)v.getAxisY();
+            ++i;
+        }
+        return out;
+    }
+
+
+
+
 }

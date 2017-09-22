@@ -21,10 +21,14 @@ import javafx.scene.layout.GridPane;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
+import javax.imageio.ImageIO;
+import java.awt.*;
+import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.nio.Buffer;
 import java.util.LinkedList;
 import java.util.ResourceBundle;
 
@@ -122,6 +126,33 @@ public class Controller implements Initializable{
     // called from listeners defined in Main.java
     public void onWindowResize(){
         return;
+    }
+
+    @FXML
+    public void exportSegmentation(Event event){
+        // export the segmentation mask as a PNG
+        String filename = "segmentationExport.png";
+        int width = (int)sessionInfo.imageWidth;
+        int height = (int)sessionInfo.imageHeight;
+        BufferedImage exportImage = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
+        Graphics2D gfx = exportImage.createGraphics();
+        Color segmentColor = Color.pink;
+        // set everything to be black
+        gfx.setBackground(Color.black);
+        // convert all of our own Polygon instances to java.awt.Polygon instances, and draw them to the image, filled.
+        gfx.setColor(segmentColor);
+        for (Polygon p : polygons) {
+            if(p.size() < 4) {continue;}
+            java.awt.Polygon awtPoly = new java.awt.Polygon(p.getXPoints(),p.getYPoints(),p.size());
+            gfx.fill(awtPoly);
+        }
+        try {
+            File exportFile = new File(sessionInfo.imageDataFile.getParent() + "/" + filename);
+            ImageIO.write(exportImage, "png", exportFile);
+        }catch(IOException ioe){
+            ioe.printStackTrace();
+        }
+
     }
 
     @FXML
