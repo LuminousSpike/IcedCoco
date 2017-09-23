@@ -58,4 +58,8 @@ public class PolyList {
             p.draw(gc, scale);
         }
     }
+
+    public void remove(Polygon polygon) {
+        polygons.remove(polygon);
+    }
 }
