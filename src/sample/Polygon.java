@@ -181,4 +181,14 @@ class Polygon {
         int index = points.indexOf(selectedVertex);
         points.add(index+1, new Vertex(x, y));
     }
+
+    public Vertex remove (Vertex selectedVertex) {
+        Vertex v = null;
+        if (selectedVertex != null) {
+            int index = Math.max(0, points.indexOf(selectedVertex) - 1);
+            points.remove(selectedVertex);
+            v = points.get(index);
+        }
+        return  v;
+    }
 }

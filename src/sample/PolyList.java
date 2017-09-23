@@ -6,13 +6,17 @@ import javafx.scene.paint.Color;
 import java.util.LinkedList;
 
 public class PolyList {
-    private LinkedList<Polygon> polygons, polygons_selected;
-    private LinkedList<Vertex> vertices_selected;
+    private LinkedList<Polygon> polygons;
+    private Polygon currentPolygon;
+    private LinkedList<Vertex> selectedVertices;
     private Vertex selectedVertex;
     private double scale = 1;
 
     public void setScale (double scale) {
         this.scale = scale;
+    }
+    public void setCurrentPolygon(Polygon currentPolygon) {
+        this.currentPolygon = currentPolygon;
     }
 
     public void setSelectedVertex (Vertex selectedVertex) {
@@ -25,10 +29,17 @@ public class PolyList {
         this.selectedVertex = selectedVertex;
     }
 
+    public Polygon getCurrentPolygon() {
+        return currentPolygon;
+    }
+
+    public Vertex getSelectedVertex() {
+        return selectedVertex;
+    }
+
     public  PolyList () {
         polygons = new LinkedList<Polygon>();
-        polygons_selected = new LinkedList<Polygon>();
-        vertices_selected = new LinkedList<Vertex>();
+        selectedVertices = new LinkedList<Vertex>();
     }
 
     public void add (Polygon polygon) {
@@ -68,7 +79,18 @@ public class PolyList {
         }
     }
 
-    public void remove(Polygon polygon) {
+    public void remove (Polygon polygon) {
         polygons.remove(polygon);
+    }
+
+    public void remove (Vertex vertex) {
+        if (currentPolygon != null) {
+            setSelectedVertex(currentPolygon.remove(selectedVertex));
+
+            if (currentPolygon.size() < 3) {
+                polygons.remove(currentPolygon);
+                currentPolygon = null;
+            }
+        }
     }
 }
