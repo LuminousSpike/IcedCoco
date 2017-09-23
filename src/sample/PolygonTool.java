@@ -5,22 +5,16 @@ import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.paint.Color;
-
-import java.util.LinkedList;
 
 public class PolygonTool implements Tool{
-    private LinkedList<Polygon> polygons;
     private Canvas drawingCanvas;
-    public double scale = 1;
-    public double offsetX = 0;
-    public double offsetY = 0;
-    private Boolean rightClick = false;
+    private PolyList polygons;
+    private Polygon currentPolygon;
 
-    public PolygonTool(LinkedList<Polygon> new_Polygon) {
-        polygons = new_Polygon;
-        // TODO: Refactor this out. (Fixes polygons not being added somehow)
-        polygons.add(new Polygon());
+    public double scale = 1;
+
+    public PolygonTool(PolyList polyList) {
+        polygons = polyList;
     }
 
     @Override
@@ -30,123 +24,36 @@ public class PolygonTool implements Tool{
 
     @Override
     public void onDragEntered(MouseEvent e) {
-        Vertex v = null;
-
-        for (Polygon p : polygons) {
-            p.setVertexColor (Color.BLUE);
-
-            if ((v = p.find(e.getX()/scale, e.getY()/scale)) != null) {
-                v.setColor(Color.RED);
-            }
-        }
-
-        if (v != null) {
-            v.setAxisX(e.getX()/scale);
-            v.setAxisY(e.getY()/scale);
-        }
+        draw();
     }
 
     @Override
     public void onMouseClicked(MouseEvent e) {
-        Vertex selectedVertex = null;
-        if(rightClick == true)
-        {
-            rightClick = false;
-        }
-        else {
-            for (Polygon p : polygons) {
-                if ((selectedVertex = p.findSelected()) != null) {
-                    if (polygons.get(polygons.size() - 1).size() > 3) {
-                        polygons.add(new Polygon());
-                    }
-                    break;
-                }
-            }
 
-            // TODO: Check if we really need this if statement.
-            if (selectedVertex == null) {
-                Polygon p = null;
-
-                p = polygons.getLast();
-                p.add(e.getX() / scale, e.getY() / scale);
-            }
-
-        }
         draw();
     }
 
     @Override
     public void onMouseDragged(MouseEvent e) {
-        Vertex selectedVertex  = null;
-
-        for (Polygon p : polygons) {
-            if ((selectedVertex = p.findSelected()) != null) {
-                for (Vertex v : p.points) {
-                    if(v.getSelected() == true) {
-                        v.setAxisX((v.getAxisX() - (offsetX/ scale - e.getX()/ scale)));
-                        v.setAxisY((v.getAxisY() - (offsetY/ scale - e.getY()/ scale)) );
-                    }
-                }
-
-            }
-        }
+        Vertex v = currentPolygon.popPoint();
+        v.setAxisX(e.getSceneX());
+        v.setAxisY(e.getSceneY());
         draw();
-        offsetX = e.getX();
-        offsetY = e.getY();
     }
 
     @Override
     public void onMousePressed(MouseEvent e) {
-        offsetX = e.getX();
-        offsetY = e.getY();
-        if(e.isSecondaryButtonDown())
-        {
-            if (polygons.get(polygons.size() - 1).size() > 3)
-            {
-                polygons.add(new Polygon());
+        if (currentPolygon == null)
+            currentPolygon = polygons.createPoly(e.getSceneX(), e.getSceneY());
+        else
+            currentPolygon.add(e.getSceneX(), e.getSceneY());
 
-            }
-            rightClick = true;
-            for (Polygon p : polygons) {
-                p.selectAll(false);
-            }
-        }
-        else {
-            Vertex selectedVertex = null;
-            boolean onlyOne = false;
-            for (Polygon p : polygons) {
-                p.setVertexColor(Color.BLUE);
-
-
-                p.setVertexColor(Color.BLUE);
-
-                if ((selectedVertex = p.find(e.getX() / scale, e.getY() / scale)) != null && onlyOne == false) {
-
-                    if(selectedVertex.getSelected() == true)
-                    {
-                        p.selectAll(true);
-                    }
-                    else
-                    {
-                        p.selectAll(false);
-                    }
-                    selectedVertex.setColor(Color.RED);
-                    selectedVertex.setSelected(true);
-                    onlyOne = true;
-                }
-                else
-                {
-                    p.selectAll(false);
-                }
-            }
-
-        }
         draw();
     }
 
     @Override
     public void onMouseReleased(MouseEvent e) {
-
+        draw();
     }
 
     public void onKeyPress(KeyEvent e)
@@ -154,10 +61,7 @@ public class PolygonTool implements Tool{
         //System.out.println("yes");
         if(e.getCode() == KeyCode.DELETE)
         {
-            for (Polygon p : polygons) {
-                p.deleteAllSelected();
-
-            }
+            // Delete
         }
         draw();
     }
@@ -170,9 +74,6 @@ public class PolygonTool implements Tool{
     @Override
     public void draw () {
         GraphicsContext gc = drawingCanvas.getGraphicsContext2D();
-
-        for (Polygon p : polygons) {
-            p.draw(gc,scale);
-        }
+        polygons.draw(gc);
     }
 }

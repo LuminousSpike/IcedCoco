@@ -9,7 +9,7 @@ import javafx.scene.paint.Color;
 import java.util.LinkedList;
 
 public class SelectTool implements Tool {
-    private LinkedList<Polygon> polygons;
+    private PolyList polygons;
     private Canvas drawingCanvas;
     private double startingX;
     private double startingY;
@@ -24,10 +24,8 @@ public class SelectTool implements Tool {
     private Boolean rightClick = false;
 
 
-    public SelectTool(LinkedList<Polygon> new_Polygon) {
+    public SelectTool(PolyList new_Polygon) {
         polygons = new_Polygon;
-        // TODO: Refactor this out. (Fixes polygons not being added somehow)
-        polygons.add(new Polygon());
     }
 
     @Override
@@ -42,126 +40,27 @@ public class SelectTool implements Tool {
 
     @Override
     public void onDragEntered(MouseEvent e) {
-        Vertex v = null;
-
-        for (Polygon p : polygons) {
-            p.setVertexColor (Color.BLUE);
-
-            if ((v = p.find(e.getX()/scale, e.getY()/scale)) != null) {
-                v.setColor(Color.RED);
-            }
-        }
-        if (v != null) {
-            v.setAxisX(e.getX());
-            v.setAxisY(e.getY());
-        }
-
+        draw();
     }
 
     @Override
     public void onMouseClicked(MouseEvent e) {
-        Vertex selectedVertex = null;
-        for (Polygon p : polygons) {
-            if ((selectedVertex = p.findSelected()) != null) {
-                if (polygons.get(polygons.size() - 1).size() > 3) {
-                    polygons.add(new Polygon());
-                }
-                break;
-            }
-        }
-        if(drawSquare  == true)
-        {
-            for (Polygon p : polygons) {
-                {
-
-                }
-            }
-        }
-        drawSquare = false;
         draw();
     }
 
     @Override
     public void onMouseDragged(MouseEvent e) {
-        Vertex selectedVertex  = null;
-        for (Polygon p : polygons) {
-            if ((selectedVertex = p.findSelected()) != null) {
-                for (Vertex v : p.points) {
-                    if(v.getSelected() == true) {
-                        v.setAxisX((v.getAxisX() - (offsetX - e.getX())));
-                        v.setAxisY((v.getAxisY() - (offsetY - e.getY())) );
-                    }
-                }
-
-            }
-        }
-        endX = e.getX();
-        endY = e.getY();
         draw();
-        offsetX = e.getX();
-        offsetY = e.getY();
-
     }
 
     @Override
     public void onMousePressed(MouseEvent e) {
-        offsetX = e.getX();
-        offsetY = e.getY();
-        if(e.isSecondaryButtonDown())
-        {
-            if (polygons.get(polygons.size() - 1).size() > 3)
-            {
-                polygons.add(new Polygon());
-
-            }
-            rightClick = true;
-            for (Polygon p : polygons) {
-                p.selectAll(false);
-            }
-        }
-        else {
-            Vertex selectedVertex = null;
-            boolean onlyOne = false;
-            for (Polygon p : polygons) {
-                p.setVertexColor(Color.BLUE);
-
-
-                p.setVertexColor(Color.BLUE);
-
-                if ((selectedVertex = p.find(e.getX() / scale, e.getY() / scale)) != null && onlyOne == false) {
-
-                    if(selectedVertex.getSelected() == true)
-                    {
-                        p.selectAll(true);
-                    }
-                    else
-                    {
-                        p.selectAll(false);
-                    }
-                    selectedVertex.setColor(Color.RED);
-                    selectedVertex.setSelected(true);
-                    onlyOne = true;
-                }
-                else
-                {
-                    p.selectAll(false);
-                }
-            }
-            if (onlyOne == false) {
-                startingX = e.getX();
-                startingY = e.getY();
-                endX = e.getX();
-                endY = e.getY();
-                drawSquare = true;
-            }
-
-        }
         draw();
     }
 
     @Override
     public void onMouseReleased(MouseEvent e) {
-
+        draw();
     }
 
     @Override
@@ -170,7 +69,7 @@ public class SelectTool implements Tool {
         gc.setLineDashOffset(0d);
         gc.setLineDashes(10d, 10d);
         gc.setStroke(Color.BLACK);
-        if(drawSquare == true)
+        if(drawSquare)
         {
             //square
             gc.strokeLine(startingX, startingY, startingX, endY);
@@ -186,8 +85,5 @@ public class SelectTool implements Tool {
         }
 
         gc.setLineDashes(null);
-        for (Polygon p : polygons) {
-            p.draw(gc,scale);
-        }
     }
 }

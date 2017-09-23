@@ -58,7 +58,9 @@ public class Controller implements Initializable{
     private SelectTool selectTool;
     private Tool currentTool = null;
 
-    private LinkedList<Polygon> polygons = new LinkedList<Polygon>();
+    private double scale = 1;
+
+    private PolyList polygons = new PolyList();
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -66,9 +68,6 @@ public class Controller implements Initializable{
         canvasScrollPane.setContent(canvas);
         polygonTool = new PolygonTool(polygons);
         polygonTool.setCanvas(canvas);
-
-        ellipseTool = new EllipseTool(polygons);
-        ellipseTool.setCanvas(canvas);
 
         selectTool = new SelectTool(polygons);
         selectTool.setCanvas(canvas);
@@ -227,8 +226,10 @@ public class Controller implements Initializable{
         // important to floor, otherwise the actual canvas size may end up one pixel larger than the image drawn inside it
         canvas.setWidth(Math.floor(canvas.getWidth() + canvasZoomAmount * sessionInfo.baseImage.getWidth()));
         canvas.setHeight(Math.floor(canvas.getHeight() + canvasZoomAmount * sessionInfo.baseImage.getHeight()));
+        scale = canvas.getWidth() / startingCanvasSize;
+        polygons.setScale(canvas.getWidth() / startingCanvasSize);
         polygonTool.scale = canvas.getWidth()/startingCanvasSize;
-        ellipseTool.scale = canvas.getWidth()/startingCanvasSize;
+        //ellipseTool.scale = canvas.getWidth()/startingCanvasSize;
         selectTool.scale = canvas.getWidth()/startingCanvasSize;
         canvas.getGraphicsContext2D().drawImage(sessionInfo.baseImage, 0,0,canvas.getWidth(), canvas.getHeight());
         if(currentTool!=null) currentTool.draw();
@@ -246,8 +247,10 @@ public class Controller implements Initializable{
         }
         canvas.setWidth(newWidth);
         canvas.setHeight(newHeight);
+        scale = canvas.getWidth() / startingCanvasSize;
+        polygons.setScale(canvas.getWidth() / startingCanvasSize);
         polygonTool.scale = canvas.getWidth()/startingCanvasSize;
-        ellipseTool.scale = canvas.getWidth()/startingCanvasSize;
+        //ellipseTool.scale = canvas.getWidth()/startingCanvasSize;
         selectTool.scale = canvas.getWidth()/startingCanvasSize;
         canvas.getGraphicsContext2D().drawImage(sessionInfo.baseImage, 0,0,canvas.getWidth(), canvas.getHeight());
         if(currentTool!=null) currentTool.draw();
@@ -277,11 +280,9 @@ public class Controller implements Initializable{
                 // For now, set the current tool to null.
                 currentTool = null;
                 // And make a new PolygonTool.
-                polygons = new LinkedList<Polygon>();
+                polygons = new PolyList();
                 polygonTool = new PolygonTool(polygons);
                 polygonTool.setCanvas(canvas);
-                ellipseTool = new EllipseTool(polygons);
-                ellipseTool.setCanvas(canvas);
                 selectTool = new SelectTool(polygons);
                 selectTool.setCanvas(canvas);
                 drawImageInCanvas(img, true);
@@ -315,7 +316,7 @@ public class Controller implements Initializable{
     private void onMouseClickedListener_Canvas (MouseEvent e) {
         if (currentTool != null) {
             drawImageInCanvas(img, false);
-            currentTool.onMouseClicked(e);
+            currentTool.onMouseClicked(scaleMouseEvent(e));
         }
     }
 
@@ -323,7 +324,7 @@ public class Controller implements Initializable{
     private void onMousePressedListener_Canvas (MouseEvent e) {
         if (currentTool != null) {
             drawImageInCanvas(img, false);
-            currentTool.onMousePressed(e);
+            currentTool.onMousePressed(scaleMouseEvent(e));
         }
     }
 
@@ -331,7 +332,7 @@ public class Controller implements Initializable{
     private void onMouseReleasedListener_Canvas (MouseEvent e) {
         if (currentTool != null) {
             drawImageInCanvas(img, false);
-            currentTool.onMouseReleased(e);
+            currentTool.onMouseReleased(scaleMouseEvent(e));
         }
     }
 
@@ -339,7 +340,7 @@ public class Controller implements Initializable{
     private void onDragEnteredListener_Canvas (MouseEvent e) {
         if (currentTool != null) {
             drawImageInCanvas(img, false);
-            currentTool.onDragEntered(e);
+            currentTool.onDragEntered(scaleMouseEvent(e));
         }
     }
 
@@ -348,7 +349,7 @@ public class Controller implements Initializable{
     private void onMouseDraggedListener_Canvas (MouseEvent e) {
         if (currentTool != null) {
             drawImageInCanvas(img, false);
-            currentTool.onMouseDragged(e);
+            currentTool.onMouseDragged(scaleMouseEvent(e));
         }
     }
     @FXML
@@ -373,5 +374,13 @@ public class Controller implements Initializable{
     @FXML
     private void activateSelectTool () {
         currentTool = selectTool;
+    }
+
+    private MouseEvent scaleMouseEvent (MouseEvent e) {
+        MouseEvent se = new MouseEvent(e.getEventType(), e.getX() / scale, e.getY() / scale, e.getScreenX(), e.getScreenY(), e.getButton(), e.getClickCount(),
+                e.isShiftDown(), e.isControlDown(), e.isAltDown(), e.isMetaDown(), e.isPrimaryButtonDown(), e.isMiddleButtonDown(),
+                e.isSecondaryButtonDown(), e.isSynthesized(), e.isPopupTrigger(), e.isStillSincePress(), e.getPickResult());
+        System.out.printf("Scaled x: %f, y:%f | x: %f, y: %f | Scale = %f\n", e.getX(), e.getY(), se.getSceneX(), se.getSceneY(), scale);
+        return se;
     }
 }
