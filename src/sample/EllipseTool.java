@@ -94,7 +94,7 @@ public class EllipseTool implements Tool{
         Vertex selectedVertex  = null;
 
         for (Polygon p : polygons) {
-            if ((selectedVertex = p.findSelected()) != null) {
+            if ((selectedVertex = p.popSelectedPoint()) != null) {
                     selectedVertex.setAxisX(e.getX() / scale);
                     selectedVertex.setAxisY(e.getY() / scale);
                 draw();
@@ -169,7 +169,7 @@ public class EllipseTool implements Tool{
             Vertex selectedVertex = null;
             boolean onlyOne = false;
             for (Polygon p : polygons) {
-                if ((selectedVertex = p.findSelected()) != null) {
+                if ((selectedVertex = p.popSelectedPoint()) != null) {
                     selectedVertex.setSelected(false);
                 }
 

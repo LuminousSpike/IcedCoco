@@ -114,7 +114,7 @@ class Polygon {
     /**
      * @return The selected vertex of the polygon.
      */
-    Vertex findSelected ()
+    Vertex popSelectedPoint ()
     {
         for (Vertex v : points)
         {
@@ -152,7 +152,20 @@ class Polygon {
         return out;
     }
 
+    Vertex popPoint () {
+        return points.get(points.size()-1);
+    }
 
-
-
+    LinkedList<Vertex> getSelectedPoints ()
+    {
+        LinkedList<Vertex> selectedPoints = new LinkedList<Vertex>();
+        for (Vertex v : points)
+        {
+            if(v.getSelected())
+            {
+                selectedPoints.add(v);
+            }
+        }
+        return selectedPoints;
+    }
 }
