@@ -10,6 +10,7 @@ public class PolygonTool implements Tool{
     private Canvas drawingCanvas;
     private PolyList polygons;
     private Polygon currentPolygon;
+    private Vertex selectedVertex;
 
     public double scale = 1;
 
@@ -29,24 +30,26 @@ public class PolygonTool implements Tool{
 
     @Override
     public void onMouseClicked(MouseEvent e) {
-
         draw();
     }
 
     @Override
     public void onMouseDragged(MouseEvent e) {
-        Vertex v = currentPolygon.popPoint();
-        v.setAxisX(e.getSceneX());
-        v.setAxisY(e.getSceneY());
+        selectedVertex.setAxisX(e.getSceneX());
+        selectedVertex.setAxisY(e.getSceneY());
+
         draw();
     }
 
     @Override
     public void onMousePressed(MouseEvent e) {
-        if (currentPolygon == null)
-            currentPolygon = polygons.createPoly(e.getSceneX(), e.getSceneY());
-        else
-            currentPolygon.add(e.getSceneX(), e.getSceneY());
+        if (e.isSecondaryButtonDown()) {
+            currentPolygon = null;
+            return;
+        }
+
+        polygonPress(e.getSceneX(), e.getSceneY());
+        vertexPress(e.getSceneX(), e.getSceneY());
 
         draw();
     }
@@ -63,6 +66,7 @@ public class PolygonTool implements Tool{
         {
             // Delete
         }
+
         draw();
     }
 
@@ -75,5 +79,23 @@ public class PolygonTool implements Tool{
     public void draw () {
         GraphicsContext gc = drawingCanvas.getGraphicsContext2D();
         polygons.draw(gc);
+    }
+
+    private void polygonPress (double x, double y) {
+        Polygon collidedPoly = polygons.checkCollision(x, y);
+
+        if (currentPolygon == null && collidedPoly == null)
+            currentPolygon = polygons.createPoly(x, y);
+        else if (collidedPoly == null)
+            currentPolygon.add(x, y);
+        else
+            currentPolygon = collidedPoly;
+    }
+
+    private void vertexPress (double x, double y) {
+        selectedVertex = currentPolygon.find(x, y);
+
+        if (selectedVertex == null)
+            selectedVertex = currentPolygon.popPoint();
     }
 }
