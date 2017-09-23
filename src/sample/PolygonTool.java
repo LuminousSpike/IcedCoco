@@ -9,8 +9,6 @@ import javafx.scene.input.MouseEvent;
 public class PolygonTool implements Tool{
     private Canvas drawingCanvas;
     private PolyList polygons;
-    private Polygon currentPolygon;
-    private Vertex selectedVertex;
 
     public double scale = 1;
 
@@ -36,6 +34,7 @@ public class PolygonTool implements Tool{
     @Override
     public void onMouseDragged(MouseEvent e) {
         if (e.isPrimaryButtonDown()) {
+            Vertex selectedVertex = polygons.getSelectedVertex();
             selectedVertex.setAxisX(e.getSceneX());
             selectedVertex.setAxisY(e.getSceneY());
         }
@@ -46,13 +45,12 @@ public class PolygonTool implements Tool{
     @Override
     public void onMousePressed(MouseEvent e) {
         if (e.isSecondaryButtonDown()) {
-            if (currentPolygon != null)
-                if (currentPolygon.size() < 3)
-                    polygons.remove(currentPolygon);
+            if (polygons.getCurrentPolygon() != null)
+                if (polygons.getCurrentPolygon().size() < 3)
+                    polygons.remove(polygons.getCurrentPolygon());
 
-            currentPolygon = null;
-            selectedVertex = null;
             polygons.setSelectedVertex(null);
+            polygons.setCurrentPolygon(null);
             return;
         }
 
@@ -69,10 +67,9 @@ public class PolygonTool implements Tool{
 
     public void onKeyPress(KeyEvent e)
     {
-        //System.out.println("yes");
-        if(e.getCode() == KeyCode.DELETE)
+        if (e.getCode() == KeyCode.DELETE)
         {
-            // Delete
+            polygons.remove(polygons.getSelectedVertex());
         }
 
         draw();
@@ -92,20 +89,19 @@ public class PolygonTool implements Tool{
     private void polygonPress (double x, double y) {
         Polygon collidedPoly = polygons.checkCollision(x, y);
 
-        if (currentPolygon == null && collidedPoly == null)
-            currentPolygon = polygons.createPoly(x, y);
+        if (polygons.getCurrentPolygon() == null && collidedPoly == null)
+            polygons.setCurrentPolygon(polygons.createPoly(x, y));
+
         else if (collidedPoly == null)
-            currentPolygon.add(x, y, selectedVertex);
+            polygons.getCurrentPolygon().add(x, y, polygons.getSelectedVertex());
         else
-            currentPolygon = collidedPoly;
+            polygons.setCurrentPolygon(collidedPoly);
     }
 
     private void vertexPress (double x, double y) {
-        selectedVertex = currentPolygon.find(x, y);
+        polygons.setSelectedVertex(polygons.getCurrentPolygon().find(x, y));
 
-        if (selectedVertex == null)
-            selectedVertex = currentPolygon.popPoint();
-
-        polygons.setSelectedVertex(selectedVertex);
+        if (polygons.getSelectedVertex() == null)
+            polygons.setSelectedVertex(polygons.getCurrentPolygon().popSelectedPoint());
     }
 }
