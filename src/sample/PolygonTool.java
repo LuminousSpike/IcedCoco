@@ -95,7 +95,7 @@ public class PolygonTool implements Tool{
         if (currentPolygon == null && collidedPoly == null)
             currentPolygon = polygons.createPoly(x, y);
         else if (collidedPoly == null)
-            currentPolygon.add(x, y);
+            currentPolygon.add(x, y, selectedVertex);
         else
             currentPolygon = collidedPoly;
     }
