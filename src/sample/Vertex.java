@@ -11,7 +11,7 @@ public class Vertex
     private double x = 0, y = 0;
     private boolean selected = false;
 
-    private Color colour = Color.BLUE;
+    private Color colour = Color.BLUE, color_active = Color.RED;
     private Vertex nextVertex = null;
 
     Vertex (double new_x, double new_y)
@@ -104,7 +104,11 @@ public class Vertex
      */
     void draw (GraphicsContext gc, double offset)
     {
-        gc.setStroke(colour);
+        if (selected)
+            gc.setStroke(color_active);
+        else
+            gc.setStroke(colour);
+
         gc.strokeOval(x*offset-SIZE/2, y*offset-SIZE/2,SIZE,SIZE);
 
         if (nextVertex!=null) {

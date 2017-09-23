@@ -46,9 +46,13 @@ public class PolygonTool implements Tool{
     @Override
     public void onMousePressed(MouseEvent e) {
         if (e.isSecondaryButtonDown()) {
-            if (currentPolygon.size() < 3)
-                polygons.remove(currentPolygon);
+            if (currentPolygon != null)
+                if (currentPolygon.size() < 3)
+                    polygons.remove(currentPolygon);
+
             currentPolygon = null;
+            selectedVertex = null;
+            polygons.setSelectedVertex(null);
             return;
         }
 
@@ -101,5 +105,7 @@ public class PolygonTool implements Tool{
 
         if (selectedVertex == null)
             selectedVertex = currentPolygon.popPoint();
+
+        polygons.setSelectedVertex(selectedVertex);
     }
 }

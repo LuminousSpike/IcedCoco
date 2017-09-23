@@ -83,7 +83,10 @@ class Polygon {
             double SIZE = points.get(count).getSIZE();
 
             points.get(count).draw(gc,offset);
-            gc.setStroke(Color.BLACK);
+            if (points.get(count).getSelected())
+                gc.setStroke(Color.ORANGE);
+            else
+                gc.setStroke(Color.BLACK);
 
             if ((count + 1) == points.size())
             {

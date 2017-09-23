@@ -9,11 +9,20 @@ public class PolyList {
     private LinkedList<Polygon> polygons, polygons_selected;
     private LinkedList<Vertex> vertices_selected;
     private Vertex selectedVertex;
-    private boolean onlyOne;
     private double scale = 1;
 
     public void setScale (double scale) {
         this.scale = scale;
+    }
+
+    public void setSelectedVertex (Vertex selectedVertex) {
+        if (this.selectedVertex != null)
+            this.selectedVertex.setSelected(false);
+
+        if (selectedVertex != null)
+            selectedVertex.setSelected(true);
+
+        this.selectedVertex = selectedVertex;
     }
 
     public  PolyList () {
