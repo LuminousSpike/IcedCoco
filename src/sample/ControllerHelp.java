@@ -25,5 +25,6 @@ public class ControllerHelp implements Initializable{
     public void initialize(URL location, ResourceBundle resources) {
         this.rb = resources;
         //pane.setContent(pane);
-    }
+        //
+        }
 }
