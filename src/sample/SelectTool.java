@@ -52,8 +52,8 @@ public class SelectTool implements Tool {
             }
         }
         if (v != null) {
-            v.setAxisX(e.getX()/scale);
-            v.setAxisY(e.getY()/scale);
+            v.setAxisX(e.getX());
+            v.setAxisY(e.getY());
         }
 
     }
@@ -88,15 +88,15 @@ public class SelectTool implements Tool {
             if ((selectedVertex = p.findSelected()) != null) {
                 for (Vertex v : p.points) {
                     if(v.getSelected() == true) {
-                        v.setAxisX((v.getAxisX() - (offsetX/ scale - e.getX()/ scale)));
-                        v.setAxisY((v.getAxisY() - (offsetY/ scale - e.getY()/ scale)) );
+                        v.setAxisX((v.getAxisX() - (offsetX - e.getX())));
+                        v.setAxisY((v.getAxisY() - (offsetY - e.getY())) );
                     }
                 }
 
             }
         }
-        endX = e.getX() / scale;
-        endY = e.getY() / scale;
+        endX = e.getX();
+        endY = e.getY();
         draw();
         offsetX = e.getX();
         offsetY = e.getY();
@@ -148,10 +148,10 @@ public class SelectTool implements Tool {
                 }
             }
             if (onlyOne == false) {
-                startingX = e.getX() / scale;
-                startingY = e.getY() / scale;
-                endX = e.getX() / scale;
-                endY = e.getY() / scale;
+                startingX = e.getX();
+                startingY = e.getY();
+                endX = e.getX();
+                endY = e.getY();
                 drawSquare = true;
             }
 
