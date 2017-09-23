@@ -10,7 +10,7 @@ public class PolyList {
     private LinkedList<Vertex> vertices_selected;
     private Vertex selectedVertex;
     private boolean onlyOne;
-    private double scale;
+    private double scale = 1;
 
     public void setScale (double scale) {
         this.scale = scale;
