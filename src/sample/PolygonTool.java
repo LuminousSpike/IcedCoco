@@ -35,8 +35,10 @@ public class PolygonTool implements Tool{
 
     @Override
     public void onMouseDragged(MouseEvent e) {
-        selectedVertex.setAxisX(e.getSceneX());
-        selectedVertex.setAxisY(e.getSceneY());
+        if (e.isPrimaryButtonDown()) {
+            selectedVertex.setAxisX(e.getSceneX());
+            selectedVertex.setAxisY(e.getSceneY());
+        }
 
         draw();
     }
@@ -44,6 +46,8 @@ public class PolygonTool implements Tool{
     @Override
     public void onMousePressed(MouseEvent e) {
         if (e.isSecondaryButtonDown()) {
+            if (currentPolygon.size() < 3)
+                polygons.remove(currentPolygon);
             currentPolygon = null;
             return;
         }
