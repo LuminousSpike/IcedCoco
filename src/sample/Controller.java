@@ -13,6 +13,7 @@ import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Button;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.ScrollPane;
+import javafx.scene.control.TextArea;
 import javafx.scene.image.Image;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
@@ -20,10 +21,14 @@ import javafx.scene.layout.GridPane;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
+import javax.imageio.ImageIO;
+import java.awt.*;
+import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.nio.Buffer;
 import java.util.LinkedList;
 import java.util.ResourceBundle;
 
@@ -44,6 +49,7 @@ public class Controller implements Initializable{
     @FXML private Canvas canvas;
     @FXML private Button tool1;
     @FXML private Button tool2;
+    @FXML private TextArea captionTextArea;
 
     private PolygonTool polygonTool;
     private EllipseTool ellipseTool;
@@ -68,6 +74,11 @@ public class Controller implements Initializable{
 
     public void setStage(Stage stage){
         this.primaryStage = stage;
+    }
+
+    public void start(){
+        // call from main, initialising variables and things
+        sessionInfo.captionTextArea = this.captionTextArea;
     }
 
     private double[] getCanvasArea(){
@@ -115,6 +126,33 @@ public class Controller implements Initializable{
     // called from listeners defined in Main.java
     public void onWindowResize(){
         return;
+    }
+
+    @FXML
+    public void exportSegmentation(Event event){
+        // export the segmentation mask as a PNG
+        String filename = "segmentationExport.png";
+        int width = (int)sessionInfo.imageWidth;
+        int height = (int)sessionInfo.imageHeight;
+        BufferedImage exportImage = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
+        Graphics2D gfx = exportImage.createGraphics();
+        Color segmentColor = Color.pink;
+        // set everything to be black
+        gfx.setBackground(Color.black);
+        // convert all of our own Polygon instances to java.awt.Polygon instances, and draw them to the image, filled.
+        gfx.setColor(segmentColor);
+        for (Polygon p : polygons) {
+            if(p.size() < 4) {continue;}
+            java.awt.Polygon awtPoly = new java.awt.Polygon(p.getXPoints(),p.getYPoints(),p.size());
+            gfx.fill(awtPoly);
+        }
+        try {
+            File exportFile = new File(sessionInfo.imageDataFile.getParent() + "/" + filename);
+            ImageIO.write(exportImage, "png", exportFile);
+        }catch(IOException ioe){
+            ioe.printStackTrace();
+        }
+
     }
 
     @FXML
@@ -203,9 +241,8 @@ public class Controller implements Initializable{
     public void prepareFileMenu(Event event){
         // validate all the menu items in the menu file
         // disable save if there is no image loaded and no valid .json files to save the metadata to
-        saveMenuItem.setDisable(!(sessionInfo.imageLoaded && sessionInfo.saveFilesReady()));
+        saveMenuItem.setDisable(sessionInfo.baseImage==null | sessionInfo.imageDataFile==null);
     }
-
 
     @FXML
     public void menuOpenImage(ActionEvent event){
@@ -230,12 +267,13 @@ public class Controller implements Initializable{
                 ellipseTool = new EllipseTool(polygons);
                 ellipseTool.setCanvas(canvas);
                 drawImageInCanvas(img, true);
+                sessionInfo.baseImageFile = imgFile;
+                sessionInfo.checkImageMetadata();
             }
         }catch(MalformedURLException mue){
             mue.printStackTrace();
         }
     }
-
 
     @FXML
     public void menuOpenImageWithCoco(ActionEvent event){
@@ -246,6 +284,7 @@ public class Controller implements Initializable{
     @FXML
     public void menuSaveData(ActionEvent event){
         System.out.println("saving to .json files...");
+        sessionInfo.overwriteMetadata(primaryStage);
     }
 
     @FXML
@@ -287,6 +326,7 @@ public class Controller implements Initializable{
     }
 
     @FXML
+
     private void onMouseDraggedListener_Canvas (MouseEvent e) {
         if (currentTool != null) {
             drawImageInCanvas(img, false);

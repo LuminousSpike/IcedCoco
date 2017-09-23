@@ -22,6 +22,7 @@ public class Main extends Application {
         primaryStage.setScene(scene);
         cont.setScene(scene);
         cont.setStage(primaryStage);
+        cont.start();
         primaryStage.show();
 
         HelpUI();
