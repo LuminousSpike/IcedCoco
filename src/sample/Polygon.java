@@ -171,4 +171,14 @@ class Polygon {
         }
         return selectedPoints;
     }
+
+    public void add(double x, double y, Vertex selectedVertex) {
+        if (selectedVertex == null) {
+            add(x, y);
+            return;
+        }
+
+        int index = points.indexOf(selectedVertex);
+        points.add(index+1, new Vertex(x, y));
+    }
 }
