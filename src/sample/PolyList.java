@@ -40,6 +40,19 @@ public class PolyList {
         return polygon;
     }
 
+    public Polygon checkCollision (double x, double y) {
+        Vertex v = null;
+
+        for(Polygon polygon : polygons) {
+            v = polygon.find(x, y);
+
+            if (v != null)
+                return  polygon;
+        }
+
+        return null;
+    }
+
     public void draw(GraphicsContext gc) {
         for (Polygon p : polygons) {
             p.draw(gc, scale);
