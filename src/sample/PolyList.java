@@ -19,7 +19,7 @@ public class PolyList {
     }
 
     public void setSelectedVertex (Vertex selectedVertex) {
-        if (this.selectedVertex != null)
+        if (this.selectedVertex != null && !selectedVertices.contains(this.selectedVertex))
             this.selectedVertex.setSelected(false);
 
         if (selectedVertex != null)
@@ -29,13 +29,16 @@ public class PolyList {
     }
 
     private void addSelectedVertex (Vertex selectedVertex) {
+        if (selectedVertex == null)
+            return;
+
         if (this.selectedVertex != null)
             this.selectedVertex.setSelected(false);
 
-        if (selectedVertex != null)
-            selectedVertex.setSelected(true);
+        selectedVertex.setSelected(true);
 
-        selectedVertices.add(selectedVertex);
+        if (!selectedVertices.contains(selectedVertex))
+            selectedVertices.add(selectedVertex);
     }
 
     private void removeSelectedVertex (Vertex selectedVertex) {
@@ -134,7 +137,9 @@ public class PolyList {
             removeSelectedVertex(selectedVertices.peek());
     }
 
-    public boolean vertexClickedPrimary (double x, double y, int clickCount) {
+    public boolean vertexClickedPrimary(double x, double y, int clickCount, boolean isControlDown) {
+        setPreviousMousePos(x, y);
+
         if (getCurrentPolygon() == null) {
             setSelectedVertex(null);
             clearSelectedVertices();
@@ -161,6 +166,10 @@ public class PolyList {
 
                 return false;
             }
+        }
+
+        if (isControlDown) {
+            addSelectedVertex(getSelectedVertex());
         }
 
         setSelectedVertex(getCurrentPolygon().find(x, y));
@@ -208,7 +217,6 @@ public class PolyList {
                 double y2 = Math.max(startingY, endY);
 
                 if (x1 <= vX && vX <= x2 && y1 <= vY && vY <= y2) {
-                    if (!selectedVertices.contains(v))
                         addSelectedVertex(v);
                 }
                 else {

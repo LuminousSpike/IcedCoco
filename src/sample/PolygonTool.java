@@ -49,7 +49,7 @@ public class PolygonTool implements Tool{
         }
 
         polygonPressPrimary(e.getSceneX(), e.getSceneY());
-        polygons.vertexClickedPrimary(e.getSceneX(), e.getSceneY(), e.getClickCount());
+        polygons.vertexClickedPrimary(e.getSceneX(), e.getSceneY(), e.getClickCount(), e.isControlDown());
 
         draw();
     }
