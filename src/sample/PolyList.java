@@ -224,17 +224,17 @@ public class PolyList {
     }
 
     public void getVerticesInBounds (double startingX, double startingY, double endX, double endY) {
+        // Handles all orientations of the bounding box!
+        double x1 = Math.min(startingX, endX);
+        double x2 = Math.max(startingX, endX);
+        double y1 = Math.min(startingY, endY);
+        double y2 = Math.max(startingY, endY);
+
         for (Polygon p : polygons) {
             // Really not good for performance
             for (Vertex v : p.points) {
                 double vX = v.getAxisX();
                 double vY = v.getAxisY();
-
-                // Handles all orientations of the bounding box!
-                double x1 = Math.min(startingX, endX);
-                double x2 = Math.max(startingX, endX);
-                double y1 = Math.min(startingY, endY);
-                double y2 = Math.max(startingY, endY);
 
                 if (x1 <= vX && vX <= x2 && y1 <= vY && vY <= y2) {
                         addSelectedVertex(v);
