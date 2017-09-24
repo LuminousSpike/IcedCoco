@@ -142,9 +142,25 @@ public class PolyList {
         }
 
         if (clickCount == 2) {
-            for (Vertex v : currentPolygon.points)
-                if (!selectedVertices.contains(v))
+            boolean added = false;
+
+            for (Vertex v : currentPolygon.points) {
+                if (!selectedVertices.contains(v)) {
                     addSelectedVertex(v);
+                    added = true;
+                }
+            }
+
+            if (!added) {
+                for (Vertex v : currentPolygon.points) {
+                    removeSelectedVertex(v);
+                }
+
+                setSelectedVertex(null);
+                setCurrentPolygon(null);
+
+                return false;
+            }
         }
 
         setSelectedVertex(getCurrentPolygon().find(x, y));
