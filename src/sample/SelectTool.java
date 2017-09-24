@@ -62,10 +62,9 @@ public class SelectTool implements Tool {
             return;
         }
 
-        polygons.setPreviousMousePos(e.getSceneX(), e.getSceneY());
         polygons.setCurrentPolygon(polygons.checkCollision(e.getSceneX(), e.getSceneY()));
 
-        drawSquare = !polygons.vertexClickedPrimary(e.getSceneX(), e.getSceneY(), e.getClickCount());
+        drawSquare = !polygons.vertexClickedPrimary(e.getSceneX(), e.getSceneY(), e.getClickCount(), e.isControlDown());
 
         startingX = e.getSceneX() * polygons.getScale();
         startingY = e.getSceneY() * polygons.getScale();
