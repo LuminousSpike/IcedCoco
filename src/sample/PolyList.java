@@ -137,12 +137,15 @@ public class PolyList {
             removeSelectedVertex(selectedVertices.peek());
     }
 
-    public boolean vertexClickedPrimary(double x, double y, int clickCount, boolean isControlDown) {
+    public boolean vertexClickedPrimary(double x, double y, int clickCount, boolean isShiftDown, boolean controlDown) {
         setPreviousMousePos(x, y);
 
         if (getCurrentPolygon() == null) {
             setSelectedVertex(null);
-            clearSelectedVertices();
+
+            if (!isShiftDown)
+                clearSelectedVertices();
+
             return false;
         }
 
@@ -168,7 +171,7 @@ public class PolyList {
             }
         }
 
-        if (isControlDown) {
+        if (isShiftDown) {
             addSelectedVertex(getSelectedVertex());
         }
 
@@ -176,6 +179,16 @@ public class PolyList {
 
         if (getSelectedVertex() == null)
             setSelectedVertex(getCurrentPolygon().popSelectedPoint());
+
+        if (controlDown) {
+            removeSelectedVertex(getSelectedVertex());
+
+            if (selectedVertices.size() > 0)
+                setSelectedVertex(selectedVertices.getLast());
+
+            if (getSelectedVertex() == null)
+                setCurrentPolygon(null);
+        }
 
         return true;
     }
