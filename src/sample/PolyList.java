@@ -205,8 +205,10 @@ public class PolyList {
             }
         }
 
-        getSelectedVertex().setAxisX(x);
-        getSelectedVertex().setAxisY(y);
+        if (!selectedVertices.contains(getSelectedVertex())) {
+            getSelectedVertex().setAxisX(x);
+            getSelectedVertex().setAxisY(y);
+        }
 
         setPreviousMousePos(x, y);
     }
