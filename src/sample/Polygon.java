@@ -30,15 +30,20 @@ class Polygon {
     {
         points.add(new Vertex(new_x, new_y));
     }
-    void deleteAllSelected()
+
+    Vertex removeSelected()
     {
+        Vertex v = null, p = null;
         for (int i = 0; i < size(); i++) {
-            if(points.get(i).getSelected() ==true)
+            v = points.get(i);
+            if(v.getSelected())
             {
-                points.remove(i);
+                p = remove(v);
                 i--;
             }
         }
+
+        return p;
     }
     void selectAll(boolean setValue)
     {
@@ -187,7 +192,8 @@ class Polygon {
         if (selectedVertex != null) {
             int index = Math.max(0, points.indexOf(selectedVertex) - 1);
             points.remove(selectedVertex);
-            v = points.get(index);
+            if (points.size() > 0)
+                v = points.get(index);
         }
         return  v;
     }

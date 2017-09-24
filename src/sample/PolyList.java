@@ -110,12 +110,17 @@ public class PolyList {
     }
 
     public void remove (Vertex vertex) {
-        if (currentPolygon != null) {
-            setSelectedVertex(currentPolygon.remove(selectedVertex));
+        for (int i = polygons.size() - 1; i >= 0; i--) {
+            Polygon p = polygons.get(i);
+            if (currentPolygon == p)
+                setSelectedVertex(p.removeSelected());
+            else
+                p.removeSelected();
 
-            if (currentPolygon.size() < 3) {
-                polygons.remove(currentPolygon);
-                currentPolygon = null;
+            if (p.size() < 3) {
+                polygons.remove(p);
+                if (currentPolygon == p)
+                    currentPolygon = null;
             }
         }
     }
