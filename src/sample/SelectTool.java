@@ -6,8 +6,6 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
 
-import java.util.LinkedList;
-
 public class SelectTool implements Tool {
     private PolyList polygons;
     private Canvas drawingCanvas;
@@ -15,14 +13,7 @@ public class SelectTool implements Tool {
     private double startingY;
     private double endX = 0;
     private double endY = 0;
-    private double size = 50;
-    private boolean selectOn = false;
     private boolean drawSquare = false;
-    public double scale = 1;
-    public double offsetX = 0;
-    public double offsetY = 0;
-    private Boolean rightClick = false;
-
 
     public SelectTool(PolyList new_Polygon) {
         polygons = new_Polygon;
@@ -50,16 +41,39 @@ public class SelectTool implements Tool {
 
     @Override
     public void onMouseDragged(MouseEvent e) {
+        if (e.isPrimaryButtonDown()) {
+            polygons.mouseDraggedVertex(e.getSceneX(), e.getSceneY());
+
+            endX = e.getSceneX() * polygons.getScale();
+            endY = e.getSceneY() * polygons.getScale();
+        }
+
         draw();
     }
 
     @Override
     public void onMousePressed(MouseEvent e) {
+        if (e.isSecondaryButtonDown()) {
+            polygons.polygonClickedSecondary();
+            return;
+        }
+
+        polygons.setCurrentPolygon(polygons.checkCollision(e.getSceneX(), e.getSceneY()));
+
+        drawSquare = !polygons.vertexClickedPrimary(e.getSceneX(), e.getSceneY());
+
+        startingX = e.getSceneX() * polygons.getScale();
+        startingY = e.getSceneY() * polygons.getScale();
+        endX = e.getSceneX() * polygons.getScale();
+        endY = e.getSceneY() * polygons.getScale();
+
         draw();
     }
 
     @Override
     public void onMouseReleased(MouseEvent e) {
+        drawSquare = false;
+
         draw();
     }
 
@@ -69,6 +83,7 @@ public class SelectTool implements Tool {
         gc.setLineDashOffset(0d);
         gc.setLineDashes(10d, 10d);
         gc.setStroke(Color.BLACK);
+
         if(drawSquare)
         {
             //square
@@ -85,5 +100,7 @@ public class SelectTool implements Tool {
         }
 
         gc.setLineDashes(null);
+
+        polygons.draw(gc);
     }
 }

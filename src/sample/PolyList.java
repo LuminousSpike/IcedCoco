@@ -33,6 +33,10 @@ public class PolyList {
         return currentPolygon;
     }
 
+    public double getScale() {
+        return scale;
+    }
+
     public Vertex getSelectedVertex() {
         return selectedVertex;
     }
@@ -92,5 +96,38 @@ public class PolyList {
                 currentPolygon = null;
             }
         }
+    }
+
+    public void polygonClickedSecondary () {
+        if (getCurrentPolygon() != null)
+            if (getCurrentPolygon().size() < 3)
+                remove(getCurrentPolygon());
+
+        setSelectedVertex(null);
+        setCurrentPolygon(null);
+    }
+
+
+    public boolean vertexClickedPrimary (double x, double y) {
+        if (getCurrentPolygon() == null) {
+            setSelectedVertex(null);
+            return false;
+        }
+
+        setSelectedVertex(getCurrentPolygon().find(x, y));
+
+        if (getSelectedVertex() == null)
+            setSelectedVertex(getCurrentPolygon().popSelectedPoint());
+
+        return true;
+    }
+
+    public void mouseDraggedVertex(double x, double y) {
+        if (getSelectedVertex() == null) {
+            return;
+        }
+
+        getSelectedVertex().setAxisX(x);
+        getSelectedVertex().setAxisY(y);
     }
 }
