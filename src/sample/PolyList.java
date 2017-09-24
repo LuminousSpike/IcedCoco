@@ -134,11 +134,17 @@ public class PolyList {
             removeSelectedVertex(selectedVertices.peek());
     }
 
-    public boolean vertexClickedPrimary (double x, double y) {
+    public boolean vertexClickedPrimary (double x, double y, int clickCount) {
         if (getCurrentPolygon() == null) {
             setSelectedVertex(null);
             clearSelectedVertices();
             return false;
+        }
+
+        if (clickCount == 2) {
+            for (Vertex v : currentPolygon.points)
+                if (!selectedVertices.contains(v))
+                    addSelectedVertex(v);
         }
 
         setSelectedVertex(getCurrentPolygon().find(x, y));
