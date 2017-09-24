@@ -15,6 +15,7 @@ import javafx.scene.control.MenuItem;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextArea;
 import javafx.scene.image.Image;
+import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
@@ -355,6 +356,11 @@ public class Controller implements Initializable{
     {
         if (currentTool != null) {
             drawImageInCanvas(img, false);
+            // TODO: Turn this into a class for global hotkey support
+            if (e.getCode() == KeyCode.DELETE) {
+                polygons.remove(polygons.getSelectedVertex());
+            }
+
             currentTool.onKeyPress(e);
         }
     }

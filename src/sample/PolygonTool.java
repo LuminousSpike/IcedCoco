@@ -59,10 +59,6 @@ public class PolygonTool implements Tool {
     }
 
     public void onKeyPress(KeyEvent e) {
-        if (e.getCode() == KeyCode.DELETE) {
-            polygons.remove(polygons.getSelectedVertex());
-        }
-
         draw();
     }
 
