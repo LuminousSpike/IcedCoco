@@ -1,4 +1,4 @@
-package sample;
+package main.java.com.limbo.icedcoco;
 
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;

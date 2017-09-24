@@ -1,4 +1,4 @@
-package sample;
+package main.java.com.limbo.icedcoco;
 
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
@@ -15,6 +15,8 @@ import javafx.scene.control.MenuItem;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextArea;
 import javafx.scene.image.Image;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
@@ -28,8 +30,6 @@ import java.io.File;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.nio.Buffer;
-import java.util.LinkedList;
 import java.util.ResourceBundle;
 
 public class Controller implements Initializable{
@@ -40,6 +40,7 @@ public class Controller implements Initializable{
     private Stage primaryStage;
     private float canvasZoomAmount = 0.05f;   // as a percentage, from 0 - 1
     private float minCanvasSize = 100f;     // min size for both of the width and height of the canvas
+    private float startingCanvasSize = 1;
     private Image img;
 
     @FXML private GridPane masterPane;
@@ -53,9 +54,12 @@ public class Controller implements Initializable{
 
     private PolygonTool polygonTool;
     private EllipseTool ellipseTool;
+    private SelectTool selectTool;
     private Tool currentTool = null;
 
-    private LinkedList<Polygon> polygons = new LinkedList<Polygon>();
+    private double scale = 1;
+
+    private PolyList polygons = new PolyList();
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -64,8 +68,8 @@ public class Controller implements Initializable{
         polygonTool = new PolygonTool(polygons);
         polygonTool.setCanvas(canvas);
 
-        ellipseTool = new EllipseTool(polygons);
-        ellipseTool.setCanvas(canvas);
+        selectTool = new SelectTool(polygons);
+        selectTool.setCanvas(canvas);
     }
 
     public void setScene(Scene scene){
@@ -113,6 +117,7 @@ public class Controller implements Initializable{
                 }
                 canvas.setWidth(img.getWidth() * shrinkFactor);
                 canvas.setHeight(img.getHeight() * shrinkFactor);
+                startingCanvasSize = (float) (img.getWidth() * shrinkFactor);
             }
         }
         gfx.drawImage(img, 0, 0, canvas.getWidth(), canvas.getHeight());
@@ -121,6 +126,8 @@ public class Controller implements Initializable{
         sessionInfo.baseImage = img;
         sessionInfo.imageWidth = img.getWidth();
         sessionInfo.imageHeight = img.getHeight();
+
+
     }
 
     // called from listeners defined in Main.java
@@ -141,7 +148,7 @@ public class Controller implements Initializable{
         gfx.setBackground(Color.black);
         // convert all of our own Polygon instances to java.awt.Polygon instances, and draw them to the image, filled.
         gfx.setColor(segmentColor);
-        for (Polygon p : polygons) {
+        for (Polygon p : polygons.getPolygons()) {
             if(p.size() < 4) {continue;}
             java.awt.Polygon awtPoly = new java.awt.Polygon(p.getXPoints(),p.getYPoints(),p.size());
             gfx.fill(awtPoly);
@@ -211,12 +218,16 @@ public class Controller implements Initializable{
     @FXML
     public void growCanvas(Event event){
         // change by ten percent
+
         if(sessionInfo.baseImage==null){
             return;
         }
         // important to floor, otherwise the actual canvas size may end up one pixel larger than the image drawn inside it
         canvas.setWidth(Math.floor(canvas.getWidth() + canvasZoomAmount * sessionInfo.baseImage.getWidth()));
         canvas.setHeight(Math.floor(canvas.getHeight() + canvasZoomAmount * sessionInfo.baseImage.getHeight()));
+        scale = canvas.getWidth() / startingCanvasSize;
+        polygons.setScale(canvas.getWidth() / startingCanvasSize);
+        polygonTool.scale = canvas.getWidth()/startingCanvasSize;
         canvas.getGraphicsContext2D().drawImage(sessionInfo.baseImage, 0,0,canvas.getWidth(), canvas.getHeight());
         if(currentTool!=null) currentTool.draw();
     }
@@ -233,6 +244,9 @@ public class Controller implements Initializable{
         }
         canvas.setWidth(newWidth);
         canvas.setHeight(newHeight);
+        scale = canvas.getWidth() / startingCanvasSize;
+        polygons.setScale(canvas.getWidth() / startingCanvasSize);
+        polygonTool.scale = canvas.getWidth()/startingCanvasSize;
         canvas.getGraphicsContext2D().drawImage(sessionInfo.baseImage, 0,0,canvas.getWidth(), canvas.getHeight());
         if(currentTool!=null) currentTool.draw();
     }
@@ -261,11 +275,13 @@ public class Controller implements Initializable{
                 // For now, set the current tool to null.
                 currentTool = null;
                 // And make a new PolygonTool.
-                polygons = new LinkedList<Polygon>();
+                polygons = new PolyList();
                 polygonTool = new PolygonTool(polygons);
                 polygonTool.setCanvas(canvas);
                 ellipseTool = new EllipseTool(polygons);
                 ellipseTool.setCanvas(canvas);
+                selectTool = new SelectTool(polygons);
+                selectTool.setCanvas(canvas);
                 drawImageInCanvas(img, true);
                 sessionInfo.baseImageFile = imgFile;
                 sessionInfo.checkImageMetadata();
@@ -297,7 +313,7 @@ public class Controller implements Initializable{
     private void onMouseClickedListener_Canvas (MouseEvent e) {
         if (currentTool != null) {
             drawImageInCanvas(img, false);
-            currentTool.onMouseClicked(e);
+            currentTool.onMouseClicked(scaleMouseEvent(e));
         }
     }
 
@@ -305,7 +321,7 @@ public class Controller implements Initializable{
     private void onMousePressedListener_Canvas (MouseEvent e) {
         if (currentTool != null) {
             drawImageInCanvas(img, false);
-            currentTool.onMousePressed(e);
+            currentTool.onMousePressed(scaleMouseEvent(e));
         }
     }
 
@@ -313,7 +329,7 @@ public class Controller implements Initializable{
     private void onMouseReleasedListener_Canvas (MouseEvent e) {
         if (currentTool != null) {
             drawImageInCanvas(img, false);
-            currentTool.onMouseReleased(e);
+            currentTool.onMouseReleased(scaleMouseEvent(e));
         }
     }
 
@@ -321,7 +337,7 @@ public class Controller implements Initializable{
     private void onDragEnteredListener_Canvas (MouseEvent e) {
         if (currentTool != null) {
             drawImageInCanvas(img, false);
-            currentTool.onDragEntered(e);
+            currentTool.onDragEntered(scaleMouseEvent(e));
         }
     }
 
@@ -330,7 +346,20 @@ public class Controller implements Initializable{
     private void onMouseDraggedListener_Canvas (MouseEvent e) {
         if (currentTool != null) {
             drawImageInCanvas(img, false);
-            currentTool.onMouseDragged(e);
+            currentTool.onMouseDragged(scaleMouseEvent(e));
+        }
+    }
+    @FXML
+    private void onKeyPressListener (KeyEvent e)
+    {
+        if (currentTool != null) {
+            drawImageInCanvas(img, false);
+            // TODO: Turn this into a class for global hotkey support
+            if (e.getCode() == KeyCode.DELETE) {
+                polygons.remove(polygons.getSelectedVertex());
+            }
+
+            currentTool.onKeyPress(e);
         }
     }
 
@@ -342,5 +371,18 @@ public class Controller implements Initializable{
     @FXML
     private void activateEllipseTool () {
         currentTool = ellipseTool;
+    }
+
+    @FXML
+    private void activateSelectTool () {
+        currentTool = selectTool;
+    }
+
+    private MouseEvent scaleMouseEvent (MouseEvent e) {
+        MouseEvent se = new MouseEvent(e.getEventType(), e.getX() / scale, e.getY() / scale, e.getScreenX(), e.getScreenY(), e.getButton(), e.getClickCount(),
+                e.isShiftDown(), e.isControlDown(), e.isAltDown(), e.isMetaDown(), e.isPrimaryButtonDown(), e.isMiddleButtonDown(),
+                e.isSecondaryButtonDown(), e.isSynthesized(), e.isPopupTrigger(), e.isStillSincePress(), e.getPickResult());
+
+        return se;
     }
 }
