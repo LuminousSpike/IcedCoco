@@ -9,16 +9,14 @@ import java.util.List;
 class Polygon {
     public List<Vertex> points = new LinkedList<>();
 
-    Polygon ()
-    {
+    Polygon() {
 
     }
 
     /**
      * @return The count of the vertexes in the polygon.
      */
-    int size ()
-    {
+    int size() {
         return points.size();
     }
 
@@ -26,18 +24,15 @@ class Polygon {
      * @param new_x X-pos of the new vertex.
      * @param new_y Y-pos of the new vertex.
      */
-    void add (double new_x, double new_y)
-    {
+    void add(double new_x, double new_y) {
         points.add(new Vertex(new_x, new_y));
     }
 
-    Vertex removeSelected()
-    {
+    Vertex removeSelected() {
         Vertex v = null, p = null;
         for (int i = 0; i < size(); i++) {
             v = points.get(i);
-            if(v.getSelected())
-            {
+            if (v.getSelected()) {
                 p = remove(v);
                 i--;
             }
@@ -45,31 +40,27 @@ class Polygon {
 
         return p;
     }
-    void selectAll(boolean setValue)
-    {
-        for (Vertex v: points) {
-            if(setValue == true) {
+
+    void selectAll(boolean setValue) {
+        for (Vertex v : points) {
+            if (setValue == true) {
                 v.setSelected(true);
                 v.setColor(Color.RED);
-            }
-            else
-            {
+            } else {
                 v.setSelected(false);
                 v.setColor(Color.BLUE);
             }
         }
     }
+
     /**
      * @param new_x X-pos to find.
      * @param new_y Y-pos to find.
      * @return The found vertex or null.
      */
-    Vertex find (double new_x, double new_y)
-    {
-        for (Vertex v : points)
-        {
-            if (v.collision(new_x, new_y))
-            {
+    Vertex find(double new_x, double new_y) {
+        for (Vertex v : points) {
+            if (v.collision(new_x, new_y)) {
                 return v;
             }
         }
@@ -79,29 +70,25 @@ class Polygon {
 
     /**
      * Draws the polygon.
+     *
      * @param gc The canvas to draw on.
      */
-    void draw (GraphicsContext gc, double offset)
-    {
-        for (int count = 0; count < points.size(); count++)
-        {
+    void draw(GraphicsContext gc, double offset) {
+        for (int count = 0; count < points.size(); count++) {
             double SIZE = points.get(count).getSIZE();
 
-            points.get(count).draw(gc,offset);
+            points.get(count).draw(gc, offset);
             if (points.get(count).getSelected())
                 gc.setStroke(Color.ORANGE);
             else
                 gc.setStroke(Color.BLACK);
 
-            if ((count + 1) == points.size())
-            {
+            if ((count + 1) == points.size()) {
                 // TODO: expand this for readability.
-                gc.strokeLine(points.get(count).getAxisX()*offset, points.get(count).getAxisY()*offset, points.get(0).getAxisX()*offset, points.get(0).getAxisY()*offset);
-            }
-            else
-            {
+                gc.strokeLine(points.get(count).getAxisX() * offset, points.get(count).getAxisY() * offset, points.get(0).getAxisX() * offset, points.get(0).getAxisY() * offset);
+            } else {
                 // TODO: expand this for readability.
-                gc.strokeLine(points.get(count).getAxisX()*offset, points.get(count).getAxisY()*offset, points.get(count + 1).getAxisX()*offset, points.get(count + 1).getAxisY()*offset);
+                gc.strokeLine(points.get(count).getAxisX() * offset, points.get(count).getAxisY() * offset, points.get(count + 1).getAxisX() * offset, points.get(count + 1).getAxisY() * offset);
             }
         }
     }
@@ -110,10 +97,8 @@ class Polygon {
     /**
      * @param colour The colour to give the polygon's vertexes.
      */
-    void setVertexColor (Color colour)
-    {
-        for (Vertex v : points)
-        {
+    void setVertexColor(Color colour) {
+        for (Vertex v : points) {
             v.setColor(colour);
         }
     }
@@ -122,12 +107,9 @@ class Polygon {
     /**
      * @return The selected vertex of the polygon.
      */
-    Vertex popSelectedPoint ()
-    {
-        for (Vertex v : points)
-        {
-            if(v.getSelected())
-            {
+    Vertex popSelectedPoint() {
+        for (Vertex v : points) {
+            if (v.getSelected()) {
                 return v;
             }
         }
@@ -135,42 +117,39 @@ class Polygon {
     }
 
     /**
-     *  @return Array of the x co-ordinates for every vertex
+     * @return Array of the x co-ordinates for every vertex
      */
-    int[] getXPoints(){
+    int[] getXPoints() {
         int[] out = new int[this.size()];
         int i = 0;
-        for(Vertex v : points){
-            out[i] = (int)v.getAxisX();
+        for (Vertex v : points) {
+            out[i] = (int) v.getAxisX();
             ++i;
         }
         return out;
     }
 
     /**
-     *  @return Array of the y co-ordinates for every vertex
+     * @return Array of the y co-ordinates for every vertex
      */
-    int[] getYPoints(){
+    int[] getYPoints() {
         int[] out = new int[this.size()];
         int i = 0;
-        for(Vertex v : points){
-            out[i] = (int)v.getAxisY();
+        for (Vertex v : points) {
+            out[i] = (int) v.getAxisY();
             ++i;
         }
         return out;
     }
 
-    Vertex popPoint () {
-        return points.get(points.size()-1);
+    Vertex popPoint() {
+        return points.get(points.size() - 1);
     }
 
-    LinkedList<Vertex> getSelectedPoints ()
-    {
+    LinkedList<Vertex> getSelectedPoints() {
         LinkedList<Vertex> selectedPoints = new LinkedList<Vertex>();
-        for (Vertex v : points)
-        {
-            if(v.getSelected())
-            {
+        for (Vertex v : points) {
+            if (v.getSelected()) {
                 selectedPoints.add(v);
             }
         }
@@ -184,10 +163,10 @@ class Polygon {
         }
 
         int index = points.indexOf(selectedVertex);
-        points.add(index+1, new Vertex(x, y));
+        points.add(index + 1, new Vertex(x, y));
     }
 
-    public Vertex remove (Vertex selectedVertex) {
+    public Vertex remove(Vertex selectedVertex) {
         Vertex v = null;
         if (selectedVertex != null) {
             int index = Math.max(0, points.indexOf(selectedVertex) - 1);
@@ -195,6 +174,6 @@ class Polygon {
             if (points.size() > 0)
                 v = points.get(index);
         }
-        return  v;
+        return v;
     }
 }
