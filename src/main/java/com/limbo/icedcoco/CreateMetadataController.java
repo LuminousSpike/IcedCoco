@@ -1,4 +1,4 @@
-package sample;
+package main.java.com.limbo.icedcoco;
 
 import javafx.event.ActionEvent;
 import javafx.event.Event;
@@ -6,18 +6,12 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
-import javafx.scene.image.*;
 import javafx.stage.DirectoryChooser;
-import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
-import javax.swing.*;
-import java.awt.event.InputMethodEvent;
-import java.awt.im.spi.InputMethod;
 import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.net.MalformedURLException;
 import java.net.URL;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;

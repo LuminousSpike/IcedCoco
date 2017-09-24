@@ -1,18 +1,14 @@
-package sample;
+package main.java.com.limbo.icedcoco;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Scene;
 import javafx.scene.control.TextField;
-import javafx.scene.image.*;
-import javafx.scene.text.Text;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
-import javax.swing.*;
 import java.io.File;
-import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
