@@ -217,4 +217,9 @@ public class PolyList {
             }
         }
     }
+
+    public void addPointToPoly(double x, double y, Vertex selectedVertex) {
+        clearSelectedVertices();
+        getCurrentPolygon().add(x, y, selectedVertex);
+    }
 }
