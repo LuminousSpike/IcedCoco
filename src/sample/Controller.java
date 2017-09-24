@@ -384,7 +384,7 @@ public class Controller implements Initializable{
         MouseEvent se = new MouseEvent(e.getEventType(), e.getX() / scale, e.getY() / scale, e.getScreenX(), e.getScreenY(), e.getButton(), e.getClickCount(),
                 e.isShiftDown(), e.isControlDown(), e.isAltDown(), e.isMetaDown(), e.isPrimaryButtonDown(), e.isMiddleButtonDown(),
                 e.isSecondaryButtonDown(), e.isSynthesized(), e.isPopupTrigger(), e.isStillSincePress(), e.getPickResult());
-        System.out.printf("Scaled x: %f, y:%f | x: %f, y: %f | Scale = %f\n", e.getX(), e.getY(), se.getSceneX(), se.getSceneY(), scale);
+
         return se;
     }
 }
