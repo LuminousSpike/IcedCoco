@@ -87,7 +87,7 @@ public class PolygonTool implements Tool{
         if (polygons.getCurrentPolygon() == null && collidedPoly == null)
             polygons.setCurrentPolygon(polygons.createPoly(x, y));
         else if (collidedPoly == null)
-            polygons.getCurrentPolygon().add(x, y, polygons.getSelectedVertex());
+            polygons.addPointToPoly(x, y, polygons.getSelectedVertex());
         else
             polygons.setCurrentPolygon(collidedPoly);
     }
