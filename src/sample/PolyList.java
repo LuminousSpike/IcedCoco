@@ -124,12 +124,20 @@ public class PolyList {
 
         setSelectedVertex(null);
         setCurrentPolygon(null);
+
+        clearSelectedVertices();
     }
 
+    private void clearSelectedVertices () {
+        int count = selectedVertices.size();
+        for (int i = 0; i < count; i++)
+            removeSelectedVertex(selectedVertices.peek());
+    }
 
     public boolean vertexClickedPrimary (double x, double y) {
         if (getCurrentPolygon() == null) {
             setSelectedVertex(null);
+            clearSelectedVertices();
             return false;
         }
 
