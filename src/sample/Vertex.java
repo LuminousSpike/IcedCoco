@@ -115,4 +115,11 @@ public class Vertex
             gc.strokeLine(x, y, nextVertex.getAxisX(), nextVertex.getAxisY());
         }
     }
+
+    public void translateX(double x) {
+        this.x += x;
+    }
+    public void translateY(double y) {
+        this.y += y;
+    }
 }

@@ -42,10 +42,14 @@ public class SelectTool implements Tool {
     @Override
     public void onMouseDragged(MouseEvent e) {
         if (e.isPrimaryButtonDown()) {
-            polygons.mouseDraggedVertex(e.getSceneX(), e.getSceneY());
+            if (!drawSquare)
+                polygons.mouseDraggedVertex(e.getSceneX(), e.getSceneY());
 
             endX = e.getSceneX() * polygons.getScale();
             endY = e.getSceneY() * polygons.getScale();
+
+            if (polygons.getSelectedVertex() == null && drawSquare)
+                polygons.getVerticesInBounds(startingX, startingY, endX, endY);
         }
 
         draw();
