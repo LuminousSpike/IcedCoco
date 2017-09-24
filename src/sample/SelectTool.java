@@ -88,8 +88,7 @@ public class SelectTool implements Tool {
         gc.setLineDashes(10d, 10d);
         gc.setStroke(Color.BLACK);
 
-        if(drawSquare)
-        {
+        if (drawSquare) {
             //square
             gc.strokeLine(startingX, startingY, startingX, endY);
             gc.strokeLine(startingX, startingY, endX, startingY);
