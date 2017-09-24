@@ -34,28 +34,22 @@ public class PolygonTool implements Tool{
     @Override
     public void onMouseDragged(MouseEvent e) {
         if (e.isPrimaryButtonDown()) {
-            Vertex selectedVertex = polygons.getSelectedVertex();
-            selectedVertex.setAxisX(e.getSceneX());
-            selectedVertex.setAxisY(e.getSceneY());
+            polygons.mouseDraggedVertex(e.getSceneX(), e.getSceneY());
         }
 
         draw();
     }
 
+
     @Override
     public void onMousePressed(MouseEvent e) {
         if (e.isSecondaryButtonDown()) {
-            if (polygons.getCurrentPolygon() != null)
-                if (polygons.getCurrentPolygon().size() < 3)
-                    polygons.remove(polygons.getCurrentPolygon());
-
-            polygons.setSelectedVertex(null);
-            polygons.setCurrentPolygon(null);
+            polygons.polygonClickedSecondary();
             return;
         }
 
-        polygonPress(e.getSceneX(), e.getSceneY());
-        vertexPress(e.getSceneX(), e.getSceneY());
+        polygonPressPrimary(e.getSceneX(), e.getSceneY());
+        polygons.vertexClickedPrimary(e.getSceneX(), e.getSceneY());
 
         draw();
     }
@@ -86,22 +80,15 @@ public class PolygonTool implements Tool{
         polygons.draw(gc);
     }
 
-    private void polygonPress (double x, double y) {
+
+    private void polygonPressPrimary (double x, double y) {
         Polygon collidedPoly = polygons.checkCollision(x, y);
 
         if (polygons.getCurrentPolygon() == null && collidedPoly == null)
             polygons.setCurrentPolygon(polygons.createPoly(x, y));
-
         else if (collidedPoly == null)
             polygons.getCurrentPolygon().add(x, y, polygons.getSelectedVertex());
         else
             polygons.setCurrentPolygon(collidedPoly);
-    }
-
-    private void vertexPress (double x, double y) {
-        polygons.setSelectedVertex(polygons.getCurrentPolygon().find(x, y));
-
-        if (polygons.getSelectedVertex() == null)
-            polygons.setSelectedVertex(polygons.getCurrentPolygon().popSelectedPoint());
     }
 }
