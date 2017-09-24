@@ -1,4 +1,4 @@
-package sample;
+package main.java.com.limbo.icedcoco;
 
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;

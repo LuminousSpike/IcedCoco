@@ -1,4 +1,4 @@
-package sample;
+package main.java.com.limbo.icedcoco;
 
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
@@ -30,8 +30,6 @@ import java.io.File;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.nio.Buffer;
-import java.util.LinkedList;
 import java.util.ResourceBundle;
 
 public class Controller implements Initializable{
