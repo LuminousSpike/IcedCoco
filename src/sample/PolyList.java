@@ -69,6 +69,10 @@ public class PolyList {
         this.selectedVertex = selectedVertex;
     }
 
+    public LinkedList<Polygon> getPolygons() {
+        return polygons;
+    }
+
     public void add(Polygon polygon) {
         polygons.add(polygon);
     }
