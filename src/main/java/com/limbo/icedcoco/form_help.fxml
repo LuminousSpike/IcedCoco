@@ -8,7 +8,7 @@
 <?import javafx.scene.shape.Circle?>
 <?import javafx.scene.text.Font?>
 
-<Pane maxHeight="750.0" maxWidth="600.0" minHeight="750.0" minWidth="600.0" prefHeight="750.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.112-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.ControllerHelp">
+<Pane maxHeight="750.0" maxWidth="600.0" minHeight="750.0" minWidth="600.0" prefHeight="750.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.112-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.java.com.limbo.icedcoco.ControllerHelp">
    <children>
       <Pane prefHeight="169.0" prefWidth="600.0" style="-fx-background-color: #2cb0c1;">
          <children>
