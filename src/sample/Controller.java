@@ -150,7 +150,7 @@ public class Controller implements Initializable{
         gfx.setBackground(Color.black);
         // convert all of our own Polygon instances to java.awt.Polygon instances, and draw them to the image, filled.
         gfx.setColor(segmentColor);
-        for (Polygon p : polygons) {
+        for (Polygon p : polygons.getPolygons()) {
             if(p.size() < 4) {continue;}
             java.awt.Polygon awtPoly = new java.awt.Polygon(p.getXPoints(),p.getYPoints(),p.size());
             gfx.fill(awtPoly);
