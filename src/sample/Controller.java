@@ -229,7 +229,6 @@ public class Controller implements Initializable{
         scale = canvas.getWidth() / startingCanvasSize;
         polygons.setScale(canvas.getWidth() / startingCanvasSize);
         polygonTool.scale = canvas.getWidth()/startingCanvasSize;
-        //ellipseTool.scale = canvas.getWidth()/startingCanvasSize;
         canvas.getGraphicsContext2D().drawImage(sessionInfo.baseImage, 0,0,canvas.getWidth(), canvas.getHeight());
         if(currentTool!=null) currentTool.draw();
     }
@@ -249,7 +248,6 @@ public class Controller implements Initializable{
         scale = canvas.getWidth() / startingCanvasSize;
         polygons.setScale(canvas.getWidth() / startingCanvasSize);
         polygonTool.scale = canvas.getWidth()/startingCanvasSize;
-        //ellipseTool.scale = canvas.getWidth()/startingCanvasSize;
         canvas.getGraphicsContext2D().drawImage(sessionInfo.baseImage, 0,0,canvas.getWidth(), canvas.getHeight());
         if(currentTool!=null) currentTool.draw();
     }
@@ -281,6 +279,8 @@ public class Controller implements Initializable{
                 polygons = new PolyList();
                 polygonTool = new PolygonTool(polygons);
                 polygonTool.setCanvas(canvas);
+                ellipseTool = new EllipseTool(polygons);
+                ellipseTool.setCanvas(canvas);
                 selectTool = new SelectTool(polygons);
                 selectTool.setCanvas(canvas);
                 drawImageInCanvas(img, true);

@@ -5,43 +5,24 @@ import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
-import javafx.scene.shape.Line;
 
-import java.awt.*;
-import java.util.LinkedList;
-
-public class EllipseTool implements Tool{
-    private LinkedList<Polygon> polygons;
+public class EllipseTool implements Tool {
+    private PolyList polygons;
     private Canvas drawingCanvas;
-    private double startingX;
-    private double startingY;
-    private double endX =0;
-    private double endY =0;
+    private double startingX = 0;
+    private double startingY = 0;
+    private double endX = 0;
+    private double endY = 0;
     private double size = 50;
-    private boolean selectOn = false;
-    private boolean drawSquare = false;
-    public double scale = 1;
+    private boolean drawSquare = true;
 
-
-    public EllipseTool(LinkedList<Polygon> new_Polygon) {
-        polygons = new_Polygon;
-        // TODO: Refactor this out. (Fixes polygons not being added somehow)
-        polygons.add(new Polygon());
+    public EllipseTool(PolyList polyList) {
+        polygons = polyList;
     }
 
-    public EllipseTool(LinkedList<Polygon> new_Polygon, int new_Size) {
-        polygons = new_Polygon;
-        size = new_Size;
-        if(new_Size < 4)
-        {
-            size = 4;
-        }
-        if(new_Size > 200)
-        {
-            size = 200;
-        }
-        // TODO: Refactor this out. (Fixes polygons not being added somehow)
-        polygons.add(new Polygon());
+    public void setSize(double size) {
+        this.size = Math.max(size, 0);
+        this.size = Math.min(this.size, 200);
     }
 
     @Override
@@ -50,193 +31,112 @@ public class EllipseTool implements Tool{
     }
 
     @Override
-    public void onDragEntered(MouseEvent e) {
-        Vertex v = null;
-
-        for (Polygon p : polygons) {
-            p.setVertexColor (Color.BLUE);
-
-            if ((v = p.find(e.getX()/scale, e.getY()/scale)) != null) {
-                v.setColor(Color.RED);
-            }
-        }
-
-        if (v != null) {
-            v.setAxisX(e.getX()/scale);
-            v.setAxisY(e.getY()/scale);
-        }
+    public void onKeyPress(KeyEvent e) {
+        draw();
     }
 
     @Override
-    public void onMouseClicked(MouseEvent e)
-    {
+    public void onDragEntered(MouseEvent e) {
+        draw();
+    }
 
-            if (selectOn == false && drawSquare == true && ((startingX + 10 < endX || startingX - 10 > endX) && (startingY + 10 < endY || startingY - 10 > endY))) {
-                drawSquare = false;
-                for (double i = 0; i < size; i++) {
-                    double t = (360 / size) * i;
-                    double newX = (startingX + ((endX - startingX) / 2)) + ((endX - startingX) / 2) * Math.cos(t * Math.PI / 180.0);
-                    double newY = (startingY + ((endY - startingY) / 2)) + ((endY - startingY) / 2) * Math.sin(t * Math.PI / 180.0);
-                    Polygon p = null;
-                    p = polygons.getLast();
-                    p.add(newX, newY);
-                }
-                polygons.add(new Polygon());
-            }
-            selectOn = false;
-            draw();
-
+    @Override
+    public void onMouseClicked(MouseEvent e) {
+        draw();
     }
 
     @Override
     public void onMouseDragged(MouseEvent e) {
+        if (!drawSquare)
+            polygons.mouseDraggedVertex(e.getSceneX(), e.getSceneY());
+        else if (e.isPrimaryButtonDown() && polygons.getSelectedVertex() == null) {
+            double eX = e.getSceneX();
+            double eY = e.getSceneY();
 
-        Vertex selectedVertex  = null;
-
-        for (Polygon p : polygons) {
-            if ((selectedVertex = p.popSelectedPoint()) != null) {
-                    selectedVertex.setAxisX(e.getX() / scale);
-                    selectedVertex.setAxisY(e.getY() / scale);
-                draw();
+            if (e.isShiftDown()) {
+                double tempX = eX - startingX;
+                double tempY = eY - startingY;
+                if (Math.abs(tempX) > Math.abs(tempY)) {
+                    if (tempY < 0) {
+                        tempY = -Math.abs(tempX);
+                    } else {
+                        tempY = Math.abs(tempX);
+                    }
+                } else {
+                    if (tempX < 0) {
+                        tempX = -Math.abs(tempY);
+                    } else {
+                        tempX = Math.abs(tempY);
+                    }
+                }
+                endX = tempX + startingX;
+                endY = tempY + startingY;
+            } else {
+                endX = eX;
+                endY = eY;
             }
         }
-        if(e.isShiftDown())
-        {
-            double tempX = ((e.getX()/scale)-startingX);
-            double tempY = ((e.getY()/scale)-startingY);
-            if(Math.abs(tempX) > Math.abs(tempY))
-            {
-                if(tempY < 0)
-                {
-                    tempY = - Math.abs(tempX);
-                }
-                else
-                {
-                    tempY = Math.abs(tempX);
-                }
-            }
-            else
-            {
-                if(tempX < 0)
-                {
-                    tempX = - Math.abs(tempY);
-                }
-                else
-                {
-                    tempX = Math.abs(tempY);
-                }
-            }
-            endX = (tempX+startingX);
-            endY = (tempY+startingY);
 
-            /*
-            if(startingX > (e.getX()/scale) ^ startingY > (e.getY()/scale))
-            {
-                if(startingY > (e.getY()/scale)) {
-                    temp = (((e.getX()/scale)-startingX)+ ((e.getY()/scale)-startingY))/2;
-                }
-                else {
-                    temp = ((startingX + (startingX - (e.getX() / scale))) + e.getY()) / 2;
-                }
-            }
-            endX = temp / scale;
-            endY = temp / scale;
-            */
-
-
-
-
-
-
-
-
-        }
-        else {
-            endX = e.getX() / scale;
-            endY = e.getY() / scale;
-        }
         draw();
     }
 
     @Override
     public void onMousePressed(MouseEvent e) {
-        if(e.isSecondaryButtonDown())
-        {
-            drawSquare = false;
+        if (e.isSecondaryButtonDown()) {
+            polygons.polygonClickedSecondary();
+            return;
         }
-        else {
-            polygons.add(new Polygon());
-            Vertex selectedVertex = null;
-            boolean onlyOne = false;
-            for (Polygon p : polygons) {
-                if ((selectedVertex = p.popSelectedPoint()) != null) {
-                    selectedVertex.setSelected(false);
-                }
 
-                p.setVertexColor(Color.BLUE);
+        if (e.isPrimaryButtonDown()) {
+            polygons.setCurrentPolygon(polygons.checkCollision(e.getSceneX(), e.getSceneY()));
 
-                if ((selectedVertex = p.find(e.getX() / scale, e.getY() / scale)) != null && onlyOne == false) {
-                    selectedVertex.setColor(Color.RED);
-                    selectedVertex.setSelected(true);
-                    onlyOne = true;
-                    selectOn = true;
-                }
-            }
-            if (onlyOne == false) {
-                startingX = e.getX() / scale;
-                startingY = e.getY() / scale;
-                endX = e.getX() / scale;
-                endY = e.getY() / scale;
-                drawSquare = true;
-            }
+            drawSquare = !polygons.vertexClickedPrimary(e.getSceneX(), e.getSceneY(), e.getClickCount(), e.isShiftDown(), e.isControlDown());
 
+            startingX = e.getSceneX();
+            startingY = e.getSceneY();
+            endX = e.getSceneX();
+            endY = e.getSceneY();
         }
+
         draw();
-}
+    }
 
     @Override
     public void onMouseReleased(MouseEvent e) {
+        Polygon p = new Polygon();
 
+        if (drawSquare && ((startingX + 10 < endX || startingX - 10 > endX) && (startingY + 10 < endY || startingY - 10 > endY))) {
+            for (double i = 0; i < size; i++) {
+                double t = (360 / size) * i;
+                double newX = (startingX + ((endX - startingX) / 2)) + ((endX - startingX) / 2) * Math.cos(t * Math.PI / 180.0);
+                double newY = (startingY + ((endY - startingY) / 2)) + ((endY - startingY) / 2) * Math.sin(t * Math.PI / 180.0);
+                p.add(newX, newY);
+            }
+            drawSquare = false;
+
+            polygons.add(p);
+        }
     }
 
-    /* I'm not too sure about this as of yet.
-     * It really depends on how we want to separate the tool modes.
-     * Do we display them when you change to the tool?
-     * Or is it displayed persistently?
-     * */
     @Override
-    public void draw () {
+    public void draw() {
         GraphicsContext gc = drawingCanvas.getGraphicsContext2D();
         gc.setLineDashOffset(0d);
         gc.setLineDashes(10d, 10d);
         gc.setStroke(Color.BLACK);
-        if(drawSquare == true)
-        {
-            //square
-            //gc.strokeLine(startingX, startingY, startingX, endY);
-            //gc.strokeLine(startingX, startingY, endX, startingY);
-            //gc.strokeLine(startingX, endY, endX, endY);
-            //gc.strokeLine(endX, startingY, endX, endY);
-            //gc.setLineDashOffset(10d);
-            //gc.setStroke(Color.WHITE);
-            //gc.strokeLine(startingX, startingY, startingX, endY);
-            //gc.strokeLine(startingX, startingY, endX, startingY);
-            //gc.strokeLine(startingX, endY, endX, endY);
-            //gc.strokeLine(endX, startingY, endX, endY);
+
+        if (drawSquare) {
             //circle
-            gc.strokeOval(Math.min(startingX, endX)*scale, Math.min(startingY, endY)*scale, (Math.max(startingX, endX)-Math.min(startingX, endX))*scale,(Math.max(startingY, endY)-Math.min(startingY, endY))*scale);
+            gc.strokeOval(Math.min(startingX, endX) * polygons.getScale(), Math.min(startingY, endY) * polygons.getScale(),
+                    (Math.max(startingX, endX) - Math.min(startingX, endX)) * polygons.getScale(), (Math.max(startingY, endY) - Math.min(startingY, endY)) * polygons.getScale());
             gc.setLineDashOffset(10d);
             gc.setStroke(Color.WHITE);
-            gc.strokeOval(Math.min(startingX, endX)*scale, Math.min(startingY, endY)*scale, (Math.max(startingX, endX)-Math.min(startingX, endX))*scale,(Math.max(startingY, endY)-Math.min(startingY, endY))*scale);
+            gc.strokeOval(Math.min(startingX, endX) * polygons.getScale(), Math.min(startingY, endY) * polygons.getScale(),
+                    (Math.max(startingX, endX) - Math.min(startingX, endX)) * polygons.getScale(), (Math.max(startingY, endY) - Math.min(startingY, endY)) * polygons.getScale());
         }
 
         gc.setLineDashes(null);
-        for (Polygon p : polygons) {
-            p.draw(gc,scale);
-        }
 
+        polygons.draw(gc);
     }
-
-    public void onKeyPress(KeyEvent e)
-    {}
 }
