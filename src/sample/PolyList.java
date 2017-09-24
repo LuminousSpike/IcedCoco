@@ -9,7 +9,7 @@ public class PolyList {
     private Polygon currentPolygon;
     private LinkedList<Vertex> selectedVertices;
     private Vertex selectedVertex;
-    private double scale = 1;
+    private double scale = 1, previousMousePosX = 0, previousMousePosY = 0;
 
     public void setScale (double scale) {
         this.scale = scale;
@@ -143,19 +143,25 @@ public class PolyList {
 
     public void mouseDraggedVertex(double x, double y) {
         if (getSelectedVertex() == null) {
-
-            if (selectedVertices.size() > 0) {
-                for (Vertex v : selectedVertices) {
-                    double vX = v.getAxisX();
-                    double vY = v.getAxisY();
-                }
-            }
-
             return;
+        }
+
+        if (selectedVertices.size() > 0) {
+            for (Vertex v : selectedVertices) {
+                v.translateX(x - previousMousePosX);
+                v.translateY(y - previousMousePosY);
+            }
         }
 
         getSelectedVertex().setAxisX(x);
         getSelectedVertex().setAxisY(y);
+
+        setPreviousMousePos(x, y);
+    }
+
+    public void setPreviousMousePos (double x, double y) {
+        previousMousePosX = x;
+        previousMousePosY = y;
     }
 
     public void getVerticesInBounds (double startingX, double startingY, double endX, double endY) {
@@ -172,7 +178,8 @@ public class PolyList {
                 double y2 = Math.max(startingY, endY);
 
                 if (x1 <= vX && vX <= x2 && y1 <= vY && vY <= y2) {
-                    addSelectedVertex(v);
+                    if (!selectedVertices.contains(v))
+                        addSelectedVertex(v);
                 }
                 else {
                     removeSelectedVertex(v);
