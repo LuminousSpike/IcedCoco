@@ -1,12 +1,16 @@
 package main.java.com.limbo.icedcoco;
 
+import javafx.scene.canvas.*;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.TextArea;
 import javafx.scene.image.Image;
 import javafx.stage.Stage;
 
+import java.awt.*;
+import java.awt.image.BufferedImage;
 import java.io.*;
+import java.nio.Buffer;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Optional;
@@ -19,6 +23,7 @@ import org.json.simple.parser.ParseException;
 
 public class SessionInfo {
 
+    public javafx.scene.canvas.Canvas canvas;
     public TextArea captionTextArea;
     public double imageWidth;
     public double imageHeight;
@@ -234,6 +239,45 @@ public class SessionInfo {
         }
     }
 
+    private String getRLEString(){
+        String rle = "";
+        BufferedImage img = getSegmentationImage();
+
+
+        return rle;
+    }
+
+    public BufferedImage getSegmentationImage(){
+        // returns an indexed BufferedImage, where 0=not a segment(black), 1=segmented (pink)
+        int width = (int)this.imageWidth;
+        int height = (int)this.imageHeight;
+        BufferedImage img = new BufferedImage(width, height, BufferedImage.TYPE_BYTE_INDEXED);
+
+        Graphics2D gfx = img.createGraphics();
+        // turn off anti aliasing, segmentation PNG should be pixel perfect
+        gfx.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_OFF);
+
+        Color segmentColor = Color.pink;
+        // set everything to be black
+        gfx.setBackground(Color.black);
+        // convert all of our own Polygon instances to java.awt.Polygon instances, and draw them to the image, filled.
+        gfx.setColor(segmentColor);
+        for (Polygon p : polygons.getPolygons()) {
+            if(p.size() < 4) {continue;}
+            int[] xpoints = p.getXPoints();
+            int[] ypoints = p.getYPoints();
+            for (int i=0; i<p.size(); i++){
+                xpoints[i] = (int) (xpoints[i] * width / canvas.getWidth());
+                ypoints[i] = (int) (ypoints[i] * height / canvas.getHeight());
+            }
+            java.awt.Polygon awtPoly = new java.awt.Polygon(xpoints, ypoints, p.size());
+            gfx.fillPolygon(awtPoly);
+            gfx.drawPolygon(awtPoly);
+        }
+
+        return img;
+    }
+
     private void overwriteVertices(){
         // the "verticesArray" is a JSONArray containing JSONObjects. each JSONObject has an int ID, and a JSONArray "polylist" containing polygon points.
         if(verticesFile==null){return;}
@@ -308,7 +352,8 @@ public class SessionInfo {
             sizeArray.add(0, (int)baseImage.getWidth());
             sizeArray.add(1, (int)baseImage.getHeight());
             seg.put("size", sizeArray);
-            seg.put("counts", "VQi31m>0O2N100O100O2N100O10001N101O1N2O1O2M2O1O1N3N1O1N2O2N1N2O1O1N3N1O1N2O2N1N2O1O2M2O1O1M3M4K4M3M3M4L3M3M3M4L3L4M3M3M4L3M3M3M4L3O1N2N101N1O2O0O2N101N1O2O0O2N101N1O2O0O1O2N101N1O2O0O2N101N1O2O0O2N101N1O2O0O1O2O0O2N101N1O2O0O2N101N101O001O1O001O1N2O001O1O1O001O1O1O001O1O001O1O1N101O1O1O001O1O1O001O1O1O001O1N2O001O1O001O1O1O001O1O1O001O1O1N010000O10000O10000O10000O100O010O100O100O100O10000O100O100O10O0100O100O100O100O1O100O100O1O010O100O1O2O0O2N101N101N1O2O1N1O2O0O2O0O2N2O0O2N101N101N2N101N101N1O2O1N1O2O0O20O2O0O2O001N101N100O2O001N101N101N101O0O101N101N101N101O0O101N101N1010O010O010O00010O0O2N1O2N1O2N1O2N1O2N1O2N1O2N1O2N1O2N1O2N1O2N1O2N1O2N1O2N1O2N1O2M2M4L3M4L3M4RNREGP;5UEGo:3XEHk:4ZEHj:2\\\\EJg:1_EKe:0`ELc:OcEMa:NdEN_:MgE0\\\\:JjE2Y:JlE2X:HnE4a<LZd?\\");
+            String rle = getRLEString();
+            seg.put("counts", rle);
             newEntry.put("segmentation", seg);
             arr.add(newEntry);
 

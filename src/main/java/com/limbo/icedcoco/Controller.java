@@ -85,6 +85,7 @@ public class Controller implements Initializable{
     public void start(){
         // call from main, initialising variables and things
         sessionInfo.captionTextArea = this.captionTextArea;
+        sessionInfo.canvas = this.canvas;
     }
 
     private double[] getCanvasArea(){
@@ -139,31 +140,8 @@ public class Controller implements Initializable{
 
     @FXML
     public void exportSegmentation(Event event){
-        // export the segmentation mask as a PNG, indexed, not RGB
-        int width = (int)sessionInfo.imageWidth;
-        int height = (int)sessionInfo.imageHeight;
-        BufferedImage exportImage = new BufferedImage(width, height, BufferedImage.TYPE_BYTE_INDEXED);
-        Graphics2D gfx = exportImage.createGraphics();
-        // turn off anti aliasing, segmentation PNG should be pixel perfect
-        gfx.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_OFF);
+        BufferedImage exportImage = sessionInfo.getSegmentationImage();
 
-        Color segmentColor = Color.pink;
-        // set everything to be black
-        gfx.setBackground(Color.black);
-        // convert all of our own Polygon instances to java.awt.Polygon instances, and draw them to the image, filled.
-        gfx.setColor(segmentColor);
-        for (Polygon p : polygons.getPolygons()) {
-            if(p.size() < 4) {continue;}
-            int[] xpoints = p.getXPoints();
-            int[] ypoints = p.getYPoints();
-            for (int i=0; i<p.size(); i++){
-                xpoints[i] = (int) (xpoints[i] * width / canvas.getWidth());
-                ypoints[i] = (int) (ypoints[i] * height / canvas.getHeight());
-            }
-            java.awt.Polygon awtPoly = new java.awt.Polygon(xpoints, ypoints, p.size());
-            gfx.fillPolygon(awtPoly);
-            gfx.drawPolygon(awtPoly);
-        }
         try {
             FileChooser fc = new FileChooser();
             FileChooser.ExtensionFilter imgFilter = new FileChooser.ExtensionFilter("*.png", "*.PNG");
@@ -177,7 +155,6 @@ public class Controller implements Initializable{
         }catch(IOException ioe){
             ioe.printStackTrace();
         }
-
     }
 
     @FXML
