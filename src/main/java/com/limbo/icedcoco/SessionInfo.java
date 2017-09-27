@@ -1,4 +1,4 @@
-package main.java.com.limbo.icedcoco;
+package com.limbo.icedcoco;
 
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
