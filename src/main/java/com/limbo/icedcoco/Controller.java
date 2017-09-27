@@ -292,7 +292,9 @@ public class Controller implements Initializable{
                 img = new Image(imgFile.toURI().toURL().toExternalForm());       // not tested on mac
                 sessionInfo.baseImageFile = imgFile;
                 sessionInfo.polygons = new PolyList();
+                drawImageInCanvas(img, true);
                 sessionInfo.checkImageMetadata();   // load existing data for captions, polygon vertices
+
                 // TODO: Implement a proper way to initialize tools upon image load.
                 // For now, set the current tool to null.
                 currentTool = null;
@@ -304,7 +306,6 @@ public class Controller implements Initializable{
                 ellipseTool.setCanvas(canvas);
                 selectTool = new SelectTool(polygons);
                 selectTool.setCanvas(canvas);
-                drawImageInCanvas(img, true);
             }
         }catch(MalformedURLException mue){
             mue.printStackTrace();
