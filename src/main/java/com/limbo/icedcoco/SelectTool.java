@@ -45,8 +45,8 @@ public class SelectTool implements Tool {
             if (!drawSquare)
                 polygons.mouseDraggedVertex(e.getSceneX(), e.getSceneY());
 
-            endX = e.getSceneX() * polygons.getScale();
-            endY = e.getSceneY() * polygons.getScale();
+            endX = e.getSceneX();
+            endY = e.getSceneY();
 
             if (polygons.getSelectedVertex() == null && drawSquare)
                 polygons.getVerticesInBounds(startingX, startingY, endX, endY);
@@ -66,10 +66,10 @@ public class SelectTool implements Tool {
 
         drawSquare = !polygons.vertexClickedPrimary(e.getSceneX(), e.getSceneY(), e.getClickCount(), e.isShiftDown(), e.isControlDown());
 
-        startingX = e.getSceneX() * polygons.getScale();
-        startingY = e.getSceneY() * polygons.getScale();
-        endX = e.getSceneX() * polygons.getScale();
-        endY = e.getSceneY() * polygons.getScale();
+        startingX = e.getSceneX();
+        startingY = e.getSceneY();
+        endX = e.getSceneX();
+        endY = e.getSceneY();
 
         draw();
     }
@@ -90,16 +90,21 @@ public class SelectTool implements Tool {
 
         if (drawSquare) {
             //square
-            gc.strokeLine(startingX, startingY, startingX, endY);
-            gc.strokeLine(startingX, startingY, endX, startingY);
-            gc.strokeLine(startingX, endY, endX, endY);
-            gc.strokeLine(endX, startingY, endX, endY);
+            double scaledStartingX = this.startingX * polygons.getScale();
+            double scaledStartingY = this.startingY * polygons.getScale();
+            double scaledEndY = this.endY * polygons.getScale();
+            double scaledEndX = this.endX * polygons.getScale();
+
+            gc.strokeLine(scaledStartingX, scaledStartingY, scaledStartingX, scaledEndY);
+            gc.strokeLine(scaledStartingX, scaledStartingY, scaledEndX, scaledStartingY);
+            gc.strokeLine(scaledStartingX, scaledEndY, scaledEndX, scaledEndY);
+            gc.strokeLine(scaledEndX, scaledStartingY, scaledEndX, scaledEndY);
             gc.setLineDashOffset(10d);
             gc.setStroke(Color.WHITE);
-            gc.strokeLine(startingX, startingY, startingX, endY);
-            gc.strokeLine(startingX, startingY, endX, startingY);
-            gc.strokeLine(startingX, endY, endX, endY);
-            gc.strokeLine(endX, startingY, endX, endY);
+            gc.strokeLine(scaledStartingX, scaledStartingY, scaledStartingX, scaledEndY);
+            gc.strokeLine(scaledStartingX, scaledStartingY, scaledEndX, scaledStartingY);
+            gc.strokeLine(scaledStartingX, scaledEndY, scaledEndX, scaledEndY);
+            gc.strokeLine(scaledEndX, scaledStartingY, scaledEndX, scaledEndY);
         }
 
         gc.setLineDashes(null);
