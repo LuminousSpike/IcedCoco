@@ -32,11 +32,11 @@ public class CreateMetadataController implements Initializable {
     @FXML private CheckBox imageToggle;
     @FXML private CheckBox annotationToggle;
     @FXML private CheckBox segmentationToggle;
-    @FXML private CheckBox boundingToggle;
+    @FXML private CheckBox verticesToggle;
     @FXML private Label imageLabel;
     @FXML private Label annotationLabel;
     @FXML private Label segmentationLabel;
-    @FXML private Label boundingLabel;
+    @FXML private Label verticesLabel;
 
     public void setSessionInfo(SessionInfo s){
         this.sessionInfo = s;
@@ -68,7 +68,7 @@ public class CreateMetadataController implements Initializable {
         imageLabel.setText(base + "images.json");
         annotationLabel.setText(base + "annotation.json");
         segmentationLabel.setText(base + "segmentation.json");
-        boundingLabel.setText(base + "bounding.json");
+        verticesLabel.setText(base + "tool_vertices.json");
     }
 
     @FXML
@@ -132,10 +132,10 @@ public class CreateMetadataController implements Initializable {
                     sessionInfo.segmentationFile = seg;
                 }
             }
-            if(boundingToggle.isSelected()){
-                File bound = createMetadataFile(boundingLabel.getText(), emptyArray);
+            if(verticesToggle.isSelected()){
+                File bound = createMetadataFile(verticesLabel.getText(), emptyArray);
                 if(use){
-                    sessionInfo.boundingBoxFile = bound;
+                    sessionInfo.verticesFile = bound;
                 }
             }
         }catch(IOException ioe){

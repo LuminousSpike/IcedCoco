@@ -61,16 +61,16 @@
             <Insets left="20.0" />
          </GridPane.margin></CheckBox>
       <Label fx:id="segmentationLabel" layoutX="352.0" layoutY="165.0" textFill="#7c7c7c" GridPane.columnIndex="4" GridPane.columnSpan="3" GridPane.rowIndex="4" />
-      <CheckBox fx:id="annotationToggle" layoutX="95.0" layoutY="177.0" mnemonicParsing="false" text="Annotation Data" GridPane.columnIndex="1" GridPane.columnSpan="3" GridPane.rowIndex="5">
+      <CheckBox fx:id="verticesToggle" layoutX="95.0" layoutY="177.0" mnemonicParsing="false" text="Vertices Data" GridPane.columnIndex="1" GridPane.columnSpan="3" GridPane.rowIndex="5">
          <GridPane.margin>
             <Insets left="20.0" />
          </GridPane.margin></CheckBox>
-      <Label fx:id="annotationLabel" layoutX="10.0" layoutY="29.0" textFill="#7c7c7c" GridPane.columnIndex="4" GridPane.columnSpan="3" GridPane.rowIndex="5" />
-      <CheckBox fx:id="boundingToggle" layoutX="95.0" layoutY="227.0" mnemonicParsing="false" text="Bounding Box Data" GridPane.columnIndex="1" GridPane.columnSpan="3" GridPane.rowIndex="6">
+      <Label fx:id="verticesLabel" layoutX="10.0" layoutY="29.0" textFill="#7c7c7c" GridPane.columnIndex="4" GridPane.columnSpan="3" GridPane.rowIndex="5" />
+      <CheckBox fx:id="annotationToggle" layoutX="95.0" layoutY="227.0" mnemonicParsing="false" text="Annotaiton Data" GridPane.columnIndex="1" GridPane.columnSpan="3" GridPane.rowIndex="6">
          <GridPane.margin>
             <Insets left="20.0" />
          </GridPane.margin></CheckBox>
-      <Label fx:id="boundingLabel" layoutX="10.0" layoutY="29.0" textFill="#7c7c7c" GridPane.columnIndex="4" GridPane.columnSpan="3" GridPane.rowIndex="6" />
+      <Label fx:id="annotationLabel" layoutX="10.0" layoutY="29.0" textFill="#7c7c7c" GridPane.columnIndex="4" GridPane.columnSpan="3" GridPane.rowIndex="6" />
       <Button mnemonicParsing="false" onAction="#onCreateAndUse" text="Create And Use New Files" GridPane.columnIndex="1" GridPane.columnSpan="2" GridPane.rowIndex="7" />
       <Button mnemonicParsing="false" onAction="#onCreateButton" text="Create" GridPane.columnIndex="3" GridPane.rowIndex="7" />
       <Button mnemonicParsing="false" onAction="#onCancelButton" text="Cancel" GridPane.columnIndex="5" GridPane.rowIndex="7" />
