@@ -1,4 +1,4 @@
-package main.java.com.limbo.icedcoco;
+package com.limbo.icedcoco;
 
 import javafx.event.ActionEvent;
 import javafx.event.Event;

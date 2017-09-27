@@ -25,7 +25,7 @@ apply plugin: 'javafx-gradle-plugin'
 sourceSets {
   main {
     resources {
-        srcDirs = ["src"]
+        srcDirs = ["src/main/java"]
         includes = ["**/*.fxml"]
     }
   }
@@ -33,7 +33,7 @@ sourceSets {
 
 jfx {
     // minimal requirement for jfxJar-task
-    mainClass = 'main.java.com.limbo.icedcoco.Main'
+    mainClass = 'com.limbo.icedcoco.Main'
 
     // minimal requirement for jfxNative-task
     vendor = 'limbo'
