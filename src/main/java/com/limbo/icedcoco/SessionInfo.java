@@ -31,7 +31,7 @@ public class SessionInfo {
     public File segmentationFile;
     public File verticesFile;
 
-    public long currentImageID = -1;
+    public long currentImageID = 0;
 
     public boolean saveFilesReady(){
         // return true if there are files available and selected to save for the coco caption, segmentation, image info data, etc
@@ -181,7 +181,7 @@ public class SessionInfo {
     public void checkImageMetadata(){
         // metadata handling, called when a new image is loaded to the canvas, or the selected metadata files change.
         // do nothing if image is null
-        if (baseImage==null){
+        if (baseImageFile==null){
             return;
         }
         // case 1 : no image metadata file is selected.
@@ -310,6 +310,7 @@ public class SessionInfo {
 
     private void loadCurrentCaption(){
         // if an annotation file is selected, search for a caption for the current image ID, and display it.
+        captionTextArea.setText("");
         if(annotationFile==null){return;}
         JSONParser parser = new JSONParser();
         try{
