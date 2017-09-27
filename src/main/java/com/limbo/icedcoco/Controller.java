@@ -139,8 +139,7 @@ public class Controller implements Initializable{
 
     @FXML
     public void exportSegmentation(Event event){
-        // export the segmentation mask as a PNG
-        String filename = "segmentationExport.png";
+        // export the segmentation mask as a PNG, indexed, not RGB
         int width = (int)sessionInfo.imageWidth;
         int height = (int)sessionInfo.imageHeight;
         BufferedImage exportImage = new BufferedImage(width, height, BufferedImage.TYPE_BYTE_INDEXED);
