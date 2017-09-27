@@ -16,9 +16,7 @@ import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
-/**
- * Created by jorda on 3/08/2017.
- */
+
 public class SessionInfo {
 
     public Stage primaryStage;
@@ -32,7 +30,7 @@ public class SessionInfo {
     public File imageDataFile;
     public File annotationFile;
     public File segmentationFile;
-    public File boundingBoxFile;
+    public File verticesFile;
 
     public long currentImageID = -1;
     public JSONArray imageJSON;
@@ -232,7 +230,7 @@ public class SessionInfo {
         if(segmentationFile!=null){
             // overwrite segmentation for this image
         }
-        if(boundingBoxFile!=null){
+        if(verticesFile!=null){
             // overwrite bounding box for this image
         }
     }

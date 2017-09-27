@@ -25,7 +25,7 @@ public class SelectMetadataController implements Initializable{
     @FXML private TextField imageTextField;
     @FXML private TextField segmentationTextField;
     @FXML private TextField annotationTextField;
-    @FXML private TextField boundingBoxTextField;
+    @FXML private TextField verticesTextField;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -37,7 +37,7 @@ public class SelectMetadataController implements Initializable{
         initialiseFileText(imageTextField, sessionInfo.imageDataFile);
         initialiseFileText(segmentationTextField, sessionInfo.segmentationFile);
         initialiseFileText(annotationTextField, sessionInfo.annotationFile);
-        initialiseFileText(boundingBoxTextField, sessionInfo.boundingBoxFile);
+        initialiseFileText(verticesTextField, sessionInfo.verticesFile);
     }
 
     private void initialiseFileText(TextField textField, File file){
@@ -98,13 +98,13 @@ public class SelectMetadataController implements Initializable{
     }
 
     @FXML
-    public void chooseBoundingBoxFile(ActionEvent event){
+    public void chooseVerticesFile(ActionEvent event){
         File f = chooseFile();
         if(f==null){
             return;
         }
-        boundingBoxTextField.setText(f.getAbsolutePath());
-        sessionInfo.boundingBoxFile = f;
+        verticesTextField.setText(f.getAbsolutePath());
+        sessionInfo.verticesFile = f;
     }
 
     @FXML
@@ -137,9 +137,9 @@ public class SelectMetadataController implements Initializable{
     }
 
     @FXML
-    public void onNoBounding(ActionEvent event){
-        boundingBoxTextField.setText(noneSelectedText);
-        sessionInfo.boundingBoxFile = null;
+    public void onNoVertices(ActionEvent event){
+        verticesTextField.setText(noneSelectedText);
+        sessionInfo.verticesFile = null;
     }
 
 }

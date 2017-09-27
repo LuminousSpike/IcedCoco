@@ -47,6 +47,7 @@ public class Controller implements Initializable{
     @FXML private ScrollPane canvasScrollPane;
     @FXML private AnchorPane canvasAnchorPane; // canvas is child of the anchor pane, anchor pane is child of the scroll pane
     @FXML private MenuItem saveMenuItem;
+    @FXML private MenuItem exportMenuItem;
     @FXML private Canvas canvas;
     @FXML private Button tool1;
     @FXML private Button tool2;
@@ -150,12 +151,25 @@ public class Controller implements Initializable{
         gfx.setColor(segmentColor);
         for (Polygon p : polygons.getPolygons()) {
             if(p.size() < 4) {continue;}
-            java.awt.Polygon awtPoly = new java.awt.Polygon(p.getXPoints(),p.getYPoints(),p.size());
+            int[] xpoints = p.getXPoints();
+            int[] ypoints = p.getYPoints();
+            for (int i=0; i<p.size(); i++){
+                xpoints[i] = (int) (xpoints[i] * width / canvas.getWidth());
+                ypoints[i] = (int) (ypoints[i] * height / canvas.getHeight());
+            }
+            java.awt.Polygon awtPoly = new java.awt.Polygon(xpoints, ypoints, p.size());
             gfx.fill(awtPoly);
         }
         try {
-            File exportFile = new File(sessionInfo.imageDataFile.getParent() + "/" + filename);
-            ImageIO.write(exportImage, "png", exportFile);
+            FileChooser fc = new FileChooser();
+            FileChooser.ExtensionFilter imgFilter = new FileChooser.ExtensionFilter("*.png", "*.PNG");
+            fc.getExtensionFilters().add(imgFilter);
+            File exportFile = fc.showSaveDialog(scene.getWindow());
+            if (exportFile != null) {
+                ImageIO.write(exportImage, "png", exportFile);
+            }
+        }catch(MalformedURLException mue){
+            mue.printStackTrace();
         }catch(IOException ioe){
             ioe.printStackTrace();
         }
@@ -256,6 +270,7 @@ public class Controller implements Initializable{
         // validate all the menu items in the menu file
         // disable save if there is no image loaded and no valid .json files to save the metadata to
         saveMenuItem.setDisable(sessionInfo.baseImage==null | sessionInfo.imageDataFile==null);
+        exportMenuItem.setDisable(sessionInfo.baseImage==null);
     }
 
     @FXML
