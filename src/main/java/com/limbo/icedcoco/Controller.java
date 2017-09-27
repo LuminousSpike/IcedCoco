@@ -30,6 +30,7 @@ import java.io.File;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.nio.Buffer;
 import java.util.ResourceBundle;
 
 public class Controller implements Initializable{
@@ -142,7 +143,7 @@ public class Controller implements Initializable{
         String filename = "segmentationExport.png";
         int width = (int)sessionInfo.imageWidth;
         int height = (int)sessionInfo.imageHeight;
-        BufferedImage exportImage = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
+        BufferedImage exportImage = new BufferedImage(width, height, BufferedImage.TYPE_BYTE_INDEXED);
         Graphics2D gfx = exportImage.createGraphics();
         // turn off anti aliasing, segmentation PNG should be pixel perfect
         gfx.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_OFF);
