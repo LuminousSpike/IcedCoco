@@ -303,12 +303,17 @@ public class SessionInfo {
             newEntry.put("id", currentImageID);
             newEntry.put("category_id", 0);
             newEntry.put("score", 0);
-            String rle = "";
-            newEntry.put("segmentation", rle);
+            JSONObject seg = new JSONObject();
+            JSONArray sizeArray = new JSONArray();
+            sizeArray.add(0, (int)baseImage.getWidth());
+            sizeArray.add(1, (int)baseImage.getHeight());
+            seg.put("size", sizeArray);
+            seg.put("counts", "VQi31m>0O2N100O100O2N100O10001N101O1N2O1O2M2O1O1N3N1O1N2O2N1N2O1O1N3N1O1N2O2N1N2O1O2M2O1O1M3M4K4M3M3M4L3M3M3M4L3L4M3M3M4L3M3M3M4L3O1N2N101N1O2O0O2N101N1O2O0O2N101N1O2O0O1O2N101N1O2O0O2N101N1O2O0O2N101N1O2O0O1O2O0O2N101N1O2O0O2N101N101O001O1O001O1N2O001O1O1O001O1O1O001O1O001O1O1N101O1O1O001O1O1O001O1O1O001O1N2O001O1O001O1O1O001O1O1O001O1O1N010000O10000O10000O10000O100O010O100O100O100O10000O100O100O10O0100O100O100O100O1O100O100O1O010O100O1O2O0O2N101N101N1O2O1N1O2O0O2O0O2N2O0O2N101N101N2N101N101N1O2O1N1O2O0O20O2O0O2O001N101N100O2O001N101N101N101O0O101N101N101N101O0O101N101N1010O010O010O00010O0O2N1O2N1O2N1O2N1O2N1O2N1O2N1O2N1O2N1O2N1O2N1O2N1O2N1O2N1O2N1O2M2M4L3M4L3M4RNREGP;5UEGo:3XEHk:4ZEHj:2\\\\EJg:1_EKe:0`ELc:OcEMa:NdEN_:MgE0\\\\:JjE2Y:JlE2X:HnE4a<LZd?\\");
+            newEntry.put("segmentation", seg);
             arr.add(newEntry);
 
             // write to the file
-            FileWriter writer = new FileWriter(annotationFile);
+            FileWriter writer = new FileWriter(segmentationFile);
             writer.write(arr.toJSONString());
             writer.flush();
             writer.close();
