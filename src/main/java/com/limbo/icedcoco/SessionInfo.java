@@ -240,9 +240,12 @@ public class SessionInfo {
     }
 
     private String getRLEString(){
+        // return a string that is the run length encoding of the segmentation image, as per mscoco
         String rle = "";
         BufferedImage img = getSegmentationImage();
 
+        // image/binary mask of it, => RLE object
+        // then use rleToString(rle)
 
         return rle;
     }
