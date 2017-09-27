@@ -169,11 +169,11 @@ public class SessionInfo {
             }
 
         }catch(FileNotFoundException fnfe){
-
+            fnfe.printStackTrace();
         }catch(ParseException pe){
-
+            pe.printStackTrace();
         }catch(IOException ioe){
-
+            ioe.printStackTrace();
         }
         return output;
     }
@@ -234,11 +234,78 @@ public class SessionInfo {
     }
 
     private void overwriteVertices(){
+        // the "verticesArray" is a JSONArray containing JSONObjects. each JSONObject has an int ID, and a JSONArray "polylist" containing polygon points.
+        if(verticesFile==null){return;}
+        JSONParser parser = new JSONParser();
+        try{
+            FileReader reader = new FileReader(verticesFile);
+            JSONArray verticesArray = (JSONArray) parser.parse(reader);
+            reader.close();
 
+            boolean contains = false;
+            Iterator<JSONObject> iterator = verticesArray.iterator();
+            JSONObject entry = null;
+            // loop until reach end of array or find the entry for the current image
+            while (iterator.hasNext() && !contains) {
+                entry = iterator.next();
+                String id = Long.toString((long) entry.get("id"));
+                // if the current image is in the array, remove it
+                if(id.equals(Long.toString(currentImageID))){
+                    verticesArray.remove(entry);
+                    contains = true;
+                }
+            }
+            // insert the data about the vertices into the array
+            JSONArray polyArray = polygons.getJSONArray();
+            JSONObject newEntry = new JSONObject();
+            newEntry.put("polylist", polyArray);
+            newEntry.put("id", currentImageID);
+            verticesArray.add(newEntry);
+
+            // write to the file
+            FileWriter writer = new FileWriter(verticesFile);
+            writer.write(verticesArray.toJSONString());
+            writer.flush();
+            writer.close();
+
+        }catch(FileNotFoundException fnfe){
+            fnfe.printStackTrace();
+        }catch(ParseException pe){
+            pe.printStackTrace();
+        }catch(IOException ioe){
+            ioe.printStackTrace();
+        }
     }
 
     private void loadVertices(){
         // check for vertices file, and for the current image assign the vertice values to the PolyList polygons
+        if(verticesFile==null){return;}
+        JSONParser parser = new JSONParser();
+        try{
+            FileReader reader = new FileReader(verticesFile);
+            JSONArray verticeArray = (JSONArray) parser.parse(reader);
+            reader.close();
+
+            Iterator<JSONObject> iterator = verticeArray.iterator();
+            while (iterator.hasNext()) {
+                // read the ids as longs, then add them to the list as strings, to use String equality checking instead of long.
+                JSONObject obj = iterator.next();
+                String id = Long.toString((long) obj.get("id"));
+                if(id.equals(Long.toString(currentImageID))){
+                    this.polygons = new PolyList((JSONArray)obj.get("polylist"));
+                    return;
+                }
+            }
+            // falling out of the iterator loop means there is no exisitng polygon data for this image, so use an empty PolyList
+            this.polygons = new PolyList();
+
+        }catch(FileNotFoundException fnfe){
+
+        }catch(ParseException pe){
+
+        }catch(IOException ioe){
+
+        }
     }
 
     private void loadCurrentCaption(){

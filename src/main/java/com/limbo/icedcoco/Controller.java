@@ -144,6 +144,9 @@ public class Controller implements Initializable{
         int height = (int)sessionInfo.imageHeight;
         BufferedImage exportImage = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
         Graphics2D gfx = exportImage.createGraphics();
+        // turn off anti aliasing, segmentation PNG should be pixel perfect
+        gfx.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_OFF);
+
         Color segmentColor = Color.pink;
         // set everything to be black
         gfx.setBackground(Color.black);
@@ -158,7 +161,8 @@ public class Controller implements Initializable{
                 ypoints[i] = (int) (ypoints[i] * height / canvas.getHeight());
             }
             java.awt.Polygon awtPoly = new java.awt.Polygon(xpoints, ypoints, p.size());
-            gfx.fill(awtPoly);
+            gfx.fillPolygon(awtPoly);
+            gfx.drawPolygon(awtPoly);
         }
         try {
             FileChooser fc = new FileChooser();
