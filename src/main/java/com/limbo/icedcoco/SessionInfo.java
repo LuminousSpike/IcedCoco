@@ -19,13 +19,12 @@ import org.json.simple.parser.ParseException;
 
 public class SessionInfo {
 
-    public Stage primaryStage;
     public TextArea captionTextArea;
     public double imageWidth;
     public double imageHeight;
-    public boolean imageLoaded;
     public Image baseImage;
     public File baseImageFile;  // the file the image was loaded from
+    public PolyList polygons = new PolyList();
 
     public File imageDataFile;
     public File annotationFile;
@@ -33,9 +32,6 @@ public class SessionInfo {
     public File verticesFile;
 
     public long currentImageID = -1;
-    public JSONArray imageJSON;
-    public JSONArray annotationJSON;
-    public JSONArray segmentationJSON;
 
     public boolean saveFilesReady(){
         // return true if there are files available and selected to save for the coco caption, segmentation, image info data, etc
@@ -210,6 +206,7 @@ public class SessionInfo {
         else{
             // load the metadata info for this image, and show it in the editor for editing.
             loadCurrentCaption();
+            loadVertices();
         }
     }
 
@@ -231,8 +228,17 @@ public class SessionInfo {
             // overwrite segmentation for this image
         }
         if(verticesFile!=null){
-            // overwrite bounding box for this image
+            // overwrite the segmentation vertices for this image
+            overwriteVertices();
         }
+    }
+
+    private void overwriteVertices(){
+
+    }
+
+    private void loadVertices(){
+        // check for vertices file, and for the current image assign the vertice values to the PolyList polygons
     }
 
     private void loadCurrentCaption(){

@@ -60,15 +60,15 @@ public class Controller implements Initializable{
 
     private double scale = 1;
 
-    private PolyList polygons = new PolyList();
+    private PolyList polygons;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         this.resources = resources;
         canvasScrollPane.setContent(canvas);
+        this.polygons = sessionInfo.polygons;
         polygonTool = new PolygonTool(polygons);
         polygonTool.setCanvas(canvas);
-
         selectTool = new SelectTool(polygons);
         selectTool.setCanvas(canvas);
     }
@@ -285,12 +285,15 @@ public class Controller implements Initializable{
         File imgFile = fc.showOpenDialog(scene.getWindow());
         try {
             if (imgFile != null) {
-                img = new Image(imgFile.toURI().toURL().toExternalForm());       // test this works on all systems
+                img = new Image(imgFile.toURI().toURL().toExternalForm());       // not tested on mac
+                sessionInfo.baseImageFile = imgFile;
+                sessionInfo.polygons = new PolyList();
+                sessionInfo.checkImageMetadata();   // load existing data for captions, polygon vertices
                 // TODO: Implement a proper way to initialize tools upon image load.
                 // For now, set the current tool to null.
                 currentTool = null;
                 // And make a new PolygonTool.
-                polygons = new PolyList();
+                this.polygons = sessionInfo.polygons;
                 polygonTool = new PolygonTool(polygons);
                 polygonTool.setCanvas(canvas);
                 ellipseTool = new EllipseTool(polygons);
@@ -298,8 +301,6 @@ public class Controller implements Initializable{
                 selectTool = new SelectTool(polygons);
                 selectTool.setCanvas(canvas);
                 drawImageInCanvas(img, true);
-                sessionInfo.baseImageFile = imgFile;
-                sessionInfo.checkImageMetadata();
             }
         }catch(MalformedURLException mue){
             mue.printStackTrace();
