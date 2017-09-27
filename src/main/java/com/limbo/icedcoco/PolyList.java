@@ -1,7 +1,10 @@
 package main.java.com.limbo.icedcoco;
 
 import javafx.scene.canvas.GraphicsContext;
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
 
+import java.util.Iterator;
 import java.util.LinkedList;
 
 public class PolyList {
@@ -14,6 +17,30 @@ public class PolyList {
     public PolyList() {
         polygons = new LinkedList<Polygon>();
         selectedVertices = new LinkedList<Vertex>();
+    }
+
+    public PolyList(JSONArray arr){
+        // create a polylist using a json array containing JSONArrays of polygons
+        // the polygons themselves are JSONArrays of vertice positions, like [[x1,y1], [x2,y2],..]
+        polygons = new LinkedList<>();
+        Iterator<JSONArray> polygonIterator = arr.iterator();
+        // for every polygon, represented as a JSONArray
+        while (polygonIterator.hasNext()) {
+            JSONArray polygonArray = polygonIterator.next();
+            Polygon p = new Polygon();
+            // for every vertex, represented as a JSONArray
+            Iterator<JSONArray> vertexIterator = polygonArray.iterator();
+            while(vertexIterator.hasNext()){
+                // add that vertex to the new Polygon object
+                JSONArray v = vertexIterator.next();
+                p.add((double)((long)v.get(0)), (double)((long)v.get(1)));
+            }
+            // add that Polygon object to the PolyList
+            polygons.add(p);
+        }
+
+        selectedVertices = new LinkedList<>();
+
     }
 
     private void addSelectedVertex(Vertex selectedVertex) {
@@ -253,5 +280,14 @@ public class PolyList {
     public void addPointToPoly(double x, double y, Vertex selectedVertex) {
         clearSelectedVertices();
         getCurrentPolygon().add(x, y, selectedVertex);
+    }
+
+    public JSONArray getJSONArray(){
+        // returns a JSONArray containing JSONArrays representing each polygon in the poly list
+        JSONArray out = new JSONArray();
+        for(Polygon p : polygons){
+            out.add(p.getJSONArray());
+        }
+        return out;
     }
 }
