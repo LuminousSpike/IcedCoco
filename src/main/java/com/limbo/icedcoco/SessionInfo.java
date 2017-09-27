@@ -226,6 +226,7 @@ public class SessionInfo {
         }
         if(segmentationFile!=null){
             // overwrite segmentation for this image
+            overwriteSegmentation();
         }
         if(verticesFile!=null){
             // overwrite the segmentation vertices for this image
@@ -268,6 +269,49 @@ public class SessionInfo {
             writer.flush();
             writer.close();
 
+        }catch(FileNotFoundException fnfe){
+            fnfe.printStackTrace();
+        }catch(ParseException pe){
+            pe.printStackTrace();
+        }catch(IOException ioe){
+            ioe.printStackTrace();
+        }
+    }
+
+    private void overwriteSegmentation(){
+        JSONParser parser = new JSONParser();
+        try {
+            FileReader reader = new FileReader(segmentationFile);
+            JSONArray arr = (JSONArray) parser.parse(reader);
+            reader.close();
+
+            boolean contains = false;
+            Iterator<JSONObject> iterator = arr.iterator();
+            JSONObject entry = null;
+            // loop until reach end of array or find the entry for the current image
+            while (iterator.hasNext() && !contains) {
+                entry = iterator.next();
+                String id = Long.toString((long) entry.get("id"));
+                // if the current image is in the array, remove it
+                if(id.equals(Long.toString(currentImageID))){
+                    arr.remove(entry);
+                    contains = true;
+                }
+            }
+            // insert the new segmentation entry into the array
+            JSONObject newEntry = new JSONObject();
+            newEntry.put("id", currentImageID);
+            newEntry.put("category_id", 0);
+            newEntry.put("score", 0);
+            String rle = "";
+            newEntry.put("segmentation", rle);
+            arr.add(newEntry);
+
+            // write to the file
+            FileWriter writer = new FileWriter(annotationFile);
+            writer.write(arr.toJSONString());
+            writer.flush();
+            writer.close();
         }catch(FileNotFoundException fnfe){
             fnfe.printStackTrace();
         }catch(ParseException pe){
