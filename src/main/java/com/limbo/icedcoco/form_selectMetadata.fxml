@@ -70,46 +70,47 @@
                <Insets left="10.0" />
            </GridPane.margin>
        </Button>
-      <Label layoutX="60.0" layoutY="127.0" text="Annotation Data" GridPane.columnSpan="2" GridPane.rowIndex="4">
-         <GridPane.margin>
-            <Insets left="50.0" />
-         </GridPane.margin>
-      </Label>
-       <TextField fx:id="annotationTextField" editable="false" layoutX="190.0" layoutY="73.0" GridPane.columnIndex="2" GridPane.columnSpan="3" GridPane.rowIndex="4">
+       <Label layoutX="60.0" layoutY="177.0" text="Vertices Data" GridPane.columnSpan="2" GridPane.rowIndex="4">
+           <GridPane.margin>
+               <Insets left="50.0" />
+           </GridPane.margin>
+       </Label>
+       <TextField fx:id="verticesTextField" editable="false" layoutX="190.0" layoutY="73.0" GridPane.columnIndex="2" GridPane.columnSpan="3" GridPane.rowIndex="4">
            <GridPane.margin>
                <Insets left="10.0" right="10.0" />
            </GridPane.margin>
        </TextField>
-       <Button mnemonicParsing="false" onAction="#chooseAnnotationFile" text="Choose File" GridPane.columnIndex="5" GridPane.columnSpan="2" GridPane.rowIndex="4">
+       <Button mnemonicParsing="false" onAction="#chooseVerticesFile" text="Choose File" GridPane.columnIndex="5" GridPane.columnSpan="2" GridPane.rowIndex="4">
            <GridPane.margin>
                <Insets left="10.0" />
            </GridPane.margin>
        </Button>
-       <Button mnemonicParsing="false" onAction="#onNoAnnotation" text="No File" GridPane.columnIndex="6" GridPane.rowIndex="4">
+       <Button mnemonicParsing="false" onAction="#onNoVertices" text="No File" GridPane.columnIndex="6" GridPane.rowIndex="4">
            <GridPane.margin>
                <Insets left="10.0" />
            </GridPane.margin>
        </Button>
-      <Label layoutX="60.0" layoutY="177.0" text="Bounding Box Data" GridPane.columnSpan="2" GridPane.rowIndex="5">
+      <Label layoutX="60.0" layoutY="127.0" text="Annotation Data" GridPane.columnSpan="2" GridPane.rowIndex="5">
          <GridPane.margin>
             <Insets left="50.0" />
          </GridPane.margin>
       </Label>
-       <TextField fx:id="boundingBoxTextField" editable="false" layoutX="190.0" layoutY="73.0" GridPane.columnIndex="2" GridPane.columnSpan="3" GridPane.rowIndex="5">
+       <TextField fx:id="annotationTextField" editable="false" layoutX="190.0" layoutY="73.0" GridPane.columnIndex="2" GridPane.columnSpan="3" GridPane.rowIndex="5">
            <GridPane.margin>
                <Insets left="10.0" right="10.0" />
            </GridPane.margin>
        </TextField>
-       <Button mnemonicParsing="false" onAction="#chooseBoundingBoxFile" text="Choose File" GridPane.columnIndex="5" GridPane.columnSpan="2" GridPane.rowIndex="5">
+       <Button mnemonicParsing="false" onAction="#chooseAnnotationFile" text="Choose File" GridPane.columnIndex="5" GridPane.columnSpan="2" GridPane.rowIndex="5">
            <GridPane.margin>
                <Insets left="10.0" />
            </GridPane.margin>
        </Button>
-       <Button mnemonicParsing="false" onAction="#onNoBounding" text="No File" GridPane.columnIndex="6" GridPane.rowIndex="5">
+       <Button mnemonicParsing="false" onAction="#onNoAnnotation" text="No File" GridPane.columnIndex="6" GridPane.rowIndex="5">
            <GridPane.margin>
                <Insets left="10.0" />
            </GridPane.margin>
        </Button>
+
       <Button mnemonicParsing="false" onAction="#onDoneButton" text="Done" GridPane.columnIndex="4" GridPane.rowIndex="7" />
       <Button mnemonicParsing="false" onAction="#onCancelButton" text="Cancel" GridPane.columnIndex="5" GridPane.rowIndex="7" />
    </children>

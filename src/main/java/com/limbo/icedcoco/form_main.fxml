@@ -19,7 +19,7 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.text.Font?>
 
-<GridPane fx:id="masterPane" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="800.0" minWidth="1280.0" onKeyPressed="#onKeyPressListener" prefHeight="800.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/8.0.121" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.java.com.limbo.icedcoco.Controller">
+<GridPane fx:id="masterPane" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="800.0" minWidth="1280.0" onKeyPressed="#onKeyPressListener" prefHeight="800.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/8.0.112-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.java.com.limbo.icedcoco.Controller">
     <columnConstraints>
         <ColumnConstraints hgrow="SOMETIMES" maxWidth="139.0" minWidth="10.0" prefWidth="139.0" />
         <ColumnConstraints hgrow="SOMETIMES" maxWidth="389.0" minWidth="10.0" prefWidth="355.0" />
@@ -71,7 +71,6 @@
                             <accelerator>
                                 <KeyCodeCombination alt="UP" code="O" control="DOWN" meta="UP" shift="UP" shortcut="UP" />
                             </accelerator></MenuItem>
-                        <MenuItem mnemonicParsing="false" onAction="#menuOpenImageWithCoco" text="Open Image With Metadata" />
                         <SeparatorMenuItem mnemonicParsing="false" />
                         <MenuItem fx:id="saveMenuItem" mnemonicParsing="false" onAction="#menuSaveData" text="Save">
                             <accelerator>
@@ -79,7 +78,7 @@
                             </accelerator></MenuItem>
                         <MenuItem mnemonicParsing="false" onAction="#createMetadataFiles" text="Create Metadata Files..." />
                         <MenuItem mnemonicParsing="false" onAction="#selectMetadataFiles" text="Select Metadata Files..." />
-                  <MenuItem mnemonicParsing="false" onAction="#exportSegmentation" text="Export Segmentation PNG" />
+                  <MenuItem fx:id="exportMenuItem" mnemonicParsing="false" onAction="#exportSegmentation" text="Export Segmentation PNG" />
                         <SeparatorMenuItem mnemonicParsing="false" />
                         <MenuItem mnemonicParsing="false" onAction="#menuExit" text="Exit" />
                     </items>
