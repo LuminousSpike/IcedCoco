@@ -9,6 +9,8 @@ import javafx.stage.Stage;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
+import java.awt.image.DataBufferByte;
+import java.awt.image.IndexColorModel;
 import java.io.*;
 import java.nio.Buffer;
 import java.util.ArrayList;
@@ -243,6 +245,44 @@ public class SessionInfo {
         // return a string that is the run length encoding of the segmentation image, as per mscoco
         String rle = "";
         BufferedImage img = getSegmentationImage();
+        int width = img.getWidth();
+        int height = img.getHeight();
+        int[] imageData = new int[width*height];
+        imageData = img.getData().getPixels(0, 0, width, height, imageData);
+
+        ArrayList<Integer> counts = new ArrayList<Integer>();
+        int currentCount = 0;
+        int index = 0;
+        boolean countingZeroes = true;
+
+        for(int i=0; i<width*height; i++){
+            // the image data array traverses x first, but we need to encode the counts as though y is traversed first
+            int ix = i % width;
+            int iy = i / width;
+            int pixel = iy + ix * height;
+            // y + x * height
+            //
+
+            if((imageData[i]==0 && countingZeroes) || (imageData[i]!=0 && !countingZeroes)){
+                ++currentCount;
+            }else{
+                counts.add(index, currentCount);
+                ++index;
+                countingZeroes = !countingZeroes;
+                currentCount = 1;
+            }
+        }
+        // fall out, add the last count
+        counts.add(index, currentCount);
+
+
+        System.out.println(imageData[1000]);
+        System.out.println(imageData[width*height-1]);
+        System.out.println("Begin Counts");
+        for(Integer i : counts){
+            System.out.println(i);
+        }
+        System.out.println("End Counts");
 
         // image/binary mask of it, => RLE object
         // then use rleToString(rle)
