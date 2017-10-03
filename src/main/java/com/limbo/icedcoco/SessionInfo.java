@@ -9,11 +9,9 @@ import javafx.stage.Stage;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
-import java.awt.image.DataBufferByte;
-import java.awt.image.IndexColorModel;
 import java.io.*;
-import java.nio.Buffer;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Iterator;
 import java.util.Optional;
 
@@ -241,27 +239,61 @@ public class SessionInfo {
         }
     }
 
+    private String getCompressedCountsString(ArrayList<Integer> counts, int width, int height){
+        // based on LEB128 compression scheme, but using 6 bits/char and ascii chars 48-111.
+        int i, m = width*height, p = 0;
+        long x;
+        boolean more;
+        char[] s = new char[m*6];
+        System.out.print("s[] size : ");
+        System.out.println(s.length);
+
+        for (i = 0; i < counts.size(); i++) {
+            x = (long) counts.get(i);
+            // Hopefully this is correct.
+            if (i > 2)
+                x -= (long)counts.get(i-2);
+            more = true;
+
+            while (more) {
+                char c = (char) (x & 0x1f);
+                // Bit shifts x to the right 5 places, not sure if correct java syntax.
+                x >>= 5;
+                // Isolates the specific bit we want, uses a ternary operator to set the value.
+                more = ((c & 0x10) > 0) ? x!=-1 : x!=0; // 0x10 = 0b10000
+                if (more)
+                    c |= 0x20; // 0b100000
+                c += 48;
+                s[p++] = c;
+            }
+        }
+
+        // The string built from the char array s should terminate at p
+        String result = new String(Arrays.copyOfRange(s, 0, p));
+        System.out.print("var p: ");
+        System.out.println(p);
+        System.out.println(result);
+        return result;
+    }
+
     private String getRLEString(){
         // return a string that is the run length encoding of the segmentation image, as per mscoco
-        String rle = "";
         BufferedImage img = getSegmentationImage();
         int width = img.getWidth();
         int height = img.getHeight();
         int[] imageData = new int[width*height];
         imageData = img.getData().getPixels(0, 0, width, height, imageData);
 
-        ArrayList<Integer> counts = new ArrayList<Integer>();
+        ArrayList<Integer> counts = new ArrayList<>();
         int currentCount = 0;
         int index = 0;
-        boolean countingZeroes = true;
+        boolean countingZeroes = true;  // the 0 values are always counted first
 
         for(int i=0; i<width*height; i++){
             // the image data array traverses x first, but we need to encode the counts as though y is traversed first
             int ix = i % width;
             int iy = i / width;
-            int pixel = iy + ix * height;
-            // y + x * height
-            //
+            int pixel = (i % width) * width;
 
             if((imageData[i]==0 && countingZeroes) || (imageData[i]!=0 && !countingZeroes)){
                 ++currentCount;
@@ -275,18 +307,16 @@ public class SessionInfo {
         // fall out, add the last count
         counts.add(index, currentCount);
 
-
         System.out.println(imageData[1000]);
         System.out.println(imageData[width*height-1]);
         System.out.println("Begin Counts");
         for(Integer i : counts){
             System.out.println(i);
         }
-        System.out.println("End Counts");
+        System.out.println("End Counts. SIze Below");
+        System.out.println(counts.size());
 
-        // image/binary mask of it, => RLE object
-        // then use rleToString(rle)
-
+        String rle = getCompressedCountsString(counts, width, height);
         return rle;
     }
 
