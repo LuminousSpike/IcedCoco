@@ -291,11 +291,10 @@ public class SessionInfo {
 
         for(int i=0; i<width*height; i++){
             // the image data array traverses x first, but we need to encode the counts as though y is traversed first
-            int ix = i % width;
-            int iy = i / width;
-            int pixel = (i % width) * width;
-
-            if((imageData[i]==0 && countingZeroes) || (imageData[i]!=0 && !countingZeroes)){
+            //p = (i % height) * width + (i floor height)
+            int pixel = (i % height) * width + (i / height);
+            
+            if((imageData[pixel]==0 && countingZeroes) || (imageData[pixel]!=0 && !countingZeroes)){
                 ++currentCount;
             }else{
                 counts.add(index, currentCount);
