@@ -52,6 +52,7 @@ public class Controller implements Initializable{
     @FXML private Canvas canvas;
     @FXML private Button tool1;
     @FXML private Button tool2;
+    @FXML private Button btnSettings;
     @FXML private TextArea captionTextArea;
 
     private PolygonTool polygonTool;
@@ -383,5 +384,21 @@ public class Controller implements Initializable{
                 e.isSecondaryButtonDown(), e.isSynthesized(), e.isPopupTrigger(), e.isStillSincePress(), e.getPickResult());
 
         return se;
+    }
+
+    @FXML
+    private void openSettingsForm() {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("form_settings.fxml"));
+            Parent root = loader.load();
+            SettingsController cont = loader.getController();
+
+            Scene scene = new Scene(root);
+            Stage stage = new Stage();
+            stage.setScene(scene);
+            stage.show();
+        } catch (IOException ioe) {
+            ioe.printStackTrace();
+        }
     }
 }
