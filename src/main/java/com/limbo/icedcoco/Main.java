@@ -13,7 +13,7 @@ public class Main extends Application {
         Parent root = loader.load();
         Controller cont = loader.getController();
         primaryStage.setTitle("Comp314 Project");
-        Scene scene = new Scene (root, 1280, 720);
+        Scene scene = new Scene (root, 1280, 790);
 
         // add listeners to the scene
         scene.widthProperty().addListener((observableValue, oldWidth, newWidth) -> cont.onWindowResize());
