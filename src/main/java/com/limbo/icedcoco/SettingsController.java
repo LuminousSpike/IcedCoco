@@ -319,6 +319,7 @@ public class SettingsController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        constrainTitlePanes();
         focusGeneralPane();
     }
 
@@ -332,5 +333,17 @@ public class SettingsController implements Initializable {
     private void focusHotkeysPane () {
         settingsStackPane.getChildren().clear();;
         settingsStackPane.getChildren().add(settingsHotkeysPane);
+    }
+
+    private void constrainTitlePanes () {
+        titledDisplay.setCollapsible(false);
+        titledEllipseToolHotkeys.setCollapsible(false);
+        titledGlobalHotkeys.setCollapsible(false);
+        titledMisc.setCollapsible(false);
+        titledPolygonToolHotkeys.setCollapsible(false);
+        titledSaving.setCollapsible(false);
+        titledSelectToolHotkeys.setCollapsible(false);
+        titledStartup.setCollapsible(false);
+        titledToolHotkeys.setCollapsible(false);
     }
 }
