@@ -48,11 +48,11 @@
                             </font>
                         </Label>
                         <Separator prefHeight="2.0" prefWidth="50.0" />
-                        <Button fx:id="btnPolygon" mnemonicParsing="false" onAction="#activatePolygonTool" prefHeight="50.0" prefWidth="120.0" style="-fx-background-color: #4BA5EA;" text="General" textFill="WHITE">
+                        <Button fx:id="btnGeneral" mnemonicParsing="false" onAction="#focusGeneralPane" prefHeight="50.0" prefWidth="120.0" style="-fx-background-color: #4BA5EA;" text="General" textFill="WHITE">
                             <font>
                                 <Font name="Calibri" size="18.0" />
                             </font></Button>
-                        <Button fx:id="btnEllipse" mnemonicParsing="false" onAction="#activateEllipseTool" prefHeight="50.0" prefWidth="120.0" style="-fx-background-color: #4BA5EA;" text="Hotkeys" textFill="WHITE">
+                        <Button fx:id="btnHotkeys" mnemonicParsing="false" onAction="#focusHotkeysPane" prefHeight="50.0" prefWidth="120.0" style="-fx-background-color: #4BA5EA;" text="Hotkeys" textFill="WHITE">
                             <font>
                                 <Font name="Calibri" size="18.0" />
                             </font></Button>
@@ -120,9 +120,9 @@
                 </ToolBar>
             </children>
         </AnchorPane>
-      <StackPane prefHeight="150.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.columnSpan="3" GridPane.rowIndex="1" GridPane.rowSpan="5">
+      <StackPane fx:id="settingsStackPane" prefHeight="150.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.columnSpan="3" GridPane.rowIndex="1" GridPane.rowSpan="5">
          <children>
-            <GridPane hgap="20.0" layoutX="30.0" layoutY="30.0" vgap="20.0">
+            <GridPane fx:id="settingsHotkeysPane" hgap="20.0" layoutX="30.0" layoutY="30.0" vgap="20.0">
                <columnConstraints>
                   <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
                   <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
@@ -133,7 +133,7 @@
                   <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                </rowConstraints>
                <children>
-                  <TitledPane animated="false" text="Global Hotkeys">
+                  <TitledPane fx:id="titledGlobalHotkeys" animated="false" text="Global Hotkeys">
                      <content>
                         <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="300.0" prefWidth="200.0">
                            <children>
@@ -178,7 +178,7 @@
                         </AnchorPane>
                      </content>
                   </TitledPane>
-                  <TitledPane fx:id="hotkeyToolPolygonPrimary" animated="false" layoutX="10.0" layoutY="10.0" text="Tool Hotkeys" GridPane.columnIndex="1">
+                  <TitledPane fx:id="titledToolHotkeys" animated="false" layoutX="10.0" layoutY="10.0" text="Tool Hotkeys" GridPane.columnIndex="1">
                      <content>
                         <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="300.0" prefWidth="200.0">
                            <children>
@@ -204,7 +204,7 @@
                                     <Label text="Polygon Tool:" GridPane.rowIndex="1" />
                                     <Label text="Ellipse Tool" GridPane.rowIndex="2" />
                                     <Label text="Select Tool:" GridPane.rowIndex="3" />
-                                    <TextField prefWidth="129.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                                    <TextField fx:id="hotkeyToolPolygonPrimary" prefWidth="129.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
                                     <TextField fx:id="hotkeyToolPolygonAlt" prefWidth="129.0" GridPane.columnIndex="2" GridPane.rowIndex="1" />
                                     <TextField fx:id="hotkeyToolEllipsePrimary" prefWidth="129.0" GridPane.columnIndex="1" GridPane.rowIndex="2" />
                                     <TextField fx:id="hotkeyToolEllipseAlt" prefWidth="129.0" GridPane.columnIndex="2" GridPane.rowIndex="2" />
@@ -219,7 +219,7 @@
                         </AnchorPane>
                      </content>
                   </TitledPane>
-                  <TitledPane animated="false" layoutX="591.0" layoutY="10.0" text="Polygon Tool Hotkeys" GridPane.rowIndex="1">
+                  <TitledPane fx:id="titledPolygonToolHotkeys" animated="false" layoutX="591.0" layoutY="10.0" text="Polygon Tool Hotkeys" GridPane.rowIndex="1">
                      <content>
                         <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="300.0" prefWidth="200.0">
                            <children>
@@ -260,7 +260,7 @@
                         </AnchorPane>
                      </content>
                   </TitledPane>
-                  <TitledPane animated="false" layoutX="10.0" layoutY="266.0" text="Ellipse Tool Hotkeys" GridPane.columnIndex="1" GridPane.rowIndex="1">
+                  <TitledPane fx:id="titledEllipseToolHotkeys" animated="false" layoutX="10.0" layoutY="266.0" text="Ellipse Tool Hotkeys" GridPane.columnIndex="1" GridPane.rowIndex="1">
                      <content>
                         <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="300.0" prefWidth="200.0">
                            <children>
@@ -305,7 +305,7 @@
                         </AnchorPane>
                      </content>
                   </TitledPane>
-                  <TitledPane animated="false" layoutX="591.0" layoutY="266.0" text="Select Tool Hotkeys" GridPane.rowIndex="2">
+                  <TitledPane fx:id="titledSelectToolHotkeys" animated="false" layoutX="591.0" layoutY="266.0" text="Select Tool Hotkeys" GridPane.rowIndex="2">
                      <content>
                         <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="300.0" prefWidth="200.0">
                            <children>
@@ -351,7 +351,7 @@
                   <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
                </StackPane.margin>
             </GridPane>
-            <GridPane hgap="20.0" vgap="20.0">
+            <GridPane fx:id="settingsGeneralPane" hgap="20.0" vgap="20.0">
               <columnConstraints>
                 <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
                   <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
@@ -362,7 +362,7 @@
                 <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
               </rowConstraints>
                <children>
-                  <TitledPane animated="false" text="Startup">
+                  <TitledPane fx:id="titledStartup" animated="false" text="Startup">
                     <content>
                       <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="300.0" prefWidth="200.0">
                            <children>
@@ -397,7 +397,7 @@
                         </AnchorPane>
                     </content>
                   </TitledPane>
-                  <TitledPane animated="false" layoutX="10.0" layoutY="10.0" text="Display" GridPane.columnIndex="1">
+                  <TitledPane fx:id="titledDisplay" animated="false" layoutX="10.0" layoutY="10.0" text="Display" GridPane.columnIndex="1">
                      <content>
                         <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="300.0" prefWidth="200.0">
                            <children>
@@ -421,7 +421,7 @@
                         </AnchorPane>
                      </content>
                   </TitledPane>
-                  <TitledPane animated="false" layoutX="571.0" layoutY="10.0" text="Saving" GridPane.rowIndex="1">
+                  <TitledPane fx:id="titledSaving" animated="false" layoutX="571.0" layoutY="10.0" text="Saving" GridPane.rowIndex="1">
                      <content>
                         <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="300.0" prefWidth="200.0">
                            <children>
@@ -455,7 +455,7 @@
                         </AnchorPane>
                      </content>
                   </TitledPane>
-                  <TitledPane animated="false" layoutX="10.0" layoutY="259.0" text="Misc" GridPane.columnIndex="1" GridPane.rowIndex="1">
+                  <TitledPane fx:id="titledMisc" animated="false" layoutX="10.0" layoutY="259.0" text="Misc" GridPane.columnIndex="1" GridPane.rowIndex="1">
                      <content>
                         <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="300.0" prefWidth="200.0">
                            <children>

@@ -3,7 +3,6 @@ package com.limbo.icedcoco;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.ChoiceBox;
@@ -14,19 +13,21 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.TitledPane;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.StackPane;
 
 import java.net.URL;
 import java.util.ResourceBundle;
 
-public class SettingsController implements Initializable{
+public class SettingsController implements Initializable {
+
     @FXML
     private GridPane masterPane;
 
     @FXML
-    private Button btnPolygon;
+    private Button btnGeneral;
 
     @FXML
-    private Button btnEllipse;
+    private Button btnHotkeys;
 
     @FXML
     private Button btnEllipse1;
@@ -42,6 +43,15 @@ public class SettingsController implements Initializable{
 
     @FXML
     private Button btnExit;
+
+    @FXML
+    private StackPane settingsStackPane;
+
+    @FXML
+    private GridPane settingsGeneralPane;
+
+    @FXML
+    private TitledPane titledGlobalHotkeys;
 
     @FXML
     private TextField hotkeyGlobalZoomInPrimary;
@@ -74,7 +84,10 @@ public class SettingsController implements Initializable{
     private TextField hotkeyGlobalExportMaskAlt;
 
     @FXML
-    private TitledPane hotkeyToolPolygonPrimary;
+    private TitledPane titledToolHotkeys;
+
+    @FXML
+    private TextField hotkeyToolPolygonPrimary;
 
     @FXML
     private TextField hotkeyToolPolygonAlt;
@@ -96,6 +109,9 @@ public class SettingsController implements Initializable{
 
     @FXML
     private TextField hotkeyToolMovePrimary;
+
+    @FXML
+    private TitledPane titledPolygonToolHotkeys;
 
     @FXML
     private TextField hotkeyPolygonCreatePrimary;
@@ -120,6 +136,9 @@ public class SettingsController implements Initializable{
 
     @FXML
     private TextField hotkeyPolygonDeselectAllVerticesPrimary;
+
+    @FXML
+    private TitledPane titledEllipseToolHotkeys;
 
     @FXML
     private TextField hotkeyEllipseCreatePrimary;
@@ -152,6 +171,9 @@ public class SettingsController implements Initializable{
     private TextField hotkeyEllipseDeselectAllVerticesPrimary;
 
     @FXML
+    private TitledPane titledSelectToolHotkeys;
+
+    @FXML
     private TextField hotkeySelectVerticesPrimary;
 
     @FXML
@@ -176,6 +198,12 @@ public class SettingsController implements Initializable{
     private TextField hotkeySelectAllVerticesAlt;
 
     @FXML
+    private GridPane settingsHotkeysPane;
+
+    @FXML
+    private TitledPane titledStartup;
+
+    @FXML
     private CheckBox startupShdOnStartupCheckbox;
 
     @FXML
@@ -191,6 +219,12 @@ public class SettingsController implements Initializable{
     private ChoiceBox<?> startupCheckForUpdatesChoiceBox;
 
     @FXML
+    private TitledPane titledDisplay;
+
+    @FXML
+    private TitledPane titledSaving;
+
+    @FXML
     private CheckBox savingOnOpeningImageCheckbox;
 
     @FXML
@@ -204,17 +238,9 @@ public class SettingsController implements Initializable{
 
     @FXML
     private CheckBox savingDefaultSaveLocationCheckbox;
-    private Scene scene;
-    private ResourceBundle resources;
 
-
-    public void start(){
-        // Load the settings
-    }
-
-    public void setScene(Scene s){
-        this.scene = s;
-    }
+    @FXML
+    private TitledPane titledMisc;
 
     @FXML
     void OpenHelpWindow(ActionEvent event) {
@@ -293,6 +319,18 @@ public class SettingsController implements Initializable{
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        this.resources = resources;
+        focusGeneralPane();
+    }
+
+    @FXML
+    private void focusGeneralPane () {
+        settingsStackPane.getChildren().clear();
+        settingsStackPane.getChildren().add(settingsGeneralPane);
+    }
+
+    @FXML
+    private void focusHotkeysPane () {
+        settingsStackPane.getChildren().clear();;
+        settingsStackPane.getChildren().add(settingsHotkeysPane);
     }
 }
