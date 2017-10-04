@@ -283,6 +283,7 @@ public class Controller implements Initializable{
                 ellipseTool.setCanvas(canvas);
                 selectTool = new SelectTool(polygons);
                 selectTool.setCanvas(canvas);
+                polygons.draw(this.canvas.getGraphicsContext2D());
             }
         }catch(MalformedURLException mue){
             mue.printStackTrace();
