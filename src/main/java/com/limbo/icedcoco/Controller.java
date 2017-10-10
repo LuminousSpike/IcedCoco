@@ -399,10 +399,10 @@ public class Controller implements Initializable{
         currentTool = selectedTool;
 
         if(selectedTool == ellipseTool) {
-            toolsToolBar.getItems().add(toolsToolBar.getItems().indexOf(btnEllipse) + 1, ellipseSizeVBox);
+            if (!toolsToolBar.getItems().contains(ellipseSizeVBox)) toolsToolBar.getItems().add(toolsToolBar.getItems().indexOf(btnEllipse) + 1, ellipseSizeVBox);
         }
         else {
-            toolsToolBar.getItems().remove(ellipseSizeVBox);
+            if (toolsToolBar.getItems().contains(ellipseSizeVBox)) toolsToolBar.getItems().remove(ellipseSizeVBox);
         }
 
         // Handle no image being loaded.
