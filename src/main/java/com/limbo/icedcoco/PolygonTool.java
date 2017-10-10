@@ -6,7 +6,6 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 
 public class PolygonTool implements Tool {
-    public double scale = 1;
     private Canvas drawingCanvas;
     private PolyList polygons;
 
