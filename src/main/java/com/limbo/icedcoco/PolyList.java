@@ -1,6 +1,7 @@
 package com.limbo.icedcoco;
 
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.paint.Color;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 
@@ -13,6 +14,7 @@ public class PolyList {
     private LinkedList<Vertex> selectedVertices;
     private Vertex selectedVertex;
     private double scale = 1, previousMousePosX = 0, previousMousePosY = 0;
+    private Color[] colorList = new Color[] {Color.HOTPINK, Color.BLUE, Color.GREEN, Color.PURPLE, Color.BEIGE, Color.ORANGE, Color.CORNSILK, Color.YELLOW, Color.AQUAMARINE, Color.SANDYBROWN};
 
     public PolyList() {
         polygons = new LinkedList<Polygon>();
@@ -132,8 +134,10 @@ public class PolyList {
     }
 
     public void draw(GraphicsContext gc) {
+        int i = 0;
         for (Polygon p : polygons) {
-            p.draw(gc, scale);
+            p.draw(gc, scale, colorList[i % colorList.length], scale);
+            ++i;
         }
     }
 
