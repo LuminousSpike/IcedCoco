@@ -2,6 +2,7 @@ package com.limbo.icedcoco;
 
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
+import javafx.scene.paint.Paint;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 
@@ -75,7 +76,21 @@ class Polygon {
      *
      * @param gc The canvas to draw on.
      */
-    void draw(GraphicsContext gc, double offset) {
+    void draw(GraphicsContext gc, double offset, Color color, double scale) {
+
+
+        double[] xps = new double[size()];
+        double[] yps = new double[size()];
+        int[] xpoints = getXPoints();
+        int[] ypoints = getYPoints();
+        for(int i=0; i<size(); i++){
+            xps[i] = (double) xpoints[i] * scale;
+            yps[i] = (double) ypoints[i] * scale;
+        }
+        color = new Color(color.getRed(), color.getGreen(), color.getBlue(), 0.4);
+        gc.setFill(color);
+        gc.fillPolygon(xps, yps, size());
+
         for (int count = 0; count < points.size(); count++) {
             double SIZE = points.get(count).getSIZE();
 

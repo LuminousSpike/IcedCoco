@@ -85,6 +85,11 @@ public class CreateMetadataController implements Initializable {
     public void onCreateAndUse(ActionEvent event){
         createAllFiles(true);
         sessionInfo.checkImageMetadata();
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle("Success");
+        alert.setHeaderText(null);
+        alert.setContentText("Files created successfully and are now selected for use.");
+        alert.showAndWait();
     }
 
     private String getEmptyImageDataText(){

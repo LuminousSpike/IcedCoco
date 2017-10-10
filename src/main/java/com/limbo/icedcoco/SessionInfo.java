@@ -544,11 +544,11 @@ public class SessionInfo {
             writer.close();
 
         }catch(FileNotFoundException fnfe){
-
+            fnfe.printStackTrace();
         }catch(ParseException pe){
-
+            pe.printStackTrace();
         }catch(IOException ioe){
-
+            ioe.printStackTrace();
         }
 
     }
