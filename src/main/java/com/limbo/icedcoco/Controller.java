@@ -1,6 +1,8 @@
 package com.limbo.icedcoco;
 
 import javafx.application.Platform;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.event.Event;
 import javafx.fxml.FXML;
@@ -10,16 +12,19 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.control.*;
 import javafx.scene.control.Button;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextArea;
+import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.VBox;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
@@ -54,6 +59,11 @@ public class Controller implements Initializable{
     @FXML private Button tool2;
     @FXML private Button btnSettings;
     @FXML private TextArea captionTextArea;
+    @FXML private TextField ellipseSizeTextField;
+    @FXML private Slider ellipseSizeSlider;
+    @FXML private VBox ellipseSizeVBox;
+    @FXML private ToolBar toolsToolBar;
+    @FXML private Button btnEllipse;
 
     private PolygonTool polygonTool;
     private EllipseTool ellipseTool;
@@ -87,6 +97,14 @@ public class Controller implements Initializable{
         // call from main, initialising variables and things
         sessionInfo.captionTextArea = this.captionTextArea;
         sessionInfo.canvas = this.canvas;
+        ellipseSizeSlider.valueProperty().addListener(new ChangeListener<Number>() {
+            @Override
+            public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
+                int size = (int)ellipseSizeSlider.getValue();
+                ellipseSizeTextField.textProperty().setValue(String.valueOf(size));
+                ellipseTool.setSize(size);
+            }
+        });
     }
 
     private double[] getCanvasArea(){
@@ -365,17 +383,29 @@ public class Controller implements Initializable{
 
     @FXML
     private void activatePolygonTool () {
-        currentTool = polygonTool;
+        setCurrentTool(polygonTool);
     }
 
     @FXML
     private void activateEllipseTool () {
-        currentTool = ellipseTool;
+        setCurrentTool(ellipseTool);
     }
 
     @FXML
     private void activateSelectTool () {
-        currentTool = selectTool;
+        setCurrentTool(selectTool);
+    }
+
+    private void setCurrentTool(Tool selectedTool) {
+        currentTool = selectedTool;
+
+        if(selectedTool == ellipseTool) {
+            toolsToolBar.getItems().add(toolsToolBar.getItems().indexOf(btnEllipse) + 1, ellipseSizeVBox);
+        }
+        else {
+            toolsToolBar.getItems().remove(ellipseSizeVBox);
+        }
+
     }
 
     private MouseEvent scaleMouseEvent (MouseEvent e) {
@@ -399,6 +429,20 @@ public class Controller implements Initializable{
             stage.show();
         } catch (IOException ioe) {
             ioe.printStackTrace();
+        }
+    }
+
+    @FXML
+    private void setEllipseToolSize (KeyEvent ke) {
+        try {
+            int size = Integer.parseInt(ellipseSizeTextField.textProperty().getValue());
+            if (ke.getCode().equals(KeyCode.ENTER)) {
+                ellipseSizeSlider.setValue(size);
+                ellipseSizeTextField.positionCaret(ellipseSizeTextField.getLength());
+            }
+        }
+        catch (Exception ex) {
+            System.err.println(ex.getStackTrace());
         }
     }
 }
