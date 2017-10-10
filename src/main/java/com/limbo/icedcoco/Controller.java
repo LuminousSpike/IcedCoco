@@ -281,6 +281,9 @@ public class Controller implements Initializable{
                 sessionInfo.baseImageFile = imgFile;
                 sessionInfo.polygons = new PolyList();
                 drawImageInCanvas(img, true);
+                // Reset the caption text
+                captionTextArea.textProperty().setValue("");
+
                 sessionInfo.checkImageMetadata();   // load existing data for captions, polygon vertices
 
                 // TODO: Implement a proper way to initialize tools upon image load.
