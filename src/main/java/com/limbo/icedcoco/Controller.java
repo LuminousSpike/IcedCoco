@@ -70,8 +70,6 @@ public class Controller implements Initializable{
     private SelectTool selectTool;
     private Tool currentTool = null;
 
-    private double scale = 1;
-
     private PolyList polygons;
 
     @Override
@@ -148,8 +146,6 @@ public class Controller implements Initializable{
         sessionInfo.baseImage = img;
         sessionInfo.imageWidth = img.getWidth();
         sessionInfo.imageHeight = img.getHeight();
-
-
     }
 
     // called from listeners defined in Main.java
@@ -239,9 +235,7 @@ public class Controller implements Initializable{
         // important to floor, otherwise the actual canvas size may end up one pixel larger than the image drawn inside it
         canvas.setWidth(Math.floor(canvas.getWidth() + canvasZoomAmount * sessionInfo.baseImage.getWidth()));
         canvas.setHeight(Math.floor(canvas.getHeight() + canvasZoomAmount * sessionInfo.baseImage.getHeight()));
-        scale = canvas.getWidth() / startingCanvasSize;
         polygons.setScale(canvas.getWidth() / startingCanvasSize);
-        polygonTool.scale = canvas.getWidth()/startingCanvasSize;
         canvas.getGraphicsContext2D().drawImage(sessionInfo.baseImage, 0,0,canvas.getWidth(), canvas.getHeight());
         if(currentTool!=null) currentTool.draw();
     }
@@ -258,9 +252,7 @@ public class Controller implements Initializable{
         }
         canvas.setWidth(newWidth);
         canvas.setHeight(newHeight);
-        scale = canvas.getWidth() / startingCanvasSize;
         polygons.setScale(canvas.getWidth() / startingCanvasSize);
-        polygonTool.scale = canvas.getWidth()/startingCanvasSize;
         canvas.getGraphicsContext2D().drawImage(sessionInfo.baseImage, 0,0,canvas.getWidth(), canvas.getHeight());
         if(currentTool!=null) currentTool.draw();
     }
@@ -294,6 +286,7 @@ public class Controller implements Initializable{
                 // TODO: Implement a proper way to initialize tools upon image load.
                 // For now, set the current tool to null.
                 currentTool = null;
+
                 // And make a new PolygonTool.
                 this.polygons = sessionInfo.polygons;
                 polygonTool = new PolygonTool(polygons);
@@ -302,6 +295,10 @@ public class Controller implements Initializable{
                 ellipseTool.setCanvas(canvas);
                 selectTool = new SelectTool(polygons);
                 selectTool.setCanvas(canvas);
+
+                // Reset the scale.
+                polygons.setScale(1f);
+
                 polygons.draw(this.canvas.getGraphicsContext2D());
             }
         }catch(MalformedURLException mue){
@@ -409,7 +406,7 @@ public class Controller implements Initializable{
     }
 
     private MouseEvent scaleMouseEvent (MouseEvent e) {
-        MouseEvent se = new MouseEvent(e.getEventType(), e.getX() / scale, e.getY() / scale, e.getScreenX(), e.getScreenY(), e.getButton(), e.getClickCount(),
+        MouseEvent se = new MouseEvent(e.getEventType(), e.getX() / polygons.getScale(), e.getY() / polygons.getScale(), e.getScreenX(), e.getScreenY(), e.getButton(), e.getClickCount(),
                 e.isShiftDown(), e.isControlDown(), e.isAltDown(), e.isMetaDown(), e.isPrimaryButtonDown(), e.isMiddleButtonDown(),
                 e.isSecondaryButtonDown(), e.isSynthesized(), e.isPopupTrigger(), e.isStillSincePress(), e.getPickResult());
 
