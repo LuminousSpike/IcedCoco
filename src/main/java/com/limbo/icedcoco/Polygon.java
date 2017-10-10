@@ -2,6 +2,8 @@ package com.limbo.icedcoco;
 
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -175,5 +177,17 @@ class Polygon {
                 v = points.get(index);
         }
         return v;
+    }
+
+    public JSONArray getJSONArray(){
+        // returns a JSONArray containing a JSONArray for each (x,y) point of the polygon, so [[x1,y1],[x2,y2]..]
+        JSONArray out = new JSONArray();
+        for(Vertex point : points){
+            JSONArray entry = new JSONArray();
+            entry.add(0, (int)point.getAxisX());
+            entry.add(1, (int)point.getAxisY());
+            out.add(entry);
+        }
+        return out;
     }
 }

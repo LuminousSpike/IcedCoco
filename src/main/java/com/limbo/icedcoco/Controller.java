@@ -30,6 +30,7 @@ import java.io.File;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.nio.Buffer;
 import java.util.ResourceBundle;
 
 public class Controller implements Initializable{
@@ -47,6 +48,7 @@ public class Controller implements Initializable{
     @FXML private ScrollPane canvasScrollPane;
     @FXML private AnchorPane canvasAnchorPane; // canvas is child of the anchor pane, anchor pane is child of the scroll pane
     @FXML private MenuItem saveMenuItem;
+    @FXML private MenuItem exportMenuItem;
     @FXML private Canvas canvas;
     @FXML private Button tool1;
     @FXML private Button tool2;
@@ -59,15 +61,15 @@ public class Controller implements Initializable{
 
     private double scale = 1;
 
-    private PolyList polygons = new PolyList();
+    private PolyList polygons;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         this.resources = resources;
         canvasScrollPane.setContent(canvas);
+        this.polygons = sessionInfo.polygons;
         polygonTool = new PolygonTool(polygons);
         polygonTool.setCanvas(canvas);
-
         selectTool = new SelectTool(polygons);
         selectTool.setCanvas(canvas);
     }
@@ -83,6 +85,7 @@ public class Controller implements Initializable{
     public void start(){
         // call from main, initialising variables and things
         sessionInfo.captionTextArea = this.captionTextArea;
+        sessionInfo.canvas = this.canvas;
     }
 
     private double[] getCanvasArea(){
@@ -137,29 +140,21 @@ public class Controller implements Initializable{
 
     @FXML
     public void exportSegmentation(Event event){
-        // export the segmentation mask as a PNG
-        String filename = "segmentationExport.png";
-        int width = (int)sessionInfo.imageWidth;
-        int height = (int)sessionInfo.imageHeight;
-        BufferedImage exportImage = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
-        Graphics2D gfx = exportImage.createGraphics();
-        Color segmentColor = Color.pink;
-        // set everything to be black
-        gfx.setBackground(Color.black);
-        // convert all of our own Polygon instances to java.awt.Polygon instances, and draw them to the image, filled.
-        gfx.setColor(segmentColor);
-        for (Polygon p : polygons.getPolygons()) {
-            if(p.size() < 4) {continue;}
-            java.awt.Polygon awtPoly = new java.awt.Polygon(p.getXPoints(),p.getYPoints(),p.size());
-            gfx.fill(awtPoly);
-        }
+        BufferedImage exportImage = sessionInfo.getSegmentationImage();
+
         try {
-            File exportFile = new File(sessionInfo.imageDataFile.getParent() + "/" + filename);
-            ImageIO.write(exportImage, "png", exportFile);
+            FileChooser fc = new FileChooser();
+            FileChooser.ExtensionFilter imgFilter = new FileChooser.ExtensionFilter("*.png", "*.PNG");
+            fc.getExtensionFilters().add(imgFilter);
+            File exportFile = fc.showSaveDialog(scene.getWindow());
+            if (exportFile != null) {
+                ImageIO.write(exportImage, "png", exportFile);
+            }
+        }catch(MalformedURLException mue){
+            mue.printStackTrace();
         }catch(IOException ioe){
             ioe.printStackTrace();
         }
-
     }
 
     @FXML
@@ -256,6 +251,7 @@ public class Controller implements Initializable{
         // validate all the menu items in the menu file
         // disable save if there is no image loaded and no valid .json files to save the metadata to
         saveMenuItem.setDisable(sessionInfo.baseImage==null | sessionInfo.imageDataFile==null);
+        exportMenuItem.setDisable(sessionInfo.baseImage==null);
     }
 
     @FXML
@@ -270,21 +266,24 @@ public class Controller implements Initializable{
         File imgFile = fc.showOpenDialog(scene.getWindow());
         try {
             if (imgFile != null) {
-                img = new Image(imgFile.toURI().toURL().toExternalForm());       // test this works on all systems
+                img = new Image(imgFile.toURI().toURL().toExternalForm());       // not tested on mac
+                sessionInfo.baseImageFile = imgFile;
+                sessionInfo.polygons = new PolyList();
+                drawImageInCanvas(img, true);
+                sessionInfo.checkImageMetadata();   // load existing data for captions, polygon vertices
+
                 // TODO: Implement a proper way to initialize tools upon image load.
                 // For now, set the current tool to null.
                 currentTool = null;
                 // And make a new PolygonTool.
-                polygons = new PolyList();
+                this.polygons = sessionInfo.polygons;
                 polygonTool = new PolygonTool(polygons);
                 polygonTool.setCanvas(canvas);
                 ellipseTool = new EllipseTool(polygons);
                 ellipseTool.setCanvas(canvas);
                 selectTool = new SelectTool(polygons);
                 selectTool.setCanvas(canvas);
-                drawImageInCanvas(img, true);
-                sessionInfo.baseImageFile = imgFile;
-                sessionInfo.checkImageMetadata();
+                polygons.draw(this.canvas.getGraphicsContext2D());
             }
         }catch(MalformedURLException mue){
             mue.printStackTrace();
