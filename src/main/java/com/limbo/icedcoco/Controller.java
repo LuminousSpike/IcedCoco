@@ -81,6 +81,7 @@ public class Controller implements Initializable{
         polygonTool.setCanvas(canvas);
         selectTool = new SelectTool(polygons);
         selectTool.setCanvas(canvas);
+        setCurrentTool(selectTool);
     }
 
     public void setScene(Scene scene){
@@ -287,8 +288,6 @@ public class Controller implements Initializable{
                 sessionInfo.checkImageMetadata();   // load existing data for captions, polygon vertices
 
                 // TODO: Implement a proper way to initialize tools upon image load.
-                // For now, set the current tool to null.
-                currentTool = null;
 
                 // And make a new PolygonTool.
                 this.polygons = sessionInfo.polygons;
@@ -406,6 +405,10 @@ public class Controller implements Initializable{
             toolsToolBar.getItems().remove(ellipseSizeVBox);
         }
 
+        // Handle no image being loaded.
+        if (img == null) {
+            currentTool = null;
+        }
     }
 
     private MouseEvent scaleMouseEvent (MouseEvent e) {
