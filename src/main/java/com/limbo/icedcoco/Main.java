@@ -25,7 +25,7 @@ public class Main extends Application {
         cont.start();
         primaryStage.show();
 
-        HelpUI();
+        //HelpUI();
     }
 
     public void HelpUI() throws Exception {
