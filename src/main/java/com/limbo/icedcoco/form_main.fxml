@@ -10,13 +10,16 @@
 <?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.control.Separator?>
 <?import javafx.scene.control.SeparatorMenuItem?>
+<?import javafx.scene.control.Slider?>
 <?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.TextField?>
 <?import javafx.scene.control.ToolBar?>
 <?import javafx.scene.input.KeyCodeCombination?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
 <GridPane fx:id="masterPane" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="800.0" minWidth="1280.0" onKeyPressed="#onKeyPressListener" prefHeight="800.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.limbo.icedcoco.Controller">
@@ -38,7 +41,7 @@
     <children>
         <AnchorPane GridPane.rowIndex="1" GridPane.rowSpan="6">
             <children>
-                <ToolBar orientation="VERTICAL" prefHeight="40.0" prefWidth="200.0" style="-fx-background-color: #4BA5EA;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                <ToolBar fx:id="toolsToolBar" orientation="VERTICAL" prefHeight="40.0" prefWidth="200.0" style="-fx-background-color: #4BA5EA;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                     <items>
                         <Label minHeight="35.0" minWidth="60.0" text=" Tools" textFill="WHITE">
                             <font>
@@ -46,14 +49,20 @@
                             </font>
                         </Label>
                         <Separator prefHeight="2.0" prefWidth="50.0" />
-                        <Button fx:id="btnPolygon" mnemonicParsing="false" onAction="#activatePolygonTool" prefHeight="50.0" prefWidth="120.0" style="-fx-background-color: #4BA5EA;" text="  ◥     Polygon" textFill="WHITE">
+                        <Button fx:id="btnPolygon" mnemonicParsing="false" onAction="#activatePolygonTool" prefHeight="50.0" prefWidth="120.0" style="-fx-background-color: #4BA5EA;" text="◥ Polygon" textFill="WHITE">
                             <font>
                                 <Font name="Calibri" size="18.0" />
                             </font></Button>
-                        <Button fx:id="btnEllipse" mnemonicParsing="false" onAction="#activateEllipseTool" prefHeight="50.0" prefWidth="120.0" style="-fx-background-color: #4BA5EA;" text="❍    Ellipse" textFill="WHITE">
+                        <Button fx:id="btnEllipse" mnemonicParsing="false" onAction="#activateEllipseTool" prefHeight="50.0" prefWidth="120.0" style="-fx-background-color: #4BA5EA;" text="❍ Ellipse" textFill="WHITE">
                             <font>
                                 <Font name="Calibri" size="18.0" />
                             </font></Button>
+                  <VBox fx:id="ellipseSizeVBox" spacing="5.0">
+                     <children>
+                        <TextField fx:id="ellipseSizeTextField" onKeyReleased="#setEllipseToolSize" prefHeight="26.0" prefWidth="103.0" promptText="Ellipse Size:" />
+                        <Slider fx:id="ellipseSizeSlider" max="200.0" min="8.0" prefHeight="16.0" prefWidth="103.0" value="48.0" />
+                     </children>
+                  </VBox>
                   <Button fx:id="btnEllipse1" layoutX="10.0" layoutY="110.0" mnemonicParsing="false" onAction="#activateSelectTool" prefHeight="50.0" prefWidth="120.0" style="-fx-background-color: #4BA5EA;" text="Select" textFill="WHITE">
                      <font>
                         <Font name="Calibri" size="18.0" />
