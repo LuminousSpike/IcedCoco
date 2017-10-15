@@ -301,7 +301,8 @@ public class Controller implements Initializable{
                 // Reset the scale.
                 polygons.setScale(1f);
 
-                polygons.draw(this.canvas.getGraphicsContext2D());
+                setCurrentTool(selectTool);
+                currentTool.draw();
             }
         }catch(MalformedURLException mue){
             mue.printStackTrace();
