@@ -1,0 +1,490 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.CheckBox?>
+<?import javafx.scene.control.ChoiceBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Menu?>
+<?import javafx.scene.control.MenuBar?>
+<?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.control.SeparatorMenuItem?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.TitledPane?>
+<?import javafx.scene.control.ToolBar?>
+<?import javafx.scene.input.KeyCodeCombination?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.text.Font?>
+
+<GridPane fx:id="masterPane" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="800.0" minWidth="1280.0" onKeyPressed="#onKeyPressListener" prefHeight="800.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.limbo.icedcoco.SettingsController">
+    <columnConstraints>
+        <ColumnConstraints hgrow="SOMETIMES" maxWidth="139.0" minWidth="10.0" prefWidth="139.0" />
+        <ColumnConstraints hgrow="SOMETIMES" maxWidth="389.0" minWidth="10.0" prefWidth="355.0" />
+        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+    </columnConstraints>
+    <rowConstraints>
+        <RowConstraints maxHeight="73.0" minHeight="27.0" prefHeight="34.0" />
+        <RowConstraints maxHeight="201.0" minHeight="150.0" prefHeight="194.0" vgrow="SOMETIMES" />
+        <RowConstraints minHeight="150.0" prefHeight="150.0" vgrow="SOMETIMES" />
+        <RowConstraints minHeight="150.0" prefHeight="150.0" vgrow="SOMETIMES" />
+        <RowConstraints maxHeight="190.0" minHeight="150.0" prefHeight="170.0" vgrow="SOMETIMES" />
+        <RowConstraints maxHeight="154.0" minHeight="82.0" prefHeight="102.0" vgrow="SOMETIMES" />
+        <RowConstraints />
+    </rowConstraints>
+    <children>
+        <AnchorPane GridPane.rowIndex="1" GridPane.rowSpan="6">
+            <children>
+                <ToolBar orientation="VERTICAL" prefHeight="40.0" prefWidth="200.0" style="-fx-background-color: #4BA5EA;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                    <items>
+                        <Label minHeight="35.0" minWidth="60.0" text="Settings" textFill="WHITE">
+                            <font>
+                                <Font name="Calibri" size="24.0" />
+                            </font>
+                        </Label>
+                        <Separator prefHeight="2.0" prefWidth="50.0" />
+                        <Button fx:id="btnGeneral" mnemonicParsing="false" onAction="#focusGeneralPane" prefHeight="50.0" prefWidth="120.0" style="-fx-background-color: #4BA5EA;" text="General" textFill="WHITE">
+                            <font>
+                                <Font name="Calibri" size="18.0" />
+                            </font></Button>
+                        <Button fx:id="btnHotkeys" mnemonicParsing="false" onAction="#focusHotkeysPane" prefHeight="50.0" prefWidth="120.0" style="-fx-background-color: #4BA5EA;" text="Hotkeys" textFill="WHITE">
+                            <font>
+                                <Font name="Calibri" size="18.0" />
+                            </font></Button>
+                  <Button fx:id="btnEllipse1" layoutX="10.0" layoutY="110.0" mnemonicParsing="false" onAction="#activateSelectTool" prefHeight="50.0" prefWidth="120.0" style="-fx-background-color: #4BA5EA;" text="Server" textFill="WHITE">
+                     <font>
+                        <Font name="Calibri" size="18.0" />
+                     </font>
+                  </Button>
+                    </items>
+                </ToolBar>
+            </children>
+        </AnchorPane>
+        <MenuBar fx:id="menuBar" onKeyPressed="#onKeyPressListener" style="-fx-background-color: #ffffff;" GridPane.columnSpan="4">
+            <menus>
+                <Menu fx:id="fileMenu" mnemonicParsing="false" onShown="#prepareFileMenu" text="File">
+                    <items>
+                        <MenuItem mnemonicParsing="false" onAction="#menuOpenImage" text="Open Image">
+                            <accelerator>
+                                <KeyCodeCombination alt="UP" code="O" control="DOWN" meta="UP" shift="UP" shortcut="UP" />
+                            </accelerator></MenuItem>
+                        <MenuItem mnemonicParsing="false" onAction="#menuOpenImageWithCoco" text="Open Image With Metadata" />
+                        <SeparatorMenuItem mnemonicParsing="false" />
+                        <MenuItem fx:id="saveMenuItem" mnemonicParsing="false" onAction="#menuSaveData" text="Save">
+                            <accelerator>
+                                <KeyCodeCombination alt="UP" code="S" control="DOWN" meta="UP" shift="UP" shortcut="UP" />
+                            </accelerator></MenuItem>
+                        <MenuItem mnemonicParsing="false" onAction="#createMetadataFiles" text="Create Metadata Files..." />
+                        <MenuItem mnemonicParsing="false" onAction="#selectMetadataFiles" text="Select Metadata Files..." />
+                  <MenuItem mnemonicParsing="false" onAction="#exportSegmentation" text="Export Segmentation PNG" />
+                        <SeparatorMenuItem mnemonicParsing="false" />
+                        <MenuItem mnemonicParsing="false" onAction="#menuExit" text="Exit" />
+                    </items>
+                </Menu>
+                <Menu mnemonicParsing="false" text="Edit">
+                    <items>
+                        <MenuItem mnemonicParsing="false" text="Delete" />
+                        <MenuItem mnemonicParsing="false" onAction="#growCanvas" text="Zoom In">
+                            <accelerator>
+                                <KeyCodeCombination alt="UP" code="M" control="DOWN" meta="UP" shift="UP" shortcut="UP" />
+                            </accelerator></MenuItem>
+                        <MenuItem mnemonicParsing="false" onAction="#shrinkCanvas" text="Zoom Out">
+                            <accelerator>
+                                <KeyCodeCombination alt="UP" code="N" control="DOWN" meta="UP" shift="UP" shortcut="UP" />
+                            </accelerator></MenuItem>
+                    </items>
+                </Menu>
+                <Menu mnemonicParsing="false" text="Help">
+                    <items>
+                        <MenuItem mnemonicParsing="false" onAction="#OpenHelpWindow" text="About" />
+                    </items>
+                </Menu>
+            </menus>
+        </MenuBar>
+        <AnchorPane layoutX="10.0" layoutY="44.0" prefHeight="87.0" prefWidth="139.0" GridPane.rowIndex="5">
+            <children>
+                <ToolBar orientation="VERTICAL" prefHeight="40.0" prefWidth="200.0" style="-fx-background-color: #4BA5EA;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                    <items>
+                        <Separator prefHeight="30.0" prefWidth="50.0" />
+                        <Button fx:id="btnExit" alignment="TOP_CENTER" mnemonicParsing="false" onAction="#menuExit" prefHeight="50.0" prefWidth="120.0" style="-fx-background-color: #4BA5EA;" text=" Exit" textAlignment="CENTER" textFill="WHITE">
+                            <font>
+                                <Font name="Calibri" size="18.0" />
+                            </font>
+                        </Button>
+                    </items>
+                </ToolBar>
+            </children>
+        </AnchorPane>
+      <StackPane fx:id="settingsStackPane" prefHeight="150.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.columnSpan="3" GridPane.rowIndex="1" GridPane.rowSpan="5">
+         <children>
+            <GridPane fx:id="settingsHotkeysPane" hgap="20.0" layoutX="30.0" layoutY="30.0" vgap="20.0">
+               <columnConstraints>
+                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+               </columnConstraints>
+               <rowConstraints>
+                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+               </rowConstraints>
+               <children>
+                  <TitledPane fx:id="titledGlobalHotkeys" animated="false" text="Global Hotkeys">
+                     <content>
+                        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="300.0" prefWidth="200.0">
+                           <children>
+                              <GridPane hgap="10.0" prefHeight="207.0" prefWidth="541.0" vgap="10.0">
+                                 <columnConstraints>
+                                    <ColumnConstraints halignment="RIGHT" hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                    <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                    <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                 </columnConstraints>
+                                 <rowConstraints>
+                                    <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                    <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                    <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                    <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                    <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                    <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                 </rowConstraints>
+                                 <children>
+                                    <Label text="Zoom Out:" GridPane.rowIndex="2" />
+                                    <Label text="Zoom In:" GridPane.rowIndex="1" />
+                                    <Label text="Primary" GridPane.columnIndex="1" />
+                                    <Label text="Alt" GridPane.columnIndex="2" />
+                                    <TextField fx:id="hotkeyGlobalZoomInPrimary" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                                    <TextField fx:id="hotkeyGlobalZoomInAlt" GridPane.columnIndex="2" GridPane.rowIndex="1" />
+                                    <TextField fx:id="hotkeyGlobalZoomOutPrimary" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                                    <TextField fx:id="hotkeyGlobalZoomOutAlt" GridPane.columnIndex="2" GridPane.rowIndex="2" />
+                                    <Label text="Save File:" GridPane.rowIndex="3" />
+                                    <TextField fx:id="hotkeyGlobalSaveFilePrimary" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+                                    <TextField fx:id="hotkeyGlobalSaveFileAlt" GridPane.columnIndex="2" GridPane.rowIndex="3" />
+                                    <Label text="Save File As:" GridPane.rowIndex="4" />
+                                    <TextField fx:id="hotkeyGlobalSaveFileAsAlt" GridPane.columnIndex="2" GridPane.rowIndex="4" />
+                                    <TextField fx:id="hotkeyGlobalSaveFileAsPrimary" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+                                    <Label text="Export Mask:" GridPane.rowIndex="5" />
+                                    <TextField fx:id="hotkeyGlobalExportMaskPrimary" prefWidth="129.0" GridPane.columnIndex="1" GridPane.rowIndex="5" />
+                                    <TextField fx:id="hotkeyGlobalExportMaskAlt" GridPane.columnIndex="2" GridPane.rowIndex="5" />
+                                 </children>
+                                 <padding>
+                                    <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                                 </padding>
+                              </GridPane>
+                           </children>
+                        </AnchorPane>
+                     </content>
+                  </TitledPane>
+                  <TitledPane fx:id="titledToolHotkeys" animated="false" layoutX="10.0" layoutY="10.0" text="Tool Hotkeys" GridPane.columnIndex="1">
+                     <content>
+                        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="300.0" prefWidth="200.0">
+                           <children>
+                              <GridPane hgap="10.0" prefHeight="207.0" prefWidth="541.0" vgap="10.0">
+                                 <columnConstraints>
+                                    <ColumnConstraints halignment="RIGHT" hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                    <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                    <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                 </columnConstraints>
+                                 <rowConstraints>
+                                    <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                    <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                    <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                    <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                    <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                 </rowConstraints>
+                                 <padding>
+                                    <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                                 </padding>
+                                 <children>
+                                    <Label text="Primary" GridPane.columnIndex="1" />
+                                    <Label text="Alt" GridPane.columnIndex="2" />
+                                    <Label text="Polygon Tool:" GridPane.rowIndex="1" />
+                                    <Label text="Ellipse Tool" GridPane.rowIndex="2" />
+                                    <Label text="Select Tool:" GridPane.rowIndex="3" />
+                                    <TextField fx:id="hotkeyToolPolygonPrimary" prefWidth="129.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                                    <TextField fx:id="hotkeyToolPolygonAlt" prefWidth="129.0" GridPane.columnIndex="2" GridPane.rowIndex="1" />
+                                    <TextField fx:id="hotkeyToolEllipsePrimary" prefWidth="129.0" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                                    <TextField fx:id="hotkeyToolEllipseAlt" prefWidth="129.0" GridPane.columnIndex="2" GridPane.rowIndex="2" />
+                                    <TextField fx:id="hotkeyToolSelectPrimary" prefWidth="129.0" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+                                    <TextField fx:id="hotkeyToolSelectAlt" prefWidth="129.0" GridPane.columnIndex="2" GridPane.rowIndex="3" />
+                                    <TextField fx:id="hotkeyToolMoveAlt" prefWidth="129.0" GridPane.columnIndex="2" GridPane.rowIndex="4" />
+                                    <TextField fx:id="hotkeyToolMovePrimary" prefWidth="129.0" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+                                    <Label text="Move Tool:" GridPane.rowIndex="4" />
+                                 </children>
+                              </GridPane>
+                           </children>
+                        </AnchorPane>
+                     </content>
+                  </TitledPane>
+                  <TitledPane fx:id="titledPolygonToolHotkeys" animated="false" layoutX="591.0" layoutY="10.0" text="Polygon Tool Hotkeys" GridPane.rowIndex="1">
+                     <content>
+                        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="300.0" prefWidth="200.0">
+                           <children>
+                              <GridPane hgap="10.0" prefHeight="207.0" prefWidth="541.0" vgap="10.0">
+                                 <columnConstraints>
+                                    <ColumnConstraints halignment="RIGHT" hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                    <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                    <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                 </columnConstraints>
+                                 <rowConstraints>
+                                    <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                    <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                    <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                    <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                    <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                 </rowConstraints>
+                                 <children>
+                                    <Label text="Multi-Select Vertices:" GridPane.rowIndex="2" />
+                                    <Label text="Delete Selected Vertices:" GridPane.rowIndex="3" />
+                                    <Label text="Create Vertex / Polygon:" GridPane.rowIndex="1" />
+                                    <Label text="Primary" GridPane.columnIndex="1" />
+                                    <Label text="Alt" GridPane.columnIndex="2" />
+                                    <TextField fx:id="hotkeyPolygonCreatePrimary" prefWidth="129.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                                    <TextField fx:id="hotkeyPolygonCreateAlt" prefWidth="129.0" GridPane.columnIndex="2" GridPane.rowIndex="1" />
+                                    <TextField fx:id="hotkeyPolygonMutiSelectPrimary" prefWidth="129.0" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                                    <TextField fx:id="hotkeyPolygonMultiSelectAlt" prefWidth="129.0" GridPane.columnIndex="2" GridPane.rowIndex="2" />
+                                    <TextField fx:id="hotkeyPolygonDeleteSelectedVerticesPrimary" prefWidth="129.0" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+                                    <TextField fx:id="hotkeyPolygonDeleteSelectedVerticesAlt" prefWidth="129.0" GridPane.columnIndex="2" GridPane.rowIndex="3" />
+                                    <TextField fx:id="hotkeyPolygonDeleteAllVerticesAlt" prefWidth="129.0" GridPane.columnIndex="2" GridPane.rowIndex="4" />
+                                    <TextField fx:id="hotkeyPolygonDeselectAllVerticesPrimary" prefWidth="129.0" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+                                    <Label text="Deselect All Vertices:" GridPane.rowIndex="4" />
+                                 </children>
+                                 <padding>
+                                    <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                                 </padding>
+                              </GridPane>
+                           </children>
+                        </AnchorPane>
+                     </content>
+                  </TitledPane>
+                  <TitledPane fx:id="titledEllipseToolHotkeys" animated="false" layoutX="10.0" layoutY="266.0" text="Ellipse Tool Hotkeys" GridPane.columnIndex="1" GridPane.rowIndex="1">
+                     <content>
+                        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="300.0" prefWidth="200.0">
+                           <children>
+                              <GridPane hgap="10.0" prefHeight="207.0" prefWidth="541.0" vgap="10.0">
+                                 <columnConstraints>
+                                    <ColumnConstraints halignment="RIGHT" hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                    <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                    <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                 </columnConstraints>
+                                 <rowConstraints>
+                                    <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                    <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                    <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                    <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                    <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                    <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                 </rowConstraints>
+                                 <children>
+                                    <Label text="Create Perfect Ellipse:" GridPane.rowIndex="2" />
+                                    <Label text="Multi-Select Vertices:" GridPane.rowIndex="3" />
+                                    <Label text="Create Ellipse:" GridPane.rowIndex="1" />
+                                    <Label text="Primary" GridPane.columnIndex="1" />
+                                    <Label text="Alt" GridPane.columnIndex="2" />
+                                    <TextField fx:id="hotkeyEllipseCreatePrimary" prefWidth="129.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                                    <TextField fx:id="hotkeyEllipseCreateAlt" prefWidth="129.0" GridPane.columnIndex="2" GridPane.rowIndex="1" />
+                                    <TextField fx:id="hotkeyEllipseCreatePerfectPrimary" prefWidth="129.0" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                                    <TextField fx:id="hotkeyEllipseCreatePerfectAlt" prefWidth="129.0" GridPane.columnIndex="2" GridPane.rowIndex="2" />
+                                    <TextField fx:id="hotkeyEllipseMultiSelectPrimary" prefWidth="129.0" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+                                    <TextField fx:id="hotkeyEllipseMultiSelectAlt" prefWidth="129.0" GridPane.columnIndex="2" GridPane.rowIndex="3" />
+                                    <TextField fx:id="hotkeyEllipseDeleteSelectedVerticesAlt" prefWidth="129.0" GridPane.columnIndex="2" GridPane.rowIndex="4" />
+                                    <TextField fx:id="hotkeyEllipseDeleteSelectedVerticesPrimary" prefWidth="129.0" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+                                    <Label text="Delete Selected Vertices:" GridPane.rowIndex="4" />
+                                    <TextField fx:id="hotkeyEllipseDeselectAllVerticesAlt" prefWidth="129.0" GridPane.columnIndex="2" GridPane.rowIndex="5" />
+                                    <TextField fx:id="hotkeyEllipseDeselectAllVerticesPrimary" prefWidth="129.0" GridPane.columnIndex="1" GridPane.rowIndex="5" />
+                                    <Label text="Deselect All Vertices:" GridPane.rowIndex="5" />
+                                 </children>
+                                 <padding>
+                                    <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                                 </padding>
+                              </GridPane>
+                           </children>
+                        </AnchorPane>
+                     </content>
+                  </TitledPane>
+                  <TitledPane fx:id="titledSelectToolHotkeys" animated="false" layoutX="591.0" layoutY="266.0" text="Select Tool Hotkeys" GridPane.rowIndex="2">
+                     <content>
+                        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="300.0" prefWidth="200.0">
+                           <children>
+                              <GridPane hgap="10.0" prefHeight="207.0" prefWidth="541.0" vgap="10.0">
+                                 <columnConstraints>
+                                    <ColumnConstraints halignment="RIGHT" hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                    <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                    <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                 </columnConstraints>
+                                 <rowConstraints>
+                                    <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                    <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                    <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                    <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                    <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                 </rowConstraints>
+                                 <children>
+                                    <Label text="Multi-Select Vertices:" GridPane.rowIndex="2" />
+                                    <Label text="Delete Selected Vertices:" GridPane.rowIndex="3" />
+                                    <Label text="Select Vertices:" GridPane.rowIndex="1" />
+                                    <Label text="Primary" GridPane.columnIndex="1" />
+                                    <Label text="Alt" GridPane.columnIndex="2" />
+                                    <TextField fx:id="hotkeySelectVerticesPrimary" prefWidth="129.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                                    <TextField fx:id="hotkeySelectVerticesAlt" prefWidth="129.0" GridPane.columnIndex="2" GridPane.rowIndex="1" />
+                                    <TextField fx:id="hotkeySelectMultiPrimary" prefWidth="129.0" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                                    <TextField fx:id="hotkeySelectMultiAlt" prefWidth="129.0" GridPane.columnIndex="2" GridPane.rowIndex="2" />
+                                    <TextField fx:id="hotkeySelectDeleteVerticesPrimary" prefWidth="129.0" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+                                    <TextField fx:id="hotkeySelectDeleteVerticesAlt" prefWidth="129.0" GridPane.columnIndex="2" GridPane.rowIndex="3" />
+                                    <Label text="Deselect All Vertices:" GridPane.rowIndex="4" />
+                                    <TextField fx:id="hotkeySelectDeselectAllVerticesPrimary" prefWidth="129.0" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+                                    <TextField fx:id="hotkeySelectAllVerticesAlt" prefWidth="129.0" GridPane.columnIndex="2" GridPane.rowIndex="4" />
+                                 </children>
+                                 <padding>
+                                    <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                                 </padding>
+                              </GridPane>
+                           </children>
+                        </AnchorPane>
+                     </content>
+                  </TitledPane>
+               </children>
+               <StackPane.margin>
+                  <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+               </StackPane.margin>
+            </GridPane>
+            <GridPane fx:id="settingsGeneralPane" hgap="20.0" vgap="20.0">
+              <columnConstraints>
+                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+              </columnConstraints>
+              <rowConstraints>
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+              </rowConstraints>
+               <children>
+                  <TitledPane fx:id="titledStartup" animated="false" text="Startup">
+                    <content>
+                      <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="300.0" prefWidth="200.0">
+                           <children>
+                              <GridPane hgap="10.0" prefHeight="207.0" prefWidth="541.0" vgap="10.0">
+                                <columnConstraints>
+                                  <ColumnConstraints halignment="RIGHT" hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                  <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                    <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                </columnConstraints>
+                                <rowConstraints>
+                                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                    <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                    <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                </rowConstraints>
+                                 <children>
+                                    <Label text="Show Help Dialog:" />
+                                    <CheckBox fx:id="startupShdOnStartupCheckbox" mnemonicParsing="false" text="On Startup" GridPane.columnIndex="1" />
+                                    <Label text="Reopen Last Directory:" GridPane.rowIndex="2" />
+                                    <Label text="Reopen Last File:" GridPane.rowIndex="1" />
+                                    <CheckBox fx:id="startupShdOnUpdateCheckbox" mnemonicParsing="false" text="On Update" GridPane.columnIndex="2" />
+                                    <ChoiceBox fx:id="startupReopenLastDirectoryChoicebox" prefWidth="150.0" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                                    <ChoiceBox fx:id="startupReopenLastFileChoicebox" prefWidth="150.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                                    <Label text="Check for Updates:" GridPane.rowIndex="3" />
+                                    <ChoiceBox fx:id="startupCheckForUpdatesChoiceBox" prefWidth="150.0" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+                                 </children>
+                                 <padding>
+                                    <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                                 </padding>
+                              </GridPane>
+                           </children>
+                        </AnchorPane>
+                    </content>
+                  </TitledPane>
+                  <TitledPane fx:id="titledDisplay" animated="false" layoutX="10.0" layoutY="10.0" text="Display" GridPane.columnIndex="1">
+                     <content>
+                        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="300.0" prefWidth="200.0">
+                           <children>
+                              <GridPane hgap="10.0" prefHeight="207.0" prefWidth="541.0" vgap="10.0">
+                                 <columnConstraints>
+                                    <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                    <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                    <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                 </columnConstraints>
+                                 <rowConstraints>
+                                    <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                    <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                    <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                    <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                 </rowConstraints>
+                                 <padding>
+                                    <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                                 </padding>
+                              </GridPane>
+                           </children>
+                        </AnchorPane>
+                     </content>
+                  </TitledPane>
+                  <TitledPane fx:id="titledSaving" animated="false" layoutX="571.0" layoutY="10.0" text="Saving" GridPane.rowIndex="1">
+                     <content>
+                        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="300.0" prefWidth="200.0">
+                           <children>
+                              <GridPane hgap="10.0" prefHeight="207.0" prefWidth="541.0" vgap="10.0">
+                                 <columnConstraints>
+                                    <ColumnConstraints halignment="RIGHT" hgrow="SOMETIMES" maxWidth="189.0" minWidth="10.0" prefWidth="179.0" />
+                                    <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" maxWidth="235.0" minWidth="10.0" prefWidth="216.0" />
+                                    <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" maxWidth="226.0" minWidth="10.0" prefWidth="46.0" />
+                                    <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" maxWidth="149.0" minWidth="10.0" prefWidth="100.0" />
+                                 </columnConstraints>
+                                 <rowConstraints>
+                                    <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                    <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                    <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                 </rowConstraints>
+                                 <children>
+                                    <Label text="Meta Data Warning:" />
+                                    <CheckBox fx:id="savingOnOpeningImageCheckbox" mnemonicParsing="false" text="On Opening Image" GridPane.columnIndex="1" />
+                                    <Label text="Default Save Location:" GridPane.rowIndex="2" />
+                                    <Button fx:id="savingDefaultSaveLocationButton" mnemonicParsing="false" text="..." GridPane.columnIndex="2" GridPane.rowIndex="2" />
+                                    <TextField fx:id="savingDefaultSaveLocationTextField" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                                    <Label text="Automatically Export:" GridPane.rowIndex="1" />
+                                    <ChoiceBox fx:id="savingAutomaticallyExportChoiceBox" prefWidth="150.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                                    <CheckBox fx:id="savingDefaultSaveLocationCheckbox" mnemonicParsing="false" text="Enabled" GridPane.columnIndex="3" GridPane.rowIndex="2" />
+                                 </children>
+                                 <padding>
+                                    <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                                 </padding>
+                              </GridPane>
+                           </children>
+                        </AnchorPane>
+                     </content>
+                  </TitledPane>
+                  <TitledPane fx:id="titledMisc" animated="false" layoutX="10.0" layoutY="259.0" text="Misc" GridPane.columnIndex="1" GridPane.rowIndex="1">
+                     <content>
+                        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="300.0" prefWidth="200.0">
+                           <children>
+                              <GridPane hgap="10.0" prefHeight="207.0" prefWidth="541.0" vgap="10.0">
+                                 <columnConstraints>
+                                    <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                    <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                    <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                 </columnConstraints>
+                                 <rowConstraints>
+                                    <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                    <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                    <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                    <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                 </rowConstraints>
+                                 <padding>
+                                    <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                                 </padding>
+                              </GridPane>
+                           </children>
+                        </AnchorPane>
+                     </content>
+                  </TitledPane>
+               </children>
+               <StackPane.margin>
+                  <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+               </StackPane.margin>
+            </GridPane>
+         </children>
+      </StackPane>
+    </children>
+</GridPane>
