@@ -15,6 +15,9 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.StackPane;
 
+import javax.xml.bind.JAXBContext;
+import javax.xml.bind.JAXBException;
+import javax.xml.bind.Marshaller;
 import java.net.URL;
 import java.util.ResourceBundle;
 
@@ -321,6 +324,24 @@ public class SettingsController implements Initializable {
     public void initialize(URL location, ResourceBundle resources) {
         constrainTitlePanes();
         focusGeneralPane();
+        try {
+            JAXBContext jc = JAXBContext.newInstance("com.limbo.icedcoco");
+            SettingsInfo sInfo = new SettingsInfo();
+            sInfo.defaultSaveLocation = "/How/Are/You/";
+            sInfo.showHelpDialogOnStartup = false;
+            sInfo.showHelpDialogOnUpdate = true;
+            sInfo.showMetaDataWarning = true;
+            sInfo.checkForUpdates = SettingsInfo.OptionFrequency.Always;
+            sInfo.reopenLastFile = SettingsInfo.OptionFrequency.Ask;
+            sInfo.reopenLastDirectory = SettingsInfo.OptionFrequency.Ask;
+            sInfo.automaticallyExport = SettingsInfo.OptionFrequency.Never;
+
+            Marshaller m = jc.createMarshaller();
+            m.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
+            m.marshal(sInfo, System.out);
+        } catch (JAXBException e) {
+            e.printStackTrace();
+        }
     }
 
     @FXML
