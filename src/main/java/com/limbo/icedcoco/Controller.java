@@ -1,6 +1,8 @@
 package com.limbo.icedcoco;
 
 import javafx.application.Platform;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.event.Event;
 import javafx.fxml.FXML;
@@ -10,16 +12,19 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.control.*;
 import javafx.scene.control.Button;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextArea;
+import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.VBox;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
@@ -52,14 +57,18 @@ public class Controller implements Initializable{
     @FXML private Canvas canvas;
     @FXML private Button tool1;
     @FXML private Button tool2;
+    @FXML private Button btnSettings;
     @FXML private TextArea captionTextArea;
+    @FXML private TextField ellipseSizeTextField;
+    @FXML private Slider ellipseSizeSlider;
+    @FXML private VBox ellipseSizeVBox;
+    @FXML private ToolBar toolsToolBar;
+    @FXML private Button btnEllipse;
 
     private PolygonTool polygonTool;
     private EllipseTool ellipseTool;
     private SelectTool selectTool;
     private Tool currentTool = null;
-
-    private double scale = 1;
 
     private PolyList polygons;
 
@@ -72,6 +81,7 @@ public class Controller implements Initializable{
         polygonTool.setCanvas(canvas);
         selectTool = new SelectTool(polygons);
         selectTool.setCanvas(canvas);
+        setCurrentTool(selectTool);
     }
 
     public void setScene(Scene scene){
@@ -86,6 +96,14 @@ public class Controller implements Initializable{
         // call from main, initialising variables and things
         sessionInfo.captionTextArea = this.captionTextArea;
         sessionInfo.canvas = this.canvas;
+        ellipseSizeSlider.valueProperty().addListener(new ChangeListener<Number>() {
+            @Override
+            public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
+                int size = (int)ellipseSizeSlider.getValue();
+                ellipseSizeTextField.textProperty().setValue(String.valueOf(size));
+                ellipseTool.setSize(size);
+            }
+        });
     }
 
     private double[] getCanvasArea(){
@@ -129,8 +147,6 @@ public class Controller implements Initializable{
         sessionInfo.baseImage = img;
         sessionInfo.imageWidth = img.getWidth();
         sessionInfo.imageHeight = img.getHeight();
-
-
     }
 
     // called from listeners defined in Main.java
@@ -220,9 +236,7 @@ public class Controller implements Initializable{
         // important to floor, otherwise the actual canvas size may end up one pixel larger than the image drawn inside it
         canvas.setWidth(Math.floor(canvas.getWidth() + canvasZoomAmount * sessionInfo.baseImage.getWidth()));
         canvas.setHeight(Math.floor(canvas.getHeight() + canvasZoomAmount * sessionInfo.baseImage.getHeight()));
-        scale = canvas.getWidth() / startingCanvasSize;
         polygons.setScale(canvas.getWidth() / startingCanvasSize);
-        polygonTool.scale = canvas.getWidth()/startingCanvasSize;
         canvas.getGraphicsContext2D().drawImage(sessionInfo.baseImage, 0,0,canvas.getWidth(), canvas.getHeight());
         if(currentTool!=null) currentTool.draw();
     }
@@ -239,9 +253,7 @@ public class Controller implements Initializable{
         }
         canvas.setWidth(newWidth);
         canvas.setHeight(newHeight);
-        scale = canvas.getWidth() / startingCanvasSize;
         polygons.setScale(canvas.getWidth() / startingCanvasSize);
-        polygonTool.scale = canvas.getWidth()/startingCanvasSize;
         canvas.getGraphicsContext2D().drawImage(sessionInfo.baseImage, 0,0,canvas.getWidth(), canvas.getHeight());
         if(currentTool!=null) currentTool.draw();
     }
@@ -270,11 +282,13 @@ public class Controller implements Initializable{
                 sessionInfo.baseImageFile = imgFile;
                 sessionInfo.polygons = new PolyList();
                 drawImageInCanvas(img, true);
+                // Reset the caption text
+                captionTextArea.textProperty().setValue("");
+
                 sessionInfo.checkImageMetadata();   // load existing data for captions, polygon vertices
 
                 // TODO: Implement a proper way to initialize tools upon image load.
-                // For now, set the current tool to null.
-                currentTool = null;
+
                 // And make a new PolygonTool.
                 this.polygons = sessionInfo.polygons;
                 polygonTool = new PolygonTool(polygons);
@@ -283,7 +297,12 @@ public class Controller implements Initializable{
                 ellipseTool.setCanvas(canvas);
                 selectTool = new SelectTool(polygons);
                 selectTool.setCanvas(canvas);
-                polygons.draw(this.canvas.getGraphicsContext2D());
+
+                // Reset the scale.
+                polygons.setScale(1f);
+
+                setCurrentTool(selectTool);
+                currentTool.draw();
             }
         }catch(MalformedURLException mue){
             mue.printStackTrace();
@@ -364,24 +383,70 @@ public class Controller implements Initializable{
 
     @FXML
     private void activatePolygonTool () {
-        currentTool = polygonTool;
+        setCurrentTool(polygonTool);
     }
 
     @FXML
     private void activateEllipseTool () {
-        currentTool = ellipseTool;
+        setCurrentTool(ellipseTool);
     }
 
     @FXML
     private void activateSelectTool () {
-        currentTool = selectTool;
+        setCurrentTool(selectTool);
+    }
+
+    private void setCurrentTool(Tool selectedTool) {
+        currentTool = selectedTool;
+
+        if(selectedTool == ellipseTool) {
+            if (!toolsToolBar.getItems().contains(ellipseSizeVBox)) toolsToolBar.getItems().add(toolsToolBar.getItems().indexOf(btnEllipse) + 1, ellipseSizeVBox);
+        }
+        else {
+            if (toolsToolBar.getItems().contains(ellipseSizeVBox)) toolsToolBar.getItems().remove(ellipseSizeVBox);
+        }
+
+        // Handle no image being loaded.
+        if (img == null) {
+            currentTool = null;
+        }
     }
 
     private MouseEvent scaleMouseEvent (MouseEvent e) {
-        MouseEvent se = new MouseEvent(e.getEventType(), e.getX() / scale, e.getY() / scale, e.getScreenX(), e.getScreenY(), e.getButton(), e.getClickCount(),
+        MouseEvent se = new MouseEvent(e.getEventType(), e.getX() / polygons.getScale(), e.getY() / polygons.getScale(), e.getScreenX(), e.getScreenY(), e.getButton(), e.getClickCount(),
                 e.isShiftDown(), e.isControlDown(), e.isAltDown(), e.isMetaDown(), e.isPrimaryButtonDown(), e.isMiddleButtonDown(),
                 e.isSecondaryButtonDown(), e.isSynthesized(), e.isPopupTrigger(), e.isStillSincePress(), e.getPickResult());
 
         return se;
+    }
+
+    @FXML
+    private void openSettingsForm() {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("form_settings.fxml"));
+            Parent root = loader.load();
+            SettingsController cont = loader.getController();
+
+            Scene scene = new Scene(root);
+            Stage stage = new Stage();
+            stage.setScene(scene);
+            stage.show();
+        } catch (IOException ioe) {
+            ioe.printStackTrace();
+        }
+    }
+
+    @FXML
+    private void setEllipseToolSize (KeyEvent ke) {
+        try {
+            int size = Integer.parseInt(ellipseSizeTextField.textProperty().getValue());
+            if (ke.getCode().equals(KeyCode.ENTER)) {
+                ellipseSizeSlider.setValue(size);
+                ellipseSizeTextField.positionCaret(ellipseSizeTextField.getLength());
+            }
+        }
+        catch (Exception ex) {
+            System.err.println(ex.getStackTrace());
+        }
     }
 }
