@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.shape.Circle?>
+<?import javafx.scene.text.Font?>
+
+<Pane maxHeight="750.0" maxWidth="600.0" minHeight="750.0" minWidth="600.0" prefHeight="750.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.112-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.limbo.icedcoco.ControllerHelp">
+   <children>
+      <Pane prefHeight="169.0" prefWidth="600.0" style="-fx-background-color: #2cb0c1;">
+         <children>
+            <Label alignment="CENTER" layoutX="1.0" layoutY="22.0" prefHeight="107.0" prefWidth="600.0" text="W E L C O M E" textAlignment="CENTER" textFill="WHITE">
+               <font>
+                  <Font size="48.0" />
+               </font>
+            </Label>
+            <Separator layoutX="201.0" layoutY="128.0" prefWidth="200.0" />
+         </children>
+      </Pane>
+      <Pane layoutY="683.0" prefHeight="67.0" prefWidth="600.0">
+         <children>
+            <Circle fx:id="circle1" fill="#9ccdd3" layoutX="82.0" layoutY="34.0" radius="8.0" stroke="WHITE" strokeType="INSIDE" />
+            <Circle fx:id="circle2" fill="#9ccdd3" layoutX="146.0" layoutY="34.0" radius="8.0" stroke="WHITE" strokeType="INSIDE" />
+            <Circle fx:id="circle3" fill="#9ccdd3" layoutX="209.0" layoutY="34.0" radius="8.0" stroke="WHITE" strokeType="INSIDE" />
+            <Circle fx:id="circle4" fill="#9ccdd3" layoutX="273.0" layoutY="34.0" radius="8.0" stroke="WHITE" strokeType="INSIDE" />
+            <Circle fill="#9ccdd3" layoutX="338.0" layoutY="34.0" radius="8.0" stroke="WHITE" strokeType="INSIDE" />
+            <Circle fill="#9ccdd3" layoutX="402.0" layoutY="34.0" radius="8.0" stroke="WHITE" strokeType="INSIDE" />
+            <Circle fill="#9ccdd3" layoutX="465.0" layoutY="34.0" radius="8.0" stroke="WHITE" strokeType="INSIDE" />
+            <Circle fill="#9ccdd3" layoutX="529.0" layoutY="34.0" radius="8.0" stroke="WHITE" strokeType="INSIDE" />
+         </children>
+      </Pane>
+      <Pane fx:id="helpPane1" layoutX="38.0" layoutY="201.0" prefHeight="482.0" prefWidth="524.0">
+         <children>
+            <ImageView fitHeight="240.0" fitWidth="300.0" layoutX="120.0" layoutY="35.0">
+               <image>
+                  <Image url="@../../../../Pictures/Instructions/1.PNG" />
+               </image>
+            </ImageView>
+            <Label layoutX="97.0" layoutY="315.0" text="To open an existing image, an existing image with" textAlignment="CENTER" wrapText="true" />
+            <Label layoutX="97.0" layoutY="336.0" text="metadata or to create or select metadata files," textAlignment="CENTER" wrapText="true" />
+            <Label layoutX="97.0" layoutY="357.0" text="click File on the top corner." textAlignment="CENTER" wrapText="true" />
+         </children>
+      </Pane>
+      <Pane fx:id="helpPane2" layoutX="58.0" layoutY="221.0" prefHeight="482.0" prefWidth="524.0">
+         <children>
+            <Label layoutX="78.0" layoutY="307.0" text="For help, click in Help to revise how to use the program." textAlignment="CENTER" wrapText="true" />
+            <ImageView fitHeight="235.0" fitWidth="233.0" layoutX="146.0" layoutY="53.0">
+               <image>
+                  <Image url="@../../../../Pictures/Instructions/4.PNG" />
+               </image>
+            </ImageView>
+         </children>
+      </Pane>
+      <Pane fx:id="helpPane3" layoutX="68.0" layoutY="231.0" prefHeight="482.0" prefWidth="524.0">
+         <children>
+            <ImageView fitHeight="232.0" fitWidth="183.0" layoutX="161.0" layoutY="52.0">
+               <image>
+                  <Image url="@../../../../Pictures/Instructions/3.PNG" />
+               </image>
+            </ImageView>
+            <Label layoutX="128.0" layoutY="307.0" text="To segment the image, click on the tools" textAlignment="CENTER" wrapText="true" />
+            <Label layoutX="128.0" layoutY="328.0" text="tools available in the right corner." textAlignment="CENTER" wrapText="true" />
+         </children>
+      </Pane>
+      <Pane fx:id="helpPane4" disable="true" layoutX="48.0" layoutY="211.0" prefHeight="482.0" prefWidth="524.0">
+         <children>
+            <Label layoutX="144.0" layoutY="315.0" text="To delete a point, or zoom in or out" textAlignment="CENTER" wrapText="true" />
+            <Label layoutX="144.0" layoutY="336.0" text="in the image, click Edit." textAlignment="CENTER" wrapText="true" />
+            <ImageView fitHeight="240.0" fitWidth="300.0" layoutX="126.0" layoutY="37.0">
+               <image>
+                  <Image url="@../../../../Pictures/Instructions/2.PNG" />
+               </image>
+            </ImageView>
+         </children>
+      </Pane>
+   </children>
+</Pane>
