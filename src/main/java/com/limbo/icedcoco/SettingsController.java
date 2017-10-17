@@ -1,8 +1,11 @@
 package com.limbo.icedcoco;
 
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.Node;
+import javafx.scene.Parent;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.ChoiceBox;
@@ -13,12 +16,16 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.TitledPane;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Marshaller;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Map;
 import java.util.ResourceBundle;
 
 public class SettingsController implements Initializable {
@@ -302,7 +309,7 @@ public class SettingsController implements Initializable {
 
     @FXML
     void onKeyPressListener(KeyEvent event) {
-
+        test();
     }
 
     @FXML
@@ -366,5 +373,50 @@ public class SettingsController implements Initializable {
         titledSelectToolHotkeys.setCollapsible(false);
         titledStartup.setCollapsible(false);
         titledToolHotkeys.setCollapsible(false);
+    }
+
+    @FXML
+    private void test () {
+        System.out.println("Hello");
+        ArrayList<TextField> textFields = getTextFields(settingsHotkeysPane);
+        for (TextField child : textFields) {
+                System.out.println(child.getText());
+        }
+    }
+
+    private ArrayList<TextField> getTextFields (Pane pane) {
+        ArrayList<TextField> textFields = new ArrayList<TextField>();
+        ArrayList<Node> nodes = getNodes(pane, new ArrayList<Node>());
+        for (Node node : nodes) {
+            if (node instanceof TextField)
+                textFields.add((TextField)node);
+        }
+
+        System.out.println("Found TextFields: " + textFields.size());
+        return textFields;
+    }
+
+    private static <T extends Parent> ArrayList<Node> getNodes (T parent, ArrayList<Node> nodes) {
+        ObservableList<Node> children = null;
+
+        if (parent instanceof TitledPane) {
+            Node content = ((TitledPane) parent).getContent();
+            if (content instanceof Pane) {
+                children = ((Pane) content).getChildren();
+            }
+        }
+        else if (parent instanceof Pane) {
+            children = ((Pane) parent).getChildren();
+        }
+
+        for (Node node : children) {
+            if (node instanceof Parent)
+                getNodes((Parent) node, nodes);
+            else
+                nodes.add(node);
+        }
+
+        System.out.println("Found Nodes: " + nodes.size());
+        return nodes;
     }
 }
