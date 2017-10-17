@@ -156,19 +156,19 @@
                                     <Label text="Zoom In:" GridPane.rowIndex="1" />
                                     <Label text="Primary" GridPane.columnIndex="1" />
                                     <Label text="Alt" GridPane.columnIndex="2" />
-                                    <TextField fx:id="hotkeyGlobalZoomInPrimary" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-                                    <TextField fx:id="hotkeyGlobalZoomInAlt" GridPane.columnIndex="2" GridPane.rowIndex="1" />
-                                    <TextField fx:id="hotkeyGlobalZoomOutPrimary" GridPane.columnIndex="1" GridPane.rowIndex="2" />
-                                    <TextField fx:id="hotkeyGlobalZoomOutAlt" GridPane.columnIndex="2" GridPane.rowIndex="2" />
+                                    <TextField fx:id="hotkeyGlobalZoomInPrimary" editable="false" onKeyPressed="#test" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                                    <TextField fx:id="hotkeyGlobalZoomInAlt" editable="false" onKeyPressed="#test" GridPane.columnIndex="2" GridPane.rowIndex="1" />
+                                    <TextField fx:id="hotkeyGlobalZoomOutPrimary" editable="false" onKeyPressed="#test" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                                    <TextField fx:id="hotkeyGlobalZoomOutAlt" editable="false" onKeyPressed="#test" GridPane.columnIndex="2" GridPane.rowIndex="2" />
                                     <Label text="Save File:" GridPane.rowIndex="3" />
-                                    <TextField fx:id="hotkeyGlobalSaveFilePrimary" GridPane.columnIndex="1" GridPane.rowIndex="3" />
-                                    <TextField fx:id="hotkeyGlobalSaveFileAlt" GridPane.columnIndex="2" GridPane.rowIndex="3" />
+                                    <TextField fx:id="hotkeyGlobalSaveFilePrimary" editable="false" onKeyPressed="#test" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+                                    <TextField fx:id="hotkeyGlobalSaveFileAlt" editable="false" onKeyPressed="#test" GridPane.columnIndex="2" GridPane.rowIndex="3" />
                                     <Label text="Save File As:" GridPane.rowIndex="4" />
-                                    <TextField fx:id="hotkeyGlobalSaveFileAsAlt" GridPane.columnIndex="2" GridPane.rowIndex="4" />
-                                    <TextField fx:id="hotkeyGlobalSaveFileAsPrimary" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+                                    <TextField fx:id="hotkeyGlobalSaveFileAsAlt" editable="false" onKeyPressed="#test" GridPane.columnIndex="2" GridPane.rowIndex="4" />
+                                    <TextField fx:id="hotkeyGlobalSaveFileAsPrimary" editable="false" onKeyPressed="#test" GridPane.columnIndex="1" GridPane.rowIndex="4" />
                                     <Label text="Export Mask:" GridPane.rowIndex="5" />
-                                    <TextField fx:id="hotkeyGlobalExportMaskPrimary" prefWidth="129.0" GridPane.columnIndex="1" GridPane.rowIndex="5" />
-                                    <TextField fx:id="hotkeyGlobalExportMaskAlt" GridPane.columnIndex="2" GridPane.rowIndex="5" />
+                                    <TextField fx:id="hotkeyGlobalExportMaskPrimary" editable="false" onKeyPressed="#test" prefWidth="129.0" GridPane.columnIndex="1" GridPane.rowIndex="5" />
+                                    <TextField fx:id="hotkeyGlobalExportMaskAlt" editable="false" onKeyPressed="#test" GridPane.columnIndex="2" GridPane.rowIndex="5" />
                                  </children>
                                  <padding>
                                     <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
