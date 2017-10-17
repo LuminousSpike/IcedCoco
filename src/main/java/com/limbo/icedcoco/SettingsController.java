@@ -24,8 +24,6 @@ import javax.xml.bind.JAXBException;
 import javax.xml.bind.Marshaller;
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Map;
 import java.util.ResourceBundle;
 
 public class SettingsController implements Initializable {
@@ -252,6 +250,8 @@ public class SettingsController implements Initializable {
     @FXML
     private TitledPane titledMisc;
 
+    private ArrayList<TextField> textFields;
+
     @FXML
     void OpenHelpWindow(ActionEvent event) {
 
@@ -309,7 +309,7 @@ public class SettingsController implements Initializable {
 
     @FXML
     void onKeyPressListener(KeyEvent event) {
-        test();
+
     }
 
     @FXML
@@ -376,12 +376,9 @@ public class SettingsController implements Initializable {
     }
 
     @FXML
-    private void test () {
-        System.out.println("Hello");
-        ArrayList<TextField> textFields = getTextFields(settingsHotkeysPane);
-        for (TextField child : textFields) {
-                System.out.println(child.getText());
-        }
+    private void test (KeyEvent event) {
+        TextField source = (TextField)event.getSource();
+        source.setText("yolo");
     }
 
     private ArrayList<TextField> getTextFields (Pane pane) {
@@ -392,7 +389,6 @@ public class SettingsController implements Initializable {
                 textFields.add((TextField)node);
         }
 
-        System.out.println("Found TextFields: " + textFields.size());
         return textFields;
     }
 
@@ -401,22 +397,20 @@ public class SettingsController implements Initializable {
 
         if (parent instanceof TitledPane) {
             Node content = ((TitledPane) parent).getContent();
-            if (content instanceof Pane) {
-                children = ((Pane) content).getChildren();
-            }
-        }
-        else if (parent instanceof Pane) {
-            children = ((Pane) parent).getChildren();
+            getNodes((Parent)content, nodes);
         }
 
-        for (Node node : children) {
-            if (node instanceof Parent)
-                getNodes((Parent) node, nodes);
-            else
-                nodes.add(node);
+        for (Node node : parent.getChildrenUnmodifiable()) {
+           if (node instanceof Pane) {
+           }
+           if (node instanceof TextField) {
+               nodes.add(node);
+           }
+           if (node instanceof Parent) {
+               getNodes((Parent)node, nodes);
+           }
         }
 
-        System.out.println("Found Nodes: " + nodes.size());
         return nodes;
     }
 }
