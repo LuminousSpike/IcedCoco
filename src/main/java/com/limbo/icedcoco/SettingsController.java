@@ -378,7 +378,7 @@ public class SettingsController implements Initializable {
     }
 
     @FXML
-    private void test (KeyEvent event) {
+    private void getKeyCombination (KeyEvent event) {
         TextField source = (TextField)event.getSource();
         String keysDown = "";
         if (event.isShortcutDown())

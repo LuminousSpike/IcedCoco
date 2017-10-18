@@ -156,19 +156,19 @@
                                     <Label text="Zoom In:" GridPane.rowIndex="1" />
                                     <Label text="Primary" GridPane.columnIndex="1" />
                                     <Label text="Alt" GridPane.columnIndex="2" />
-                                    <TextField fx:id="hotkeyGlobalZoomInPrimary" editable="false" onKeyPressed="#test" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-                                    <TextField fx:id="hotkeyGlobalZoomInAlt" editable="false" onKeyPressed="#test" GridPane.columnIndex="2" GridPane.rowIndex="1" />
-                                    <TextField fx:id="hotkeyGlobalZoomOutPrimary" editable="false" onKeyPressed="#test" GridPane.columnIndex="1" GridPane.rowIndex="2" />
-                                    <TextField fx:id="hotkeyGlobalZoomOutAlt" editable="false" onKeyPressed="#test" GridPane.columnIndex="2" GridPane.rowIndex="2" />
+                                    <TextField fx:id="hotkeyGlobalZoomInPrimary" editable="false" onKeyPressed="#getKeyCombination" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                                    <TextField fx:id="hotkeyGlobalZoomInAlt" editable="false" onKeyPressed="#getKeyCombination" GridPane.columnIndex="2" GridPane.rowIndex="1" />
+                                    <TextField fx:id="hotkeyGlobalZoomOutPrimary" editable="false" onKeyPressed="#getKeyCombination" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                                    <TextField fx:id="hotkeyGlobalZoomOutAlt" editable="false" onKeyPressed="#getKeyCombination" GridPane.columnIndex="2" GridPane.rowIndex="2" />
                                     <Label text="Save File:" GridPane.rowIndex="3" />
-                                    <TextField fx:id="hotkeyGlobalSaveFilePrimary" editable="false" onKeyPressed="#test" GridPane.columnIndex="1" GridPane.rowIndex="3" />
-                                    <TextField fx:id="hotkeyGlobalSaveFileAlt" editable="false" onKeyPressed="#test" GridPane.columnIndex="2" GridPane.rowIndex="3" />
+                                    <TextField fx:id="hotkeyGlobalSaveFilePrimary" editable="false" onKeyPressed="#getKeyCombination" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+                                    <TextField fx:id="hotkeyGlobalSaveFileAlt" editable="false" onKeyPressed="#getKeyCombination" GridPane.columnIndex="2" GridPane.rowIndex="3" />
                                     <Label text="Save File As:" GridPane.rowIndex="4" />
-                                    <TextField fx:id="hotkeyGlobalSaveFileAsAlt" editable="false" onKeyPressed="#test" GridPane.columnIndex="2" GridPane.rowIndex="4" />
-                                    <TextField fx:id="hotkeyGlobalSaveFileAsPrimary" editable="false" onKeyPressed="#test" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+                                    <TextField fx:id="hotkeyGlobalSaveFileAsAlt" editable="false" onKeyPressed="#getKeyCombination" GridPane.columnIndex="2" GridPane.rowIndex="4" />
+                                    <TextField fx:id="hotkeyGlobalSaveFileAsPrimary" editable="false" onKeyPressed="#getKeyCombination" GridPane.columnIndex="1" GridPane.rowIndex="4" />
                                     <Label text="Export Mask:" GridPane.rowIndex="5" />
-                                    <TextField fx:id="hotkeyGlobalExportMaskPrimary" editable="false" onKeyPressed="#test" prefWidth="129.0" GridPane.columnIndex="1" GridPane.rowIndex="5" />
-                                    <TextField fx:id="hotkeyGlobalExportMaskAlt" editable="false" onKeyPressed="#test" GridPane.columnIndex="2" GridPane.rowIndex="5" />
+                                    <TextField fx:id="hotkeyGlobalExportMaskPrimary" editable="false" onKeyPressed="#getKeyCombination" prefWidth="129.0" GridPane.columnIndex="1" GridPane.rowIndex="5" />
+                                    <TextField fx:id="hotkeyGlobalExportMaskAlt" editable="false" onKeyPressed="#getKeyCombination" GridPane.columnIndex="2" GridPane.rowIndex="5" />
                                  </children>
                                  <padding>
                                     <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
@@ -204,14 +204,14 @@
                                     <Label text="Polygon Tool:" GridPane.rowIndex="1" />
                                     <Label text="Ellipse Tool" GridPane.rowIndex="2" />
                                     <Label text="Select Tool:" GridPane.rowIndex="3" />
-                                    <TextField fx:id="hotkeyToolPolygonPrimary" prefWidth="129.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-                                    <TextField fx:id="hotkeyToolPolygonAlt" prefWidth="129.0" GridPane.columnIndex="2" GridPane.rowIndex="1" />
-                                    <TextField fx:id="hotkeyToolEllipsePrimary" prefWidth="129.0" GridPane.columnIndex="1" GridPane.rowIndex="2" />
-                                    <TextField fx:id="hotkeyToolEllipseAlt" prefWidth="129.0" GridPane.columnIndex="2" GridPane.rowIndex="2" />
-                                    <TextField fx:id="hotkeyToolSelectPrimary" prefWidth="129.0" GridPane.columnIndex="1" GridPane.rowIndex="3" />
-                                    <TextField fx:id="hotkeyToolSelectAlt" prefWidth="129.0" GridPane.columnIndex="2" GridPane.rowIndex="3" />
-                                    <TextField fx:id="hotkeyToolMoveAlt" prefWidth="129.0" GridPane.columnIndex="2" GridPane.rowIndex="4" />
-                                    <TextField fx:id="hotkeyToolMovePrimary" prefWidth="129.0" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+                                    <TextField fx:id="hotkeyToolPolygonPrimary" editable="false" onKeyPressed="#getKeyCombination" prefWidth="129.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                                    <TextField fx:id="hotkeyToolPolygonAlt" editable="false" onKeyPressed="#getKeyCombination" prefWidth="129.0" GridPane.columnIndex="2" GridPane.rowIndex="1" />
+                                    <TextField fx:id="hotkeyToolEllipsePrimary" editable="false" onKeyPressed="#getKeyCombination" prefWidth="129.0" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                                    <TextField fx:id="hotkeyToolEllipseAlt" editable="false" onKeyPressed="#getKeyCombination" prefWidth="129.0" GridPane.columnIndex="2" GridPane.rowIndex="2" />
+                                    <TextField fx:id="hotkeyToolSelectPrimary" editable="false" onKeyPressed="#getKeyCombination" prefWidth="129.0" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+                                    <TextField fx:id="hotkeyToolSelectAlt" editable="false" onKeyPressed="#getKeyCombination" prefWidth="129.0" GridPane.columnIndex="2" GridPane.rowIndex="3" />
+                                    <TextField fx:id="hotkeyToolMoveAlt" editable="false" onKeyPressed="#getKeyCombination" prefWidth="129.0" GridPane.columnIndex="2" GridPane.rowIndex="4" />
+                                    <TextField fx:id="hotkeyToolMovePrimary" editable="false" onKeyPressed="#getKeyCombination" prefWidth="129.0" GridPane.columnIndex="1" GridPane.rowIndex="4" />
                                     <Label text="Move Tool:" GridPane.rowIndex="4" />
                                  </children>
                               </GridPane>
@@ -242,14 +242,14 @@
                                     <Label text="Create Vertex / Polygon:" GridPane.rowIndex="1" />
                                     <Label text="Primary" GridPane.columnIndex="1" />
                                     <Label text="Alt" GridPane.columnIndex="2" />
-                                    <TextField fx:id="hotkeyPolygonCreatePrimary" prefWidth="129.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-                                    <TextField fx:id="hotkeyPolygonCreateAlt" prefWidth="129.0" GridPane.columnIndex="2" GridPane.rowIndex="1" />
-                                    <TextField fx:id="hotkeyPolygonMutiSelectPrimary" prefWidth="129.0" GridPane.columnIndex="1" GridPane.rowIndex="2" />
-                                    <TextField fx:id="hotkeyPolygonMultiSelectAlt" prefWidth="129.0" GridPane.columnIndex="2" GridPane.rowIndex="2" />
-                                    <TextField fx:id="hotkeyPolygonDeleteSelectedVerticesPrimary" prefWidth="129.0" GridPane.columnIndex="1" GridPane.rowIndex="3" />
-                                    <TextField fx:id="hotkeyPolygonDeleteSelectedVerticesAlt" prefWidth="129.0" GridPane.columnIndex="2" GridPane.rowIndex="3" />
-                                    <TextField fx:id="hotkeyPolygonDeleteAllVerticesAlt" prefWidth="129.0" GridPane.columnIndex="2" GridPane.rowIndex="4" />
-                                    <TextField fx:id="hotkeyPolygonDeselectAllVerticesPrimary" prefWidth="129.0" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+                                    <TextField fx:id="hotkeyPolygonCreatePrimary" editable="false" onKeyPressed="#getKeyCombination" prefWidth="129.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                                    <TextField fx:id="hotkeyPolygonCreateAlt" editable="false" onKeyPressed="#getKeyCombination" prefWidth="129.0" GridPane.columnIndex="2" GridPane.rowIndex="1" />
+                                    <TextField fx:id="hotkeyPolygonMutiSelectPrimary" editable="false" onKeyPressed="#getKeyCombination" prefWidth="129.0" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                                    <TextField fx:id="hotkeyPolygonMultiSelectAlt" editable="false" onKeyPressed="#getKeyCombination" prefWidth="129.0" GridPane.columnIndex="2" GridPane.rowIndex="2" />
+                                    <TextField fx:id="hotkeyPolygonDeleteSelectedVerticesPrimary" editable="false" onKeyPressed="#getKeyCombination" prefWidth="129.0" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+                                    <TextField fx:id="hotkeyPolygonDeleteSelectedVerticesAlt" editable="false" onKeyPressed="#getKeyCombination" prefWidth="129.0" GridPane.columnIndex="2" GridPane.rowIndex="3" />
+                                    <TextField fx:id="hotkeyPolygonDeleteAllVerticesAlt" editable="false" onKeyPressed="#getKeyCombination" prefWidth="129.0" GridPane.columnIndex="2" GridPane.rowIndex="4" />
+                                    <TextField fx:id="hotkeyPolygonDeselectAllVerticesPrimary" editable="false" onKeyPressed="#getKeyCombination" prefWidth="129.0" GridPane.columnIndex="1" GridPane.rowIndex="4" />
                                     <Label text="Deselect All Vertices:" GridPane.rowIndex="4" />
                                  </children>
                                  <padding>
@@ -284,17 +284,17 @@
                                     <Label text="Create Ellipse:" GridPane.rowIndex="1" />
                                     <Label text="Primary" GridPane.columnIndex="1" />
                                     <Label text="Alt" GridPane.columnIndex="2" />
-                                    <TextField fx:id="hotkeyEllipseCreatePrimary" prefWidth="129.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-                                    <TextField fx:id="hotkeyEllipseCreateAlt" prefWidth="129.0" GridPane.columnIndex="2" GridPane.rowIndex="1" />
-                                    <TextField fx:id="hotkeyEllipseCreatePerfectPrimary" prefWidth="129.0" GridPane.columnIndex="1" GridPane.rowIndex="2" />
-                                    <TextField fx:id="hotkeyEllipseCreatePerfectAlt" prefWidth="129.0" GridPane.columnIndex="2" GridPane.rowIndex="2" />
-                                    <TextField fx:id="hotkeyEllipseMultiSelectPrimary" prefWidth="129.0" GridPane.columnIndex="1" GridPane.rowIndex="3" />
-                                    <TextField fx:id="hotkeyEllipseMultiSelectAlt" prefWidth="129.0" GridPane.columnIndex="2" GridPane.rowIndex="3" />
-                                    <TextField fx:id="hotkeyEllipseDeleteSelectedVerticesAlt" prefWidth="129.0" GridPane.columnIndex="2" GridPane.rowIndex="4" />
-                                    <TextField fx:id="hotkeyEllipseDeleteSelectedVerticesPrimary" prefWidth="129.0" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+                                    <TextField fx:id="hotkeyEllipseCreatePrimary" editable="false" onKeyPressed="#getKeyCombination" prefWidth="129.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                                    <TextField fx:id="hotkeyEllipseCreateAlt" editable="false" onKeyPressed="#getKeyCombination" prefWidth="129.0" GridPane.columnIndex="2" GridPane.rowIndex="1" />
+                                    <TextField fx:id="hotkeyEllipseCreatePerfectPrimary" editable="false" onKeyPressed="#getKeyCombination" prefWidth="129.0" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                                    <TextField fx:id="hotkeyEllipseCreatePerfectAlt" editable="false" onKeyPressed="#getKeyCombination" prefWidth="129.0" GridPane.columnIndex="2" GridPane.rowIndex="2" />
+                                    <TextField fx:id="hotkeyEllipseMultiSelectPrimary" editable="false" onKeyPressed="#getKeyCombination" prefWidth="129.0" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+                                    <TextField fx:id="hotkeyEllipseMultiSelectAlt" editable="false" onKeyPressed="#getKeyCombination" prefWidth="129.0" GridPane.columnIndex="2" GridPane.rowIndex="3" />
+                                    <TextField fx:id="hotkeyEllipseDeleteSelectedVerticesAlt" editable="false" onKeyPressed="#getKeyCombination" prefWidth="129.0" GridPane.columnIndex="2" GridPane.rowIndex="4" />
+                                    <TextField fx:id="hotkeyEllipseDeleteSelectedVerticesPrimary" editable="false" onKeyPressed="#getKeyCombination" prefWidth="129.0" GridPane.columnIndex="1" GridPane.rowIndex="4" />
                                     <Label text="Delete Selected Vertices:" GridPane.rowIndex="4" />
-                                    <TextField fx:id="hotkeyEllipseDeselectAllVerticesAlt" prefWidth="129.0" GridPane.columnIndex="2" GridPane.rowIndex="5" />
-                                    <TextField fx:id="hotkeyEllipseDeselectAllVerticesPrimary" prefWidth="129.0" GridPane.columnIndex="1" GridPane.rowIndex="5" />
+                                    <TextField fx:id="hotkeyEllipseDeselectAllVerticesAlt" editable="false" onKeyPressed="#getKeyCombination" prefWidth="129.0" GridPane.columnIndex="2" GridPane.rowIndex="5" />
+                                    <TextField fx:id="hotkeyEllipseDeselectAllVerticesPrimary" editable="false" onKeyPressed="#getKeyCombination" prefWidth="129.0" GridPane.columnIndex="1" GridPane.rowIndex="5" />
                                     <Label text="Deselect All Vertices:" GridPane.rowIndex="5" />
                                  </children>
                                  <padding>
@@ -328,15 +328,15 @@
                                     <Label text="Select Vertices:" GridPane.rowIndex="1" />
                                     <Label text="Primary" GridPane.columnIndex="1" />
                                     <Label text="Alt" GridPane.columnIndex="2" />
-                                    <TextField fx:id="hotkeySelectVerticesPrimary" prefWidth="129.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-                                    <TextField fx:id="hotkeySelectVerticesAlt" prefWidth="129.0" GridPane.columnIndex="2" GridPane.rowIndex="1" />
-                                    <TextField fx:id="hotkeySelectMultiPrimary" prefWidth="129.0" GridPane.columnIndex="1" GridPane.rowIndex="2" />
-                                    <TextField fx:id="hotkeySelectMultiAlt" prefWidth="129.0" GridPane.columnIndex="2" GridPane.rowIndex="2" />
-                                    <TextField fx:id="hotkeySelectDeleteVerticesPrimary" prefWidth="129.0" GridPane.columnIndex="1" GridPane.rowIndex="3" />
-                                    <TextField fx:id="hotkeySelectDeleteVerticesAlt" prefWidth="129.0" GridPane.columnIndex="2" GridPane.rowIndex="3" />
+                                    <TextField fx:id="hotkeySelectVerticesPrimary" editable="false" onKeyPressed="#getKeyCombination" prefWidth="129.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                                    <TextField fx:id="hotkeySelectVerticesAlt" editable="false" onKeyPressed="#getKeyCombination" prefWidth="129.0" GridPane.columnIndex="2" GridPane.rowIndex="1" />
+                                    <TextField fx:id="hotkeySelectMultiPrimary" editable="false" onKeyPressed="#getKeyCombination" prefWidth="129.0" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                                    <TextField fx:id="hotkeySelectMultiAlt" editable="false" onKeyPressed="#getKeyCombination" prefWidth="129.0" GridPane.columnIndex="2" GridPane.rowIndex="2" />
+                                    <TextField fx:id="hotkeySelectDeleteVerticesPrimary" editable="false" onKeyPressed="#getKeyCombination" prefWidth="129.0" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+                                    <TextField fx:id="hotkeySelectDeleteVerticesAlt" editable="false" onKeyPressed="#getKeyCombination" prefWidth="129.0" GridPane.columnIndex="2" GridPane.rowIndex="3" />
                                     <Label text="Deselect All Vertices:" GridPane.rowIndex="4" />
-                                    <TextField fx:id="hotkeySelectDeselectAllVerticesPrimary" prefWidth="129.0" GridPane.columnIndex="1" GridPane.rowIndex="4" />
-                                    <TextField fx:id="hotkeySelectAllVerticesAlt" prefWidth="129.0" GridPane.columnIndex="2" GridPane.rowIndex="4" />
+                                    <TextField fx:id="hotkeySelectDeselectAllVerticesPrimary" editable="false" onKeyPressed="#getKeyCombination" prefWidth="129.0" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+                                    <TextField fx:id="hotkeySelectAllVerticesAlt" editable="false" onKeyPressed="#getKeyCombination" prefWidth="129.0" GridPane.columnIndex="2" GridPane.rowIndex="4" />
                                  </children>
                                  <padding>
                                     <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
