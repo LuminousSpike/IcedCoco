@@ -14,6 +14,8 @@ import javafx.scene.control.MenuBar;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.TextField;
 import javafx.scene.control.TitledPane;
+import javafx.scene.input.KeyCodeCombination;
+import javafx.scene.input.KeyCombination;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
@@ -378,7 +380,16 @@ public class SettingsController implements Initializable {
     @FXML
     private void test (KeyEvent event) {
         TextField source = (TextField)event.getSource();
-        source.setText("yolo");
+        String keysDown = "";
+        if (event.isShortcutDown())
+            keysDown += "Shortcut+";
+        if (event.isShiftDown())
+            keysDown += "Shift+";
+        if (event.getCode().isLetterKey()) {
+            keysDown += event.getCode().toString();
+            KeyCombination kc = KeyCombination.keyCombination(keysDown);
+            source.setText(kc.getDisplayText());
+        }
     }
 
     private ArrayList<TextField> getTextFields (Pane pane) {
