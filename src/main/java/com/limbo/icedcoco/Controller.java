@@ -44,6 +44,8 @@ public class Controller implements Initializable{
 
     private ResourceBundle resources;
     private SessionInfo sessionInfo = new SessionInfo();
+    private SettingsInfo settingsInfo = new SettingsInfo();
+    private HotkeysInfo hotkeysInfo = new HotkeysInfo();
     private Scene scene;
     private Stage primaryStage;
     private float canvasZoomAmount = 0.05f;   // as a percentage, from 0 - 1
@@ -85,6 +87,8 @@ public class Controller implements Initializable{
         selectTool = new SelectTool(polygons);
         selectTool.setCanvas(canvas);
         setCurrentTool(selectTool);
+
+        loadSettings();
     }
 
     public void setScene(Scene scene){
@@ -476,6 +480,28 @@ public class Controller implements Initializable{
             if (ke.getCode().equals(KeyCode.ENTER)) {
                 ellipseSizeSlider.setValue(size);
                 ellipseSizeTextField.positionCaret(ellipseSizeTextField.getLength());
+            }
+        }
+        catch (Exception ex) {
+            System.err.println(ex.getStackTrace());
+        }
+    }
+
+    private void loadSettings () {
+        try {
+            File file = new File("Settings.xml");
+            if (file.exists()) {
+                settingsInfo = SettingsInfo.load("Settings.xml");
+            } else {
+                settingsInfo.loadDefault();
+                settingsInfo.save("Settings.xml");
+            }
+            file = new File("Hotkeys.xml");
+            if (file.exists()) {
+                hotkeysInfo = HotkeysInfo.load("Hotkeys.xml");
+            } else {
+                hotkeysInfo.loadDefault();
+                hotkeysInfo.save("Hotkeys.xml");
             }
         }
         catch (Exception ex) {
