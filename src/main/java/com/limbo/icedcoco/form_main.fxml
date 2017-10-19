@@ -124,7 +124,7 @@
             <content>
                 <AnchorPane fx:id="canvasAnchorPane" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="0.0" minWidth="0.0" prefHeight="632.0" prefWidth="1168.0">
                     <children>
-                        <Canvas fx:id="canvas" height="650.0" layoutX="14.0" layoutY="14.0" onKeyPressed="#onKeyPressListener" onMouseClicked="#onMouseClickedListener_Canvas" onMouseDragEntered="#onDragEnteredListener_Canvas" onMouseDragged="#onMouseDraggedListener_Canvas" onMousePressed="#onMousePressedListener_Canvas" onMouseReleased="#onMouseReleasedListener_Canvas" width="1100.0" />
+                        <Canvas fx:id="canvas" height="650.0" layoutX="14.0" layoutY="14.0" onKeyPressed="#onKeyPressListener" onKeyReleased="#onKeyReleasedListener" onMouseClicked="#onMouseClickedListener_Canvas" onMouseDragEntered="#onDragEnteredListener_Canvas" onMouseDragged="#onMouseDraggedListener_Canvas" onMousePressed="#onMousePressedListener_Canvas" onMouseReleased="#onMouseReleasedListener_Canvas" width="1100.0" />
                     </children>
                 </AnchorPane>
             </content>

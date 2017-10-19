@@ -419,6 +419,14 @@ public class Controller implements Initializable{
     }
 
     @FXML
+    private void onKeyReleasedListener (KeyEvent e) {
+        if (currentTool != null) {
+            drawImageInCanvas(img, false);
+            currentTool.onKeyReleasedListener(e);
+        }
+    }
+
+    @FXML
     private void activatePolygonTool () {
         setCurrentTool(polygonTool);
     }

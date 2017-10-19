@@ -9,6 +9,7 @@ import javafx.scene.paint.Color;
 public class EllipseTool implements Tool {
     private PolyList polygons;
     private Canvas drawingCanvas;
+    private HotkeysInfo hotkeysInfo;
     private double startingX = 0;
     private double startingY = 0;
     private double endX = 0;
@@ -31,8 +32,18 @@ public class EllipseTool implements Tool {
     }
 
     @Override
+    public void setHotkeysInfo(HotkeysInfo hotkeysInfo) {
+        this.hotkeysInfo = hotkeysInfo;
+    }
+
+    @Override
     public void onKeyPress(KeyEvent e) {
         draw();
+    }
+
+    @Override
+    public void onKeyReleasedListener(KeyEvent e) {
+
     }
 
     @Override

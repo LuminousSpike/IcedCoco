@@ -9,6 +9,7 @@ import javafx.scene.paint.Color;
 public class SelectTool implements Tool {
     private PolyList polygons;
     private Canvas drawingCanvas;
+    private HotkeysInfo hotkeysInfo;
     private double startingX;
     private double startingY;
     private double endX = 0;
@@ -25,7 +26,17 @@ public class SelectTool implements Tool {
     }
 
     @Override
+    public void setHotkeysInfo(HotkeysInfo hotkeysInfo) {
+        this.hotkeysInfo = hotkeysInfo;
+    }
+
+    @Override
     public void onKeyPress(KeyEvent e) {
+        draw();
+    }
+
+    @Override
+    public void onKeyReleasedListener(KeyEvent e) {
         draw();
     }
 

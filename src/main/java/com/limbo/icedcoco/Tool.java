@@ -15,7 +15,12 @@ public interface Tool {
      */
     void setCanvas (Canvas canvas);
 
+    void setHotkeysInfo (HotkeysInfo hotkeysInfo);
+
      void onKeyPress (KeyEvent e);
+
+    void onKeyReleasedListener(KeyEvent e);
+
     /**
      * Handles the tool logic for when the mouse enters a drag motion.
      * @param e Mouse Event for the tool to process.

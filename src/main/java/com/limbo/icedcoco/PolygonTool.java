@@ -7,6 +7,7 @@ import javafx.scene.input.MouseEvent;
 
 public class PolygonTool implements Tool {
     private Canvas drawingCanvas;
+    private HotkeysInfo hotkeysInfo;
     private PolyList polygons;
 
     public PolygonTool(PolyList polyList) {
@@ -16,6 +17,11 @@ public class PolygonTool implements Tool {
     @Override
     public void setCanvas(Canvas canvas) {
         drawingCanvas = canvas;
+    }
+
+    @Override
+    public void setHotkeysInfo(HotkeysInfo hotkeysInfo) {
+        this.hotkeysInfo = hotkeysInfo;
     }
 
     @Override
@@ -58,6 +64,11 @@ public class PolygonTool implements Tool {
 
     public void onKeyPress(KeyEvent e) {
         draw();
+    }
+
+    @Override
+    public void onKeyReleasedListener(KeyEvent e) {
+
     }
 
     /* I'm not too sure about this as of yet.
