@@ -61,6 +61,9 @@ public class SettingsController implements Initializable {
     private GridPane settingsGeneralPane;
 
     @FXML
+    private GridPane settingsHotkeysPane;
+
+    @FXML
     private TitledPane titledGlobalHotkeys;
 
     @FXML
@@ -97,6 +100,20 @@ public class SettingsController implements Initializable {
     private TitledPane titledToolHotkeys;
 
     @FXML
+    private TitledPane titledDisplay;
+
+    @FXML
+    private TitledPane titledStartup;
+
+    @FXML
+    private TitledPane titledMisc;
+
+    @FXML
+    private TitledPane titledSaving;
+
+    @FXML
+    private TitledPane titledToolActionHotkeys;
+    @FXML
     private TextField hotkeyToolPolygonPrimary;
 
     @FXML
@@ -121,138 +138,35 @@ public class SettingsController implements Initializable {
     private TextField hotkeyToolMovePrimary;
 
     @FXML
-    private TitledPane titledPolygonToolHotkeys;
+    private GridPane hotkeyActionPrimarySecondary;
 
     @FXML
-    private TextField hotkeyPolygonCreatePrimary;
+    private TextField hotkeyActionPrimaryPrimary;
 
     @FXML
-    private TextField hotkeyPolygonCreateAlt;
+    private TextField hotkeyActionPrimaryAlt;
 
     @FXML
-    private TextField hotkeyPolygonMutiSelectPrimary;
+    private TextField hotkeyActionSecondaryPrimary;
 
     @FXML
-    private TextField hotkeyPolygonMultiSelectAlt;
+    private TextField hotkeyActionSecondaryAlt;
 
     @FXML
-    private TextField hotkeyPolygonDeleteSelectedVerticesPrimary;
+    private TextField hotkeyActionModifierPrimary;
 
     @FXML
-    private TextField hotkeyPolygonDeleteSelectedVerticesAlt;
+    private TextField hotkeyActionModifierAlt;
 
     @FXML
-    private TextField hotkeyPolygonDeleteAllVerticesAlt;
+    private TextField hotkeyActionUndoAlt;
 
     @FXML
-    private TextField hotkeyPolygonDeselectAllVerticesPrimary;
-
-    @FXML
-    private TitledPane titledEllipseToolHotkeys;
-
-    @FXML
-    private TextField hotkeyEllipseCreatePrimary;
-
-    @FXML
-    private TextField hotkeyEllipseCreateAlt;
-
-    @FXML
-    private TextField hotkeyEllipseCreatePerfectPrimary;
-
-    @FXML
-    private TextField hotkeyEllipseCreatePerfectAlt;
-
-    @FXML
-    private TextField hotkeyEllipseMultiSelectPrimary;
-
-    @FXML
-    private TextField hotkeyEllipseMultiSelectAlt;
-
-    @FXML
-    private TextField hotkeyEllipseDeleteSelectedVerticesAlt;
-
-    @FXML
-    private TextField hotkeyEllipseDeleteSelectedVerticesPrimary;
-
-    @FXML
-    private TextField hotkeyEllipseDeselectAllVerticesAlt;
-
-    @FXML
-    private TextField hotkeyEllipseDeselectAllVerticesPrimary;
-
-    @FXML
-    private TitledPane titledSelectToolHotkeys;
-
-    @FXML
-    private TextField hotkeySelectVerticesPrimary;
-
-    @FXML
-    private TextField hotkeySelectVerticesAlt;
-
-    @FXML
-    private TextField hotkeySelectMultiPrimary;
-
-    @FXML
-    private TextField hotkeySelectMultiAlt;
-
-    @FXML
-    private TextField hotkeySelectDeleteVerticesPrimary;
-
-    @FXML
-    private TextField hotkeySelectDeleteVerticesAlt;
-
-    @FXML
-    private TextField hotkeySelectDeselectAllVerticesPrimary;
-
-    @FXML
-    private TextField hotkeySelectAllVerticesAlt;
-
-    @FXML
-    private GridPane settingsHotkeysPane;
-
-    @FXML
-    private TitledPane titledStartup;
-
-    @FXML
-    private CheckBox startupShdOnStartupCheckbox;
-
-    @FXML
-    private CheckBox startupShdOnUpdateCheckbox;
-
-    @FXML
-    private ChoiceBox<?> startupReopenLastDirectoryChoicebox;
-
-    @FXML
-    private ChoiceBox<?> startupReopenLastFileChoicebox;
-
-    @FXML
-    private ChoiceBox<?> startupCheckForUpdatesChoiceBox;
-
-    @FXML
-    private TitledPane titledDisplay;
-
-    @FXML
-    private TitledPane titledSaving;
-
-    @FXML
-    private CheckBox savingOnOpeningImageCheckbox;
-
-    @FXML
-    private Button savingDefaultSaveLocationButton;
-
-    @FXML
-    private TextField savingDefaultSaveLocationTextField;
-
-    @FXML
-    private ChoiceBox<?> savingAutomaticallyExportChoiceBox;
-
-    @FXML
-    private CheckBox savingDefaultSaveLocationCheckbox;
-
-    @FXML
-    private TitledPane titledMisc;
+    private TextField hotkeyActionUndoPrimary;
 
     private ArrayList<TextField> textFields;
+
+    private HotkeysInfo hotkeysInfo;
 
     @FXML
     void OpenHelpWindow(ActionEvent event) {
@@ -367,12 +281,10 @@ public class SettingsController implements Initializable {
 
     private void constrainTitlePanes () {
         titledDisplay.setCollapsible(false);
-        titledEllipseToolHotkeys.setCollapsible(false);
+        titledToolActionHotkeys.setCollapsible(false);
         titledGlobalHotkeys.setCollapsible(false);
         titledMisc.setCollapsible(false);
-        titledPolygonToolHotkeys.setCollapsible(false);
         titledSaving.setCollapsible(false);
-        titledSelectToolHotkeys.setCollapsible(false);
         titledStartup.setCollapsible(false);
         titledToolHotkeys.setCollapsible(false);
     }
@@ -423,5 +335,91 @@ public class SettingsController implements Initializable {
         }
 
         return nodes;
+    }
+
+    private void loadHotkeys () {
+        hotkeyGlobalZoomInPrimary.setText(hotkeysInfo.GlobalZoomInPrimary.getDisplayText());
+        hotkeyGlobalZoomInAlt.setText(hotkeysInfo.GlobalZoomInAlt.getDisplayText());
+        hotkeyGlobalZoomOutPrimary.setText(hotkeysInfo.GlobalZoomOutPrimary.getDisplayText());
+        hotkeyGlobalZoomOutAlt.setText(hotkeysInfo.GlobalZoomOutAlt.getDisplayText());
+        hotkeyGlobalSaveFilePrimary.setText(hotkeysInfo.GlobalSaveFilePrimary.getDisplayText());
+        hotkeyGlobalSaveFileAlt.setText(hotkeysInfo.GlobalSaveFileAlt.getDisplayText());
+        hotkeyGlobalSaveFileAsPrimary.setText(hotkeysInfo.GlobalSaveFileAsPrimary.getDisplayText());
+        hotkeyGlobalSaveFileAsAlt.setText(hotkeysInfo.GlobalSaveFileAsAlt.getDisplayText());
+        hotkeyGlobalExportMaskPrimary.setText(hotkeysInfo.GlobalExportMaskPrimary.getDisplayText());
+        hotkeyGlobalExportMaskAlt.setText(hotkeysInfo.GlobalExportMaskAlt.getDisplayText());
+        hotkeyToolPolygonPrimary.setText(hotkeysInfo.ToolPolygonPrimary.getDisplayText());
+        hotkeyToolPolygonAlt.setText(hotkeysInfo.ToolPolygonAlt.getDisplayText());
+        hotkeyToolEllipsePrimary.setText(hotkeysInfo.ToolEllipsePrimary.getDisplayText());
+        hotkeyToolEllipseAlt.setText(hotkeysInfo.ToolEllipseAlt.getDisplayText());
+        hotkeyToolSelectPrimary.setText(hotkeysInfo.ToolSelectPrimary.getDisplayText());
+        hotkeyToolSelectAlt.setText(hotkeysInfo.ToolSelectAlt.getDisplayText());
+        hotkeyToolMovePrimary.setText(hotkeysInfo.ToolMovePrimary.getDisplayText());
+        hotkeyToolMoveAlt.setText(hotkeysInfo.ToolMoveAlt.getDisplayText());
+        hotkeyActionPrimaryPrimary.setText(hotkeysInfo.ActionPrimaryPrimary.getDisplayText());
+        hotkeyActionPrimaryAlt.setText(hotkeysInfo.ActionPrimaryAlt.getDisplayText());
+        hotkeyActionSecondaryPrimary.setText(hotkeysInfo.ActionSecondaryPrimary.getDisplayText());
+        hotkeyActionSecondaryAlt.setText(hotkeysInfo.ActionSecondaryAlt.getDisplayText());
+        hotkeyActionModifierPrimary.setText(hotkeysInfo.ActionModifierPrimary.getDisplayText());
+        hotkeyActionModifierAlt.setText(hotkeysInfo.ActionModifierAlt.getDisplayText());
+        hotkeyActionUndoPrimary.setText(hotkeysInfo.ActionUndoPrimary.getDisplayText());
+        hotkeyActionUndoAlt.setText(hotkeysInfo.ActionUndoAlt.getDisplayText());
+    }
+    private void defaultHotkeys () {
+        //hotkeysInfo.GlobalZoomInPrimary = KeyCombination.keyCombination();
+        //hotkeysInfo.GlobalZoomInAlt = KeyCombination.keyCombination();
+        //hotkeysInfo.GlobalZoomOutPrimary = KeyCombination.keyCombination();
+        //hotkeysInfo.GlobalZoomOutAlt = KeyCombination.keyCombination();
+        //hotkeysInfo.GlobalSaveFilePrimary = KeyCombination.keyCombination();
+        //hotkeysInfo.GlobalSaveFileAlt = KeyCombination.keyCombination();
+        //hotkeysInfo.GlobalSaveFileAsPrimary = KeyCombination.keyCombination();
+        //hotkeysInfo.GlobalSaveFileAsAlt = KeyCombination.keyCombination();
+        //hotkeysInfo.GlobalExportMaskPrimary = KeyCombination.keyCombination();
+        //hotkeysInfo.GlobalExportMaskAlt = KeyCombination.keyCombination();
+        //hotkeysInfo.ToolPolygonPrimary = KeyCombination.keyCombination();
+        //hotkeysInfo.ToolPolygonAlt = KeyCombination.keyCombination();
+        //hotkeysInfo.ToolEllipsePrimary = KeyCombination.keyCombination();
+        //hotkeysInfo.ToolEllipseAlt = KeyCombination.keyCombination();
+        //hotkeysInfo.ToolSelectPrimary = KeyCombination.keyCombination();
+        //hotkeysInfo.ToolSelectAlt = KeyCombination.keyCombination();
+        //hotkeysInfo.ToolMovePrimary = KeyCombination.keyCombination();
+        //hotkeysInfo.ToolMoveAlt = KeyCombination.keyCombination();
+        //hotkeysInfo.ActionPrimaryPrimary = KeyCombination.keyCombination();
+        //hotkeysInfo.ActionPrimaryAlt = KeyCombination.keyCombination();
+        //hotkeysInfo.ActionSecondaryPrimary = KeyCombination.keyCombination();
+        //hotkeysInfo.ActionSecondaryAlt = KeyCombination.keyCombination();
+        //hotkeysInfo.ActionModifierPrimary = KeyCombination.keyCombination();
+        //hotkeysInfo.ActionModifierAlt = KeyCombination.keyCombination();
+        //hotkeysInfo.ActionUndoPrimary = KeyCombination.keyCombination();
+        //hotkeysInfo.ActionUndoAlt = KeyCombination.keyCombination();
+    }
+
+    private void saveHotkeys() {
+        hotkeysInfo.GlobalZoomInPrimary = KeyCombination.keyCombination(hotkeyGlobalZoomInPrimary.getText());
+        hotkeysInfo.GlobalZoomInAlt = KeyCombination.keyCombination(hotkeyGlobalZoomInAlt.getText());
+        hotkeysInfo.GlobalZoomOutPrimary = KeyCombination.keyCombination(hotkeyGlobalZoomOutPrimary.getText());
+        hotkeysInfo.GlobalZoomOutAlt = KeyCombination.keyCombination(hotkeyGlobalZoomOutAlt.getText());
+        hotkeysInfo.GlobalSaveFilePrimary = KeyCombination.keyCombination(hotkeyGlobalSaveFilePrimary.getText());
+        hotkeysInfo.GlobalSaveFileAlt = KeyCombination.keyCombination(hotkeyGlobalSaveFileAlt.getText());
+        hotkeysInfo.GlobalSaveFileAsPrimary = KeyCombination.keyCombination(hotkeyGlobalSaveFileAsPrimary.getText());
+        hotkeysInfo.GlobalSaveFileAsAlt = KeyCombination.keyCombination(hotkeyGlobalSaveFileAsAlt.getText());
+        hotkeysInfo.GlobalExportMaskPrimary = KeyCombination.keyCombination(hotkeyGlobalExportMaskPrimary.getText());
+        hotkeysInfo.GlobalExportMaskAlt = KeyCombination.keyCombination(hotkeyGlobalExportMaskAlt.getText());
+        hotkeysInfo.ToolPolygonPrimary = KeyCombination.keyCombination(hotkeyToolPolygonPrimary.getText());
+        hotkeysInfo.ToolPolygonAlt = KeyCombination.keyCombination(hotkeyToolPolygonAlt.getText());
+        hotkeysInfo.ToolEllipsePrimary = KeyCombination.keyCombination(hotkeyToolEllipsePrimary.getText());
+        hotkeysInfo.ToolEllipseAlt = KeyCombination.keyCombination(hotkeyToolEllipseAlt.getText());
+        hotkeysInfo.ToolSelectPrimary = KeyCombination.keyCombination(hotkeyToolSelectPrimary.getText());
+        hotkeysInfo.ToolSelectAlt = KeyCombination.keyCombination(hotkeyToolSelectAlt.getText());
+        hotkeysInfo.ToolMovePrimary = KeyCombination.keyCombination(hotkeyToolMovePrimary.getText());
+        hotkeysInfo.ToolMoveAlt = KeyCombination.keyCombination(hotkeyToolMoveAlt.getText());
+        hotkeysInfo.ActionPrimaryPrimary = KeyCombination.keyCombination(hotkeyActionPrimaryPrimary.getText());
+        hotkeysInfo.ActionPrimaryAlt = KeyCombination.keyCombination(hotkeyActionPrimaryAlt.getText());
+        hotkeysInfo.ActionSecondaryPrimary = KeyCombination.keyCombination(hotkeyActionSecondaryPrimary.getText());
+        hotkeysInfo.ActionSecondaryAlt = KeyCombination.keyCombination(hotkeyActionSecondaryAlt.getText());
+        hotkeysInfo.ActionModifierPrimary = KeyCombination.keyCombination(hotkeyActionModifierPrimary.getText());
+        hotkeysInfo.ActionModifierAlt = KeyCombination.keyCombination(hotkeyActionModifierAlt.getText());
+        hotkeysInfo.ActionUndoPrimary = KeyCombination.keyCombination(hotkeyActionUndoPrimary.getText());
+        hotkeysInfo.ActionUndoAlt = KeyCombination.keyCombination(hotkeyActionUndoAlt.getText());
     }
 }
