@@ -7,14 +7,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Parent;
-import javafx.scene.control.Button;
-import javafx.scene.control.CheckBox;
-import javafx.scene.control.ChoiceBox;
-import javafx.scene.control.Menu;
-import javafx.scene.control.MenuBar;
-import javafx.scene.control.MenuItem;
-import javafx.scene.control.TextField;
-import javafx.scene.control.TitledPane;
+import javafx.scene.control.*;
 import javafx.scene.input.KeyCombination;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.GridPane;
@@ -25,6 +18,7 @@ import javafx.stage.Window;
 
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Optional;
 import java.util.ResourceBundle;
 
 public class SettingsController implements Initializable {
@@ -230,10 +224,12 @@ public class SettingsController implements Initializable {
         if (settingsStackPane.getChildren().get(0) == settingsGeneralPane) {
             saveGeneralSettings();
             settingsInfo.save("Settings.xml");
+            showConfirmation("General Settings", "File Saved", "The Settings file has been saved and applied!");
         }
         else if (settingsStackPane.getChildren().get(0) == settingsHotkeysPane) {
             saveHotkeys();
             hotkeysInfo.save("Hotkeys.xml");
+            showConfirmation("Hotkey Settings", "File Saved", "The Hotkeys file has been saved and applied!");
         }
     }
 
@@ -247,10 +243,12 @@ public class SettingsController implements Initializable {
         if (settingsStackPane.getChildren().get(0) == settingsGeneralPane) {
             settingsInfo.loadDefault();
             loadGeneralSettings();
+            showConfirmation("General Settings", "Defaults Applied", "The Settings default values have been applied!");
         }
         else if (settingsStackPane.getChildren().get(0) == settingsHotkeysPane) {
             hotkeysInfo.loadDefault();
             loadHotkeys();
+            showConfirmation("Hotkey Settings", "Defaults Applied", "The Hotkeys default values have been applied!");
         }
     }
 
@@ -359,6 +357,28 @@ public class SettingsController implements Initializable {
         }
 
         return nodes;
+    }
+
+    private boolean showNotSaved (String headerText, String contentText){
+        Alert alert = new Alert(Alert.AlertType.WARNING);
+        alert.setTitle("Warning");
+        alert.setHeaderText(headerText);
+        alert.setContentText(contentText);
+
+        ButtonType buttonYes = new ButtonType("Yes");
+        ButtonType buttonNo = new ButtonType("No");
+        alert.getButtonTypes().setAll(buttonYes, buttonNo);
+
+        Optional<ButtonType> result = alert.showAndWait();
+        return (result.get() == buttonYes);
+    }
+
+    private void showConfirmation (String titleText, String headerText, String contentText){
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle(titleText);
+        alert.setHeaderText(headerText);
+        alert.setContentText(contentText);
+        alert.showAndWait();
     }
 
     private void loadGeneralSettings () {
