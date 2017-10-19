@@ -91,14 +91,23 @@ public class Controller implements Initializable{
         loadSettings();
     }
 
+    /**
+     * @param scene The scene object for the Controller.
+     */
     public void setScene(Scene scene){
         this.scene = scene;
     }
 
+    /**
+     * @param stage The stage object for the Controller.
+     */
     public void setStage(Stage stage){
         this.primaryStage = stage;
     }
 
+    /**
+     * The startup logic that requires the GUI to be initialized before executing.
+     */
     public void start(){
         // call from main, initialising variables and things
         sessionInfo.captionTextArea = this.captionTextArea;
@@ -113,6 +122,9 @@ public class Controller implements Initializable{
         });
     }
 
+    /**
+     * @return The current area occupied by the canvas.
+     */
     private double[] getCanvasArea(){
         // return the width and height as [width,height], of the space the canvas can expand to fill
         // canvas can occupy area from (1,1) to (3,5) of the gridpane. (column, row)
@@ -121,6 +133,10 @@ public class Controller implements Initializable{
         return new double[] {w, h};
     }
 
+    /**
+     * @param img The displayed image.
+     * @param newImage Flag to execute image set up logic.
+     */
     private void drawImageInCanvas(Image img, boolean newImage){
         if(img==null){
             // do nothing
@@ -156,11 +172,17 @@ public class Controller implements Initializable{
         sessionInfo.imageHeight = img.getHeight();
     }
 
-    // called from listeners defined in Main.java
+    /**
+     * Called from listeners defined in Main.java.
+     */
     public void onWindowResize(){
         return;
     }
 
+    /**
+     * Exports the polygons to a RLE image.
+     * @param event Not currently being used.
+     */
     @FXML
     public void exportSegmentation(Event event){
         BufferedImage exportImage = sessionInfo.getSegmentationImage();
@@ -180,6 +202,10 @@ public class Controller implements Initializable{
         }
     }
 
+    /**
+     * Displays the help dialog.
+     * @param event Not currently used.
+     */
     @FXML
     public void OpenHelpWindow(Event event) {
         try {
@@ -196,6 +222,10 @@ public class Controller implements Initializable{
         }
     }
 
+    /**
+     * Creates the files required to store image meta data such as segmentations.
+     * @param event Not currently used.
+     */
     @FXML
     public void createMetadataFiles(ActionEvent event){
         Parent createFilesRoot;
@@ -214,6 +244,10 @@ public class Controller implements Initializable{
         }
     }
 
+    /**
+     * Opens the file dialog to select meta data files.
+     * @param evet Not currently used.
+     */
     @FXML
     public void selectMetadataFiles(ActionEvent evet){
         Parent createFilesRoot;
@@ -233,6 +267,10 @@ public class Controller implements Initializable{
         }
     }
 
+    /**
+     * Zooms in the image by enlarging the canvas.
+     * @param event Not currently used.
+     */
     @FXML
     public void growCanvas(Event event){
         // change by ten percent
@@ -248,6 +286,10 @@ public class Controller implements Initializable{
         if(currentTool!=null) currentTool.draw();
     }
 
+    /**
+     * Zooms out the image by shrinking the canvas.
+     * @param event Not currently used.
+     */
     @FXML
     public void shrinkCanvas(Event event){
         if(sessionInfo.baseImage==null){
@@ -265,6 +307,10 @@ public class Controller implements Initializable{
         if(currentTool!=null) currentTool.draw();
     }
 
+    /**
+     * Disables context menu items if they cannot be currently used.
+     * @param event Not currently used.
+     */
     @FXML
     public void prepareFileMenu(Event event){
         // validate all the menu items in the menu file
@@ -273,6 +319,10 @@ public class Controller implements Initializable{
         exportMenuItem.setDisable(sessionInfo.baseImage==null);
     }
 
+    /**
+     * Opens the file dialog to select an image.
+     * @param event Not currently used.
+     */
     @FXML
     public void menuOpenImage(ActionEvent event){
 
@@ -318,24 +368,40 @@ public class Controller implements Initializable{
         }
     }
 
+    /**
+     * Debug method?
+     * @param event Not currently used.
+     */
     @FXML
     public void menuOpenImageWithCoco(ActionEvent event){
         // load the image to the canvas with the metadata (make default opening method?)
         System.out.println("Open image with metadata");
     }
 
+    /**
+     * Saves the meta data to their files.
+     * @param event Not currently used.
+     */
     @FXML
     public void menuSaveData(ActionEvent event){
         System.out.println("saving to .json files...");
         sessionInfo.overwriteMetadata(primaryStage);
     }
 
+    /**
+     * Exits the entire application.
+     * @param event Not currently used.
+     */
     @FXML
     public void menuExit(ActionEvent event) {
         Platform.exit();
     }
 
 
+    /**
+     * Executes logic for when the mouse is clicked.
+     * @param e The mouse event used.
+     */
     @FXML
     private void onMouseClickedListener_Canvas (MouseEvent e) {
         if (currentTool != null) {
@@ -351,6 +417,10 @@ public class Controller implements Initializable{
 
     }
 
+    /**
+     * Executes logic for when a mouse button is being pressed down.
+     * @param e The mouse event used.
+     */
     @FXML
     private void onMousePressedListener_Canvas (MouseEvent e) {
         if (currentTool != null) {
@@ -359,6 +429,10 @@ public class Controller implements Initializable{
         }
     }
 
+    /**
+     * Executes logic for when a mouse button is released.
+     * @param e The mouse event used.
+     */
     @FXML
     private void onMouseReleasedListener_Canvas (MouseEvent e) {
         if (currentTool != null) {
@@ -368,6 +442,10 @@ public class Controller implements Initializable{
         }
     }
 
+    /**
+     * Executes logic for when the mouse is starting to be dragged across.
+     * @param e The mouse event used.
+     */
     @FXML
     private void onDragEnteredListener_Canvas (MouseEvent e) {
         if (currentTool != null) {
@@ -376,14 +454,22 @@ public class Controller implements Initializable{
         }
     }
 
+    /**
+     * Executes logic for when the mouse is being dragged across.
+     * @param e The mouse event used.
+     */
     @FXML
-
     private void onMouseDraggedListener_Canvas (MouseEvent e) {
         if (currentTool != null) {
             drawImageInCanvas(img, false);
             currentTool.onMouseDragged(scaleMouseEvent(e));
         }
     }
+
+    /**
+     * Executes logic for when a keyboard key is being pressed.
+     * @param e The keyboard event being used.
+     */
     @FXML
     private void onKeyPressListener (KeyEvent e)
     {
@@ -418,21 +504,34 @@ public class Controller implements Initializable{
         }
     }
 
+    /**
+     * Sets the current tool to be the polygon tool.
+     */
     @FXML
     private void activatePolygonTool () {
         setCurrentTool(polygonTool);
     }
 
+    /**
+     * Sets the current tool to be the ellipse tool.
+     */
     @FXML
     private void activateEllipseTool () {
         setCurrentTool(ellipseTool);
     }
 
+    /**
+     * Sets the current tool to be the select tool.
+     */
     @FXML
     private void activateSelectTool () {
         setCurrentTool(selectTool);
     }
 
+    /**
+     * Wrapper to handle the ellipse tool box being visible.
+     * @param selectedTool The tool to make current.
+     */
     private void setCurrentTool(Tool selectedTool) {
         currentTool = selectedTool;
 
@@ -449,6 +548,11 @@ public class Controller implements Initializable{
         }
     }
 
+    /**
+     * Scales the mouse coordinates by the current scale size.
+     * @param e The mouse event to scale.
+     * @return The scaled mouse event.
+     */
     private MouseEvent scaleMouseEvent (MouseEvent e) {
         MouseEvent se = new MouseEvent(e.getEventType(), e.getX() / polygons.getScale(), e.getY() / polygons.getScale(), e.getScreenX(), e.getScreenY(), e.getButton(), e.getClickCount(),
                 e.isShiftDown(), e.isControlDown(), e.isAltDown(), e.isMetaDown(), e.isPrimaryButtonDown(), e.isMiddleButtonDown(),
@@ -457,6 +561,9 @@ public class Controller implements Initializable{
         return se;
     }
 
+    /**
+     * Displays the settings form.
+     */
     @FXML
     private void openSettingsForm() {
         try {
@@ -476,6 +583,10 @@ public class Controller implements Initializable{
         }
     }
 
+    /**
+     * Changes the ellipse size whenever the enter key is pressed.
+     * @param ke The keyboard event to use.
+     */
     @FXML
     private void setEllipseToolSize (KeyEvent ke) {
         try {
@@ -490,6 +601,9 @@ public class Controller implements Initializable{
         }
     }
 
+    /**
+     * Loads the settings and hotkeys from their respective XML files.
+     */
     private void loadSettings () {
         try {
             File file = new File("Settings.xml");
