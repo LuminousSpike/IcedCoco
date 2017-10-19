@@ -13,9 +13,11 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
+import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import javafx.stage.Window;
 
+import java.io.File;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Optional;
@@ -216,26 +218,63 @@ public class SettingsController implements Initializable {
 
     @FXML
     private void loadFromFile() {
-        System.err.println("loadFromFile has been called!");
+        FileChooser fc = new FileChooser();
+        FileChooser.ExtensionFilter xmlFilter = new FileChooser.ExtensionFilter("XML", "*.xml", "*.XML");
+        fc.getExtensionFilters().add(xmlFilter);
+        // Hacky way to do this, but it works...
+        File file = fc.showOpenDialog(btnLoad.getScene().getWindow());
+
+        if (settingsStackPane.getChildren().get(0) == settingsGeneralPane) {
+            settingsInfo = SettingsInfo.load(file.getAbsolutePath());
+            loadGeneralSettings();
+            showConfirmation("General Settings", "File Loaded", "The Settings file has been loaded and applied!");
+        }
+        else if (settingsStackPane.getChildren().get(0) == settingsHotkeysPane) {
+            hotkeysInfo = HotkeysInfo.load(file.getAbsolutePath());
+            loadHotkeys();
+            showConfirmation("Hotkey Settings", "File Loaded", "The Hotkeys file has been loaded and applied!");
+        }
     }
 
     @FXML
     private void saveToFile() {
+        writeToFile(null);
+    }
+
+    @FXML
+    private void writeToFile(String filepath) {
         if (settingsStackPane.getChildren().get(0) == settingsGeneralPane) {
             saveGeneralSettings();
-            settingsInfo.save("Settings.xml");
+
+            if (filepath == null)
+                settingsInfo.save("Settings.xml");
+            else
+                settingsInfo.save(filepath);
+
             showConfirmation("General Settings", "File Saved", "The Settings file has been saved and applied!");
         }
         else if (settingsStackPane.getChildren().get(0) == settingsHotkeysPane) {
             saveHotkeys();
-            hotkeysInfo.save("Hotkeys.xml");
+
+            if (filepath == null)
+                hotkeysInfo.save("Hotkeys.xml");
+            else
+                hotkeysInfo.save(filepath);
+
             showConfirmation("Hotkey Settings", "File Saved", "The Hotkeys file has been saved and applied!");
         }
     }
 
     @FXML
     private void saveToFileAs() {
-        System.err.println("saveToFileAs has been called!");
+        FileChooser fc = new FileChooser();
+        FileChooser.ExtensionFilter xmlFilter = new FileChooser.ExtensionFilter("XML", "*.xml", "*.XML");
+        fc.getExtensionFilters().add(xmlFilter);
+        // Hacky way to do this, but it works...
+        File file = fc.showSaveDialog(btnSave.getScene().getWindow());
+
+        if (settingsStackPane.getChildren().get(0) == settingsGeneralPane || settingsStackPane.getChildren().get(0) == settingsHotkeysPane)
+            writeToFile(file.getAbsolutePath());
     }
 
     @FXML
