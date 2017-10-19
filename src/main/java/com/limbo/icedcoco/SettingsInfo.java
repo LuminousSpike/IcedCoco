@@ -1,9 +1,6 @@
 package com.limbo.icedcoco;
 
-import javax.xml.bind.JAXBContext;
-import javax.xml.bind.JAXBException;
-import javax.xml.bind.Marshaller;
-import javax.xml.bind.Unmarshaller;
+import javax.xml.bind.*;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 import java.io.File;
@@ -49,19 +46,13 @@ public class SettingsInfo {
         }
     }
 
-    static SettingsInfo load (String filepath) {
-        try {
+    static SettingsInfo load (String filepath) throws Exception, IOException, JAXBException, UnmarshalException {
             File file = new File(filepath);
             if (file.exists()) {
                 JAXBContext jaxbContext = JAXBContext.newInstance("com.limbo.icedcoco");
                 Unmarshaller unmarshaller = jaxbContext.createUnmarshaller();
-                SettingsInfo settingsInfo = (SettingsInfo) unmarshaller.unmarshal(file);
-                return settingsInfo;
+                return (SettingsInfo) unmarshaller.unmarshal(file);
             }
-        }
-        catch (Exception ex) {
-            System.err.println(ex.getStackTrace());
-        }
         return null;
     }
 

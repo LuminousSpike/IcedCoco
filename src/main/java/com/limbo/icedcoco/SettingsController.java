@@ -17,7 +17,10 @@ import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import javafx.stage.Window;
 
+import javax.xml.bind.JAXBException;
+import javax.xml.bind.UnmarshalException;
 import java.io.File;
+import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Optional;
@@ -225,14 +228,54 @@ public class SettingsController implements Initializable {
         File file = fc.showOpenDialog(btnLoad.getScene().getWindow());
 
         if (settingsStackPane.getChildren().get(0) == settingsGeneralPane) {
-            settingsInfo = SettingsInfo.load(file.getAbsolutePath());
-            loadGeneralSettings();
-            showConfirmation("General Settings", "File Loaded", "The Settings file has been loaded and applied!");
+            try {
+                settingsInfo = SettingsInfo.load(file.getAbsolutePath());
+                loadGeneralSettings();
+                showConfirmation("General Settings", "File Loaded", "The Settings file has been loaded and applied!");
+            }
+            catch (IOException iex){
+                System.err.println(iex.getStackTrace());
+                if (settingsStackPane.getChildren().get(0) == settingsGeneralPane) {
+                    showError("General Settings", "Invalid File", "The Settings file is not a valid file!");
+                }
+                else if (settingsStackPane.getChildren().get(0) == settingsHotkeysPane) {
+                    showError("Hotkey Settings", "Invalid File", "The Hotkeys file is not a valid file!");
+                }
+            }
+            catch (Exception ex) {
+                System.err.println(ex.getStackTrace());
+                if (settingsStackPane.getChildren().get(0) == settingsGeneralPane) {
+                    showError("General Settings", "Cannot Parse File", "The Settings file cannot be loaded and applied!");
+                }
+                else if (settingsStackPane.getChildren().get(0) == settingsHotkeysPane) {
+                    showError("Hotkey Settings", "Cannot Parse File", "The Hotkeys file cannot be loaded and applied!");
+                }
+            }
         }
         else if (settingsStackPane.getChildren().get(0) == settingsHotkeysPane) {
-            hotkeysInfo = HotkeysInfo.load(file.getAbsolutePath());
-            loadHotkeys();
-            showConfirmation("Hotkey Settings", "File Loaded", "The Hotkeys file has been loaded and applied!");
+            try {
+                hotkeysInfo = HotkeysInfo.load(file.getAbsolutePath());
+                loadHotkeys();
+                showConfirmation("Hotkey Settings", "File Loaded", "The Hotkeys file has been loaded and applied!");
+            }
+            catch (IOException iex){
+                System.err.println(iex.getStackTrace());
+                if (settingsStackPane.getChildren().get(0) == settingsGeneralPane) {
+                    showError("General Settings", "Invalid File", "The Settings file is not a valid file!");
+                }
+                else if (settingsStackPane.getChildren().get(0) == settingsHotkeysPane) {
+                    showError("Hotkey Settings", "Invalid File", "The Hotkeys file is not a valid file!");
+                }
+            }
+            catch (Exception ex) {
+                System.err.println(ex.getStackTrace());
+                if (settingsStackPane.getChildren().get(0) == settingsGeneralPane) {
+                    showError("General Settings", "Cannot Parse File", "The Settings file cannot be loaded and applied!");
+                }
+                else if (settingsStackPane.getChildren().get(0) == settingsHotkeysPane) {
+                    showError("Hotkey Settings", "Cannot Parse File", "The Hotkeys file cannot be loaded and applied!");
+                }
+            }
         }
     }
 
@@ -398,18 +441,32 @@ public class SettingsController implements Initializable {
         return nodes;
     }
 
-    private boolean showNotSaved (String headerText, String contentText){
-        Alert alert = new Alert(Alert.AlertType.WARNING);
-        alert.setTitle("Warning");
+    private void showError (String titleText, String headerText, String contentText) {
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.setTitle(titleText);
         alert.setHeaderText(headerText);
         alert.setContentText(contentText);
 
-        ButtonType buttonYes = new ButtonType("Yes");
-        ButtonType buttonNo = new ButtonType("No");
-        alert.getButtonTypes().setAll(buttonYes, buttonNo);
+        alert.showAndWait();
+    }
 
-        Optional<ButtonType> result = alert.showAndWait();
-        return (result.get() == buttonYes);
+    private boolean showWarning (String titleText, String headerText, String contentText, boolean showButtons){
+        Alert alert = new Alert(Alert.AlertType.WARNING);
+        alert.setTitle(titleText);
+        alert.setHeaderText(headerText);
+        alert.setContentText(contentText);
+
+        if (showButtons) {
+            ButtonType buttonYes = new ButtonType("Yes");
+            ButtonType buttonNo = new ButtonType("No");
+            alert.getButtonTypes().setAll(buttonYes, buttonNo);
+
+            Optional<ButtonType> result = alert.showAndWait();
+            return (result.get() == buttonYes);
+        }
+
+        alert.showAndWait();
+        return false;
     }
 
     private void showConfirmation (String titleText, String headerText, String contentText){
