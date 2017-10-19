@@ -1,80 +1,109 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.Separator?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
-<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.shape.Circle?>
 <?import javafx.scene.text.Font?>
 
-<Pane maxHeight="750.0" maxWidth="600.0" minHeight="750.0" minWidth="600.0" prefHeight="750.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.112-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.limbo.icedcoco.ControllerHelp">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="554.0" prefWidth="439.0" xmlns="http://javafx.com/javafx/8.0.112-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.limbo.icedcoco.ControllerHelp">
    <children>
-      <Pane prefHeight="169.0" prefWidth="600.0" style="-fx-background-color: #2cb0c1;">
+      <AnchorPane id="pane2" fx:id="pane6" prefHeight="470.0" prefWidth="439.0" style="-fx-background-color: #53b9cc;" visible="false">
          <children>
-            <Label alignment="CENTER" layoutX="1.0" layoutY="22.0" prefHeight="107.0" prefWidth="600.0" text="W E L C O M E" textAlignment="CENTER" textFill="WHITE">
+            <Label alignment="CENTER" layoutX="96.0" layoutY="171.0" prefHeight="27.0" prefWidth="248.0" text="You can visit this through the" textFill="WHITE" />
+            <Label alignment="CENTER" layoutX="96.0" layoutY="144.0" prefHeight="27.0" prefWidth="248.0" text="And you're done!" textFill="WHITE" />
+            <Label alignment="CENTER" layoutX="96.0" layoutY="198.0" prefHeight="27.0" prefWidth="248.0" text="Help Menu on the Menu Bar." textFill="WHITE" />
+            <Label alignment="CENTER" layoutX="96.0" layoutY="225.0" prefHeight="27.0" prefWidth="248.0" text="Good luck!" textFill="WHITE" />
+            <Separator layoutX="120.0" layoutY="261.0" prefWidth="200.0" />
+            <Button layoutX="181.0" layoutY="327.0" mnemonicParsing="false" onMousePressed="#menuExit" prefHeight="16.0" prefWidth="78.0" style="-fx-background-color: #53b9dd;" text="Exit" textFill="WHITE">
                <font>
-                  <Font size="48.0" />
+                  <Font size="20.0" />
+               </font>
+            </Button>
+         </children>
+      </AnchorPane>
+      <AnchorPane id="topbar" fx:id="topbar" layoutY="484.0" prefHeight="70.0" prefWidth="439.0" style="-fx-background-color: #53b9cc;">
+         <children>
+            <Circle fx:id="circle1" fill="WHITE" layoutX="65.0" layoutY="35.0" onMousePressed="#handleClickCircle" radius="8.0" stroke="WHITE" strokeType="INSIDE" />
+            <Circle fx:id="circle2" fill="WHITE" layoutX="128.0" layoutY="35.0" onMousePressed="#handleClickCircle" radius="8.0" stroke="WHITE" strokeType="INSIDE" />
+            <Circle fx:id="circle3" fill="WHITE" layoutX="191.0" layoutY="35.0" onMousePressed="#handleClickCircle" radius="8.0" stroke="WHITE" strokeType="INSIDE" />
+            <Circle fx:id="circle4" fill="WHITE" layoutX="254.0" layoutY="35.0" onMousePressed="#handleClickCircle" radius="8.0" stroke="WHITE" strokeType="INSIDE" />
+            <Circle fx:id="circle5" fill="WHITE" layoutX="313.0" layoutY="35.0" onMousePressed="#handleClickCircle" radius="8.0" stroke="WHITE" strokeType="INSIDE" />
+            <Circle fx:id="circle6" fill="WHITE" layoutX="380.0" layoutY="35.0" onMousePressed="#handleClickCircle" radius="8.0" stroke="WHITE" strokeType="INSIDE" />
+         </children>
+      </AnchorPane>
+      <AnchorPane id="pane2" fx:id="pane5" prefHeight="470.0" prefWidth="439.0" style="-fx-background-color: #53b9cc;" visible="false">
+         <children>
+            <Label alignment="CENTER" layoutX="96.0" layoutY="335.0" prefHeight="27.0" prefWidth="248.0" text="click on About on the Help Menu." textFill="WHITE" />
+            <Label alignment="CENTER" layoutX="96.0" layoutY="308.0" prefHeight="27.0" prefWidth="248.0" text="For more help and documentation," textFill="WHITE" />
+            <ImageView fitHeight="188.0" fitWidth="200.0" layoutX="120.0" layoutY="89.0">
+               <image>
+                  <Image url="@../../../../../instructions_images/4.PNG" />
+               </image>
+            </ImageView>
+         </children>
+      </AnchorPane>
+      <AnchorPane id="pane1" fx:id="pane4" prefHeight="470.0" prefWidth="439.0" style="-fx-background-color: #53b9cc;" visible="false">
+         <children>
+            <Label alignment="CENTER" layoutX="96.0" layoutY="368.0" prefHeight="27.0" prefWidth="248.0" text="on the left side of the screen." textFill="WHITE" />
+            <Label alignment="CENTER" layoutX="96.0" layoutY="341.0" prefHeight="27.0" prefWidth="248.0" text="segmenting, go to the Tool Panel" textFill="WHITE" />
+            <Label alignment="CENTER" layoutX="96.0" layoutY="314.0" prefHeight="27.0" prefWidth="248.0" text="To select which tool to use for" textFill="WHITE" />
+            <ImageView fitHeight="223.0" fitWidth="173.0" layoutX="133.0" layoutY="76.0">
+               <image>
+                  <Image url="@../../../../../instructions_images/3.PNG" />
+               </image>
+            </ImageView>
+         </children>
+      </AnchorPane>
+      <AnchorPane id="pane1" fx:id="pane3" prefHeight="470.0" prefWidth="439.0" style="-fx-background-color: #53b9cc;" visible="false">
+         <children>
+            <ImageView fitHeight="208.0" fitWidth="266.0" layoutX="87.0" layoutY="79.0">
+               <image>
+                  <Image url="@../../../../../instructions_images/2.PNG" />
+               </image>
+            </ImageView>
+            <Label alignment="CENTER" layoutX="96.0" layoutY="353.0" prefHeight="27.0" prefWidth="248.0" text="click on Edit on the Menu Bar." textFill="WHITE" />
+            <Label alignment="CENTER" layoutX="96.0" layoutY="326.0" prefHeight="27.0" prefWidth="248.0" text="or to zoom in or zoom out," textFill="WHITE" />
+            <Label alignment="CENTER" layoutX="96.0" layoutY="299.0" prefHeight="27.0" prefWidth="248.0" text="To delete a node on the canvas," textFill="WHITE" />
+         </children></AnchorPane>
+      <AnchorPane id="pane2" fx:id="pane2" prefHeight="470.0" prefWidth="439.0" style="-fx-background-color: #53b9cc;" visible="false">
+         <children>
+            <ImageView fitHeight="223.0" fitWidth="284.0" layoutX="78.0" layoutY="90.0">
+               <image>
+                  <Image url="@../../../../../instructions_images/1.PNG" />
+               </image>
+            </ImageView>
+            <Label alignment="CENTER" layoutX="96.0" layoutY="324.0" prefHeight="27.0" prefWidth="248.0" text="To open an image, an image with " textFill="WHITE" />
+            <Label layoutX="122.0" layoutY="351.0" prefHeight="27.0" prefWidth="222.0" text="metadata, create or select metadata" textFill="WHITE" />
+            <Label alignment="CENTER" layoutX="96.0" layoutY="378.0" prefHeight="27.0" prefWidth="248.0" text="files, click on File on the Menu Bar." textFill="WHITE" />
+         </children></AnchorPane>
+      <AnchorPane id="pane3" fx:id="pane1" prefHeight="470.0" prefWidth="439.0" style="-fx-background-color: #53b9cc;">
+         <children>
+            <Label layoutX="45.0" layoutY="104.0" text="W E L C O M E" textFill="WHITE">
+               <font>
+                  <Font size="55.0" />
                </font>
             </Label>
-            <Separator layoutX="201.0" layoutY="128.0" prefWidth="200.0" />
-         </children>
-      </Pane>
-      <Pane layoutY="683.0" prefHeight="67.0" prefWidth="600.0">
-         <children>
-            <Circle fx:id="circle1" fill="#9ccdd3" layoutX="82.0" layoutY="34.0" radius="8.0" stroke="WHITE" strokeType="INSIDE" />
-            <Circle fx:id="circle2" fill="#9ccdd3" layoutX="146.0" layoutY="34.0" radius="8.0" stroke="WHITE" strokeType="INSIDE" />
-            <Circle fx:id="circle3" fill="#9ccdd3" layoutX="209.0" layoutY="34.0" radius="8.0" stroke="WHITE" strokeType="INSIDE" />
-            <Circle fx:id="circle4" fill="#9ccdd3" layoutX="273.0" layoutY="34.0" radius="8.0" stroke="WHITE" strokeType="INSIDE" />
-            <Circle fill="#9ccdd3" layoutX="338.0" layoutY="34.0" radius="8.0" stroke="WHITE" strokeType="INSIDE" />
-            <Circle fill="#9ccdd3" layoutX="402.0" layoutY="34.0" radius="8.0" stroke="WHITE" strokeType="INSIDE" />
-            <Circle fill="#9ccdd3" layoutX="465.0" layoutY="34.0" radius="8.0" stroke="WHITE" strokeType="INSIDE" />
-            <Circle fill="#9ccdd3" layoutX="529.0" layoutY="34.0" radius="8.0" stroke="WHITE" strokeType="INSIDE" />
-         </children>
-      </Pane>
-      <Pane fx:id="helpPane1" layoutX="38.0" layoutY="201.0" prefHeight="482.0" prefWidth="524.0">
-         <children>
-            <ImageView fitHeight="240.0" fitWidth="300.0" layoutX="120.0" layoutY="35.0">
-               <image>
-                  <Image url="@../../../../Pictures/Instructions/1.PNG" />
-               </image>
-            </ImageView>
-            <Label layoutX="97.0" layoutY="315.0" text="To open an existing image, an existing image with" textAlignment="CENTER" wrapText="true" />
-            <Label layoutX="97.0" layoutY="336.0" text="metadata or to create or select metadata files," textAlignment="CENTER" wrapText="true" />
-            <Label layoutX="97.0" layoutY="357.0" text="click File on the top corner." textAlignment="CENTER" wrapText="true" />
-         </children>
-      </Pane>
-      <Pane fx:id="helpPane2" layoutX="58.0" layoutY="221.0" prefHeight="482.0" prefWidth="524.0">
-         <children>
-            <Label layoutX="78.0" layoutY="307.0" text="For help, click in Help to revise how to use the program." textAlignment="CENTER" wrapText="true" />
-            <ImageView fitHeight="235.0" fitWidth="233.0" layoutX="146.0" layoutY="53.0">
-               <image>
-                  <Image url="@../../../../Pictures/Instructions/4.PNG" />
-               </image>
-            </ImageView>
-         </children>
-      </Pane>
-      <Pane fx:id="helpPane3" layoutX="68.0" layoutY="231.0" prefHeight="482.0" prefWidth="524.0">
-         <children>
-            <ImageView fitHeight="232.0" fitWidth="183.0" layoutX="161.0" layoutY="52.0">
-               <image>
-                  <Image url="@../../../../Pictures/Instructions/3.PNG" />
-               </image>
-            </ImageView>
-            <Label layoutX="128.0" layoutY="307.0" text="To segment the image, click on the tools" textAlignment="CENTER" wrapText="true" />
-            <Label layoutX="128.0" layoutY="328.0" text="tools available in the right corner." textAlignment="CENTER" wrapText="true" />
-         </children>
-      </Pane>
-      <Pane fx:id="helpPane4" disable="true" layoutX="48.0" layoutY="211.0" prefHeight="482.0" prefWidth="524.0">
-         <children>
-            <Label layoutX="144.0" layoutY="315.0" text="To delete a point, or zoom in or out" textAlignment="CENTER" wrapText="true" />
-            <Label layoutX="144.0" layoutY="336.0" text="in the image, click Edit." textAlignment="CENTER" wrapText="true" />
-            <ImageView fitHeight="240.0" fitWidth="300.0" layoutX="126.0" layoutY="37.0">
-               <image>
-                  <Image url="@../../../../Pictures/Instructions/2.PNG" />
-               </image>
-            </ImageView>
-         </children>
-      </Pane>
+            <Label layoutX="72.0" layoutY="230.0" text="NAVIGATE THROUGH THE TUTORIAL" textFill="WHITE">
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </Label>
+            <Separator layoutX="120.0" layoutY="195.0" prefWidth="200.0" />
+            <Label layoutX="109.0" layoutY="257.0" text="USING THE CIRCLES BELOW" textFill="WHITE">
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </Label>
+            <Separator layoutX="120.0" layoutY="309.0" prefWidth="200.0" />
+            <Button layoutX="169.0" layoutY="363.0" mnemonicParsing="false" onMousePressed="#menuExit" prefHeight="44.0" prefWidth="102.0" style="-fx-background-color: #53b9dd;" text="Exit" textFill="WHITE">
+               <font>
+                  <Font size="20.0" />
+               </font>
+            </Button>
+         </children></AnchorPane>
    </children>
-</Pane>
+</AnchorPane>

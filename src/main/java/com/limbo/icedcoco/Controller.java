@@ -190,6 +190,7 @@ public class Controller implements Initializable{
             Scene scene = new Scene(root);
             Stage stage = new Stage();
             stage.setScene(scene);
+            cont.setScene(scene);
             stage.show();
         }catch(IOException ioe){
             ioe.printStackTrace();

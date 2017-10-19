@@ -36,6 +36,7 @@ public class Main extends Application {
         Scene scene = new Scene(root);
         Stage stage = new Stage();
         stage.setScene(scene);
+        cont.setScene(scene);
         stage.show();
     }
 
