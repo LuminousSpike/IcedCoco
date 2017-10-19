@@ -71,14 +71,46 @@ public class HotkeysInfo {
     @XmlElement String getActionUndoAlt() { return  ActionUndoAlt.toString(); };
     // 26 Hotkeys Getters END!
 
+    // 26 Hotkeys setters START!
+    void setGlobalZoomInPrimary(String combination) { GlobalZoomInPrimary = KeyCombination.keyCombination(combination); }
+    void setGlobalZoomInAlt(String combination) { GlobalZoomInAlt = KeyCombination.keyCombination(combination); }
+    void setGlobalZoomOutPrimary(String combination) { GlobalZoomOutPrimary = KeyCombination.keyCombination(combination); }
+    void setGlobalZoomOutAlt(String combination) { GlobalZoomOutAlt = KeyCombination.keyCombination(combination); }
+    void setGlobalSaveFilePrimary(String combination) { GlobalSaveFilePrimary = KeyCombination.keyCombination(combination); }
+    void setGlobalSaveFileAlt(String combination) { GlobalSaveFileAlt = KeyCombination.keyCombination(combination); }
+    void setGlobalSaveFileAsPrimary(String combination) { GlobalSaveFileAsPrimary = KeyCombination.keyCombination(combination); }
+    void setGlobalSaveFileAsAlt(String combination) { GlobalSaveFileAsAlt = KeyCombination.keyCombination(combination); }
+    void setGlobalExportMaskPrimary(String combination) {GlobalExportMaskPrimary = KeyCombination.keyCombination(combination); }
+    void setGlobalExportMaskAlt(String combination) { GlobalExportMaskAlt = KeyCombination.keyCombination(combination); }
+    void setToolPolygonPrimary(String combination) { ToolPolygonPrimary = KeyCombination.keyCombination(combination); }
+    void setToolPolygonAlt(String combination) { ToolPolygonAlt = KeyCombination.keyCombination(combination); }
+    void setToolEllipsePrimary(String combination) { ToolEllipsePrimary = KeyCombination.keyCombination(combination); }
+    void setToolEllipseAlt(String combination) { ToolEllipseAlt = KeyCombination.keyCombination(combination); }
+    void setToolSelectPrimary(String combination) { ToolSelectPrimary = KeyCombination.keyCombination(combination); }
+    void setToolSelectAlt(String combination) { ToolSelectAlt = KeyCombination.keyCombination(combination); }
+    void setToolMovePrimary(String combination) { ToolMovePrimary = KeyCombination.keyCombination(combination); }
+    void setToolMoveAlt(String combination) { ToolMoveAlt = KeyCombination.keyCombination(combination); }
+    void setActionPrimaryPrimary(String combination) { ActionPrimaryPrimary = KeyCombination.keyCombination(combination); }
+    void setActionPrimaryAlt(String combination) { ActionPrimaryAlt = KeyCombination.keyCombination(combination); }
+    void setActionSecondaryPrimary(String combination) { ActionSecondaryPrimary = KeyCombination.keyCombination(combination); }
+    void setActionSecondaryAlt(String combination) { ActionSecondaryAlt = KeyCombination.keyCombination(combination); }
+    void setActionModifierPrimary(String combination) { ActionModifierPrimary = KeyCombination.keyCombination(combination); }
+    void setActionModifierAlt(String combination) { ActionModifierAlt = KeyCombination.keyCombination(combination); }
+    void setActionUndoPrimary(String combination) { ActionUndoPrimary = KeyCombination.keyCombination(combination); }
+    void setActionUndoAlt(String combination) { ActionUndoAlt = KeyCombination.keyCombination(combination); }
+    // 26 Hotkeys setters END!
+
     void save (String filepath) {
         try {
+            File file = new File(filepath);
+            if (!file.exists())
+                file.createNewFile();
             JAXBContext jc = JAXBContext.newInstance("com.limbo.icedcoco");
 
             Marshaller m = jc.createMarshaller();
             m.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
-            m.marshal(this, System.out);
-        } catch (JAXBException e) {
+            m.marshal(this, file);
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }

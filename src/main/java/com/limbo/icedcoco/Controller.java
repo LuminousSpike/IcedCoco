@@ -430,10 +430,13 @@ public class Controller implements Initializable{
             FXMLLoader loader = new FXMLLoader(getClass().getResource("form_settings.fxml"));
             Parent root = loader.load();
             SettingsController cont = loader.getController();
+            cont.setSettingsInfo(settingsInfo);
+            cont.setHotkeysInfo(hotkeysInfo);
 
             Scene scene = new Scene(root);
             Stage stage = new Stage();
             stage.setScene(scene);
+            cont.start();
             stage.show();
         } catch (IOException ioe) {
             ioe.printStackTrace();
