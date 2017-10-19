@@ -21,7 +21,7 @@
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.text.Font?>
 
-<GridPane fx:id="masterPane" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="800.0" minWidth="1280.0" onKeyPressed="#onKeyPressListener" prefHeight="800.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.limbo.icedcoco.SettingsController">
+<GridPane fx:id="masterPane" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="800.0" minWidth="1280.0" prefHeight="800.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.limbo.icedcoco.SettingsController">
     <columnConstraints>
         <ColumnConstraints hgrow="SOMETIMES" maxWidth="139.0" minWidth="10.0" prefWidth="139.0" />
         <ColumnConstraints hgrow="SOMETIMES" maxWidth="389.0" minWidth="10.0" prefWidth="355.0" />
@@ -56,7 +56,7 @@
                             <font>
                                 <Font name="Calibri" size="18.0" />
                             </font></Button>
-                  <Button fx:id="btnEllipse1" layoutX="10.0" layoutY="110.0" mnemonicParsing="false" onAction="#activateSelectTool" prefHeight="50.0" prefWidth="120.0" style="-fx-background-color: #4BA5EA;" text="Server" textFill="WHITE">
+                  <Button fx:id="btnEllipse1" layoutX="10.0" layoutY="110.0" mnemonicParsing="false" prefHeight="50.0" prefWidth="120.0" style="-fx-background-color: #4BA5EA;" text="Server" textFill="WHITE">
                      <font>
                         <Font name="Calibri" size="18.0" />
                      </font>
@@ -65,29 +65,29 @@
                 </ToolBar>
             </children>
         </AnchorPane>
-        <MenuBar fx:id="menuBar" onKeyPressed="#onKeyPressListener" style="-fx-background-color: #ffffff;" GridPane.columnSpan="4">
+        <MenuBar fx:id="menuBar" style="-fx-background-color: #ffffff;" GridPane.columnSpan="4">
             <menus>
-                <Menu fx:id="fileMenu" mnemonicParsing="false" onShown="#prepareFileMenu" text="File">
+                <Menu fx:id="fileMenu" mnemonicParsing="false" text="File">
                     <items>
-                        <MenuItem mnemonicParsing="false" onAction="#menuOpenImage" text="Save...">
+                        <MenuItem fx:id="menuItemSave" mnemonicParsing="false" onAction="#saveToFile" text="Save...">
                             <accelerator>
                                 <KeyCodeCombination alt="UP" code="S" control="UP" meta="UP" shift="UP" shortcut="DOWN" />
                             </accelerator></MenuItem>
-                        <MenuItem mnemonicParsing="false" onAction="#menuOpenImageWithCoco" text="Save As...">
+                        <MenuItem fx:id="menuItemSaveAs" mnemonicParsing="false" onAction="#saveToFileAs" text="Save As...">
                      <accelerator>
                         <KeyCodeCombination alt="UP" code="S" control="UP" meta="UP" shift="DOWN" shortcut="DOWN" />
                      </accelerator></MenuItem>
                         <SeparatorMenuItem mnemonicParsing="false" />
-                        <MenuItem fx:id="saveMenuItem" mnemonicParsing="false" onAction="#menuSaveData" text="Open...">
+                        <MenuItem fx:id="menuItemOpen" mnemonicParsing="false" onAction="#loadFromFile" text="Open...">
                             <accelerator>
                                 <KeyCodeCombination alt="UP" code="O" control="DOWN" meta="UP" shift="UP" shortcut="UP" />
                             </accelerator></MenuItem>
-                        <MenuItem mnemonicParsing="false" onAction="#createMetadataFiles" text="Defaults">
+                        <MenuItem fx:id="menuItemDefaults" mnemonicParsing="false" onAction="#loadDefaults" text="Defaults">
                      <accelerator>
                         <KeyCodeCombination alt="UP" code="D" control="UP" meta="UP" shift="DOWN" shortcut="DOWN" />
                      </accelerator></MenuItem>
                         <SeparatorMenuItem mnemonicParsing="false" />
-                        <MenuItem mnemonicParsing="false" onAction="#menuExit" text="Exit">
+                        <MenuItem fx:id="menuItemExit" mnemonicParsing="false" onAction="#exit" text="Exit">
                      <accelerator>
                         <KeyCodeCombination alt="UP" code="Q" control="UP" meta="UP" shift="UP" shortcut="DOWN" />
                      </accelerator></MenuItem>
@@ -95,11 +95,11 @@
                 </Menu>
                 <Menu mnemonicParsing="false" text="View">
                     <items>
-                        <MenuItem mnemonicParsing="false" text="General Settings">
+                        <MenuItem mnemonicParsing="false" onAction="#focusGeneralPane" text="General Settings">
                      <accelerator>
                         <KeyCodeCombination alt="UP" code="G" control="UP" meta="UP" shift="DOWN" shortcut="DOWN" />
                      </accelerator></MenuItem>
-                        <MenuItem mnemonicParsing="false" onAction="#growCanvas" text="Hotkey Settings">
+                        <MenuItem mnemonicParsing="false" onAction="#focusHotkeysPane" text="Hotkey Settings">
                             <accelerator>
                                 <KeyCodeCombination alt="UP" code="H" control="UP" meta="UP" shift="DOWN" shortcut="DOWN" />
                             </accelerator></MenuItem>
@@ -120,23 +120,23 @@
                 <ToolBar layoutY="-192.0" orientation="VERTICAL" prefHeight="294.0" prefWidth="139.0" style="-fx-background-color: #4BA5EA;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="-192.0">
                     <items>
                   <Separator layoutX="10.0" layoutY="10.0" prefHeight="30.0" prefWidth="127.0" />
-                  <Button fx:id="btnSave" alignment="TOP_CENTER" layoutX="10.0" layoutY="44.0" mnemonicParsing="false" onAction="#menuExit" prefHeight="50.0" prefWidth="120.0" style="-fx-background-color: #4BA5EA;" text="Save" textAlignment="CENTER" textFill="WHITE">
+                  <Button fx:id="btnSave" alignment="TOP_CENTER" layoutX="10.0" layoutY="44.0" mnemonicParsing="false" onAction="#saveToFile" prefHeight="50.0" prefWidth="120.0" style="-fx-background-color: #4BA5EA;" text="Save" textAlignment="CENTER" textFill="WHITE">
                      <font>
                         <Font name="Calibri" size="18.0" />
                      </font>
                   </Button>
-                  <Button fx:id="btnLoad" alignment="TOP_CENTER" layoutX="10.0" layoutY="10.0" mnemonicParsing="false" onAction="#menuExit" prefHeight="50.0" prefWidth="120.0" style="-fx-background-color: #4BA5EA;" text="Load" textAlignment="CENTER" textFill="WHITE">
+                  <Button fx:id="btnLoad" alignment="TOP_CENTER" layoutX="10.0" layoutY="10.0" mnemonicParsing="false" onAction="#loadFromFile" prefHeight="50.0" prefWidth="120.0" style="-fx-background-color: #4BA5EA;" text="Load" textAlignment="CENTER" textFill="WHITE">
                      <font>
                         <Font name="Calibri" size="18.0" />
                      </font>
                   </Button>
-                  <Button fx:id="btnDefaults" alignment="TOP_CENTER" layoutX="10.0" layoutY="98.0" mnemonicParsing="false" onAction="#menuExit" prefHeight="50.0" prefWidth="120.0" style="-fx-background-color: #4BA5EA;" text="Defaults" textAlignment="CENTER" textFill="WHITE">
+                  <Button fx:id="btnDefaults" alignment="TOP_CENTER" layoutX="10.0" layoutY="98.0" mnemonicParsing="false" onAction="#loadDefaults" prefHeight="50.0" prefWidth="120.0" style="-fx-background-color: #4BA5EA;" text="Defaults" textAlignment="CENTER" textFill="WHITE">
                      <font>
                         <Font name="Calibri" size="18.0" />
                      </font>
                   </Button>
                         <Separator prefHeight="30.0" prefWidth="50.0" />
-                        <Button fx:id="btnExit" alignment="TOP_CENTER" mnemonicParsing="false" onAction="#menuExit" prefHeight="50.0" prefWidth="120.0" style="-fx-background-color: #4BA5EA;" text=" Exit" textAlignment="CENTER" textFill="WHITE">
+                        <Button fx:id="btnExit" alignment="TOP_CENTER" mnemonicParsing="false" onAction="#exit" prefHeight="50.0" prefWidth="120.0" style="-fx-background-color: #4BA5EA;" text="Close" textAlignment="CENTER" textFill="WHITE">
                             <font>
                                 <Font name="Calibri" size="18.0" />
                             </font>
