@@ -366,32 +366,32 @@ public class SettingsController implements Initializable {
         hotkeyActionUndoAlt.setText(hotkeysInfo.ActionUndoAlt.getDisplayText());
     }
     private void defaultHotkeys () {
-        //hotkeysInfo.GlobalZoomInPrimary = KeyCombination.keyCombination();
-        //hotkeysInfo.GlobalZoomInAlt = KeyCombination.keyCombination();
-        //hotkeysInfo.GlobalZoomOutPrimary = KeyCombination.keyCombination();
-        //hotkeysInfo.GlobalZoomOutAlt = KeyCombination.keyCombination();
-        //hotkeysInfo.GlobalSaveFilePrimary = KeyCombination.keyCombination();
-        //hotkeysInfo.GlobalSaveFileAlt = KeyCombination.keyCombination();
-        //hotkeysInfo.GlobalSaveFileAsPrimary = KeyCombination.keyCombination();
-        //hotkeysInfo.GlobalSaveFileAsAlt = KeyCombination.keyCombination();
-        //hotkeysInfo.GlobalExportMaskPrimary = KeyCombination.keyCombination();
-        //hotkeysInfo.GlobalExportMaskAlt = KeyCombination.keyCombination();
-        //hotkeysInfo.ToolPolygonPrimary = KeyCombination.keyCombination();
-        //hotkeysInfo.ToolPolygonAlt = KeyCombination.keyCombination();
-        //hotkeysInfo.ToolEllipsePrimary = KeyCombination.keyCombination();
-        //hotkeysInfo.ToolEllipseAlt = KeyCombination.keyCombination();
-        //hotkeysInfo.ToolSelectPrimary = KeyCombination.keyCombination();
-        //hotkeysInfo.ToolSelectAlt = KeyCombination.keyCombination();
-        //hotkeysInfo.ToolMovePrimary = KeyCombination.keyCombination();
-        //hotkeysInfo.ToolMoveAlt = KeyCombination.keyCombination();
-        //hotkeysInfo.ActionPrimaryPrimary = KeyCombination.keyCombination();
-        //hotkeysInfo.ActionPrimaryAlt = KeyCombination.keyCombination();
-        //hotkeysInfo.ActionSecondaryPrimary = KeyCombination.keyCombination();
-        //hotkeysInfo.ActionSecondaryAlt = KeyCombination.keyCombination();
-        //hotkeysInfo.ActionModifierPrimary = KeyCombination.keyCombination();
-        //hotkeysInfo.ActionModifierAlt = KeyCombination.keyCombination();
-        //hotkeysInfo.ActionUndoPrimary = KeyCombination.keyCombination();
-        //hotkeysInfo.ActionUndoAlt = KeyCombination.keyCombination();
+        hotkeysInfo.GlobalZoomInPrimary = KeyCombination.keyCombination("SHORTCUT+N");
+        hotkeysInfo.GlobalZoomInAlt = KeyCombination.keyCombination("SHORTCUT+N");
+        hotkeysInfo.GlobalZoomOutPrimary = KeyCombination.keyCombination("SHORTCUT+M");
+        hotkeysInfo.GlobalZoomOutAlt = KeyCombination.keyCombination("SHORTCUT+M");
+        hotkeysInfo.GlobalSaveFilePrimary = KeyCombination.keyCombination("SHORTCUT+S");
+        hotkeysInfo.GlobalSaveFileAlt = KeyCombination.keyCombination("SHORTCUT+S");
+        hotkeysInfo.GlobalSaveFileAsPrimary = KeyCombination.keyCombination("SHORTCUT+SHIFT+S");
+        hotkeysInfo.GlobalSaveFileAsAlt = KeyCombination.keyCombination("SHORTCUT+SHIFT+S");
+        hotkeysInfo.GlobalExportMaskPrimary = KeyCombination.keyCombination("SHORTCUT+X");
+        hotkeysInfo.GlobalExportMaskAlt = KeyCombination.keyCombination("SHORTCUT+X");
+        hotkeysInfo.ToolPolygonPrimary = KeyCombination.keyCombination("P");
+        hotkeysInfo.ToolPolygonAlt = KeyCombination.keyCombination("P");
+        hotkeysInfo.ToolEllipsePrimary = KeyCombination.keyCombination("E");
+        hotkeysInfo.ToolEllipseAlt = KeyCombination.keyCombination("E");
+        hotkeysInfo.ToolSelectPrimary = KeyCombination.keyCombination("S");
+        hotkeysInfo.ToolSelectAlt = KeyCombination.keyCombination("S");
+        hotkeysInfo.ToolMovePrimary = KeyCombination.keyCombination("M");
+        hotkeysInfo.ToolMoveAlt = KeyCombination.keyCombination("M");
+        hotkeysInfo.ActionPrimaryPrimary = KeyCombination.keyCombination("1");
+        hotkeysInfo.ActionPrimaryAlt = KeyCombination.keyCombination("1");
+        hotkeysInfo.ActionSecondaryPrimary = KeyCombination.keyCombination("2");
+        hotkeysInfo.ActionSecondaryAlt = KeyCombination.keyCombination("2");
+        hotkeysInfo.ActionModifierPrimary = KeyCombination.keyCombination("3");
+        hotkeysInfo.ActionModifierAlt = KeyCombination.keyCombination("3");
+        hotkeysInfo.ActionUndoPrimary = KeyCombination.keyCombination("SHORTCUT+Z");
+        hotkeysInfo.ActionUndoAlt = KeyCombination.keyCombination("SHORTCUT+Z");
     }
 
     private void saveHotkeys() {
