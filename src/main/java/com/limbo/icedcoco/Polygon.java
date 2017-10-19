@@ -167,10 +167,16 @@ class Polygon {
         return out;
     }
 
+    /**
+     * @return The top point.
+     */
     Vertex popPoint() {
         return points.get(points.size() - 1);
     }
 
+    /**
+     * @return All selected points.
+     */
     LinkedList<Vertex> getSelectedPoints() {
         LinkedList<Vertex> selectedPoints = new LinkedList<Vertex>();
         for (Vertex v : points) {
@@ -181,6 +187,12 @@ class Polygon {
         return selectedPoints;
     }
 
+    /**
+     * Adds either a selected vertex or a new vertex based on x and y coords.
+     * @param x x-coord of new vertex.
+     * @param y y-coord of new vertex.
+     * @param selectedVertex Currently selected vertex.
+     */
     public void add(double x, double y, Vertex selectedVertex) {
         if (selectedVertex == null) {
             add(x, y);
@@ -191,6 +203,11 @@ class Polygon {
         points.add(index + 1, new Vertex(x, y));
     }
 
+    /**
+     * Remove the selected vertex.
+     * @param selectedVertex Vertex to remove.
+     * @return The removed vertex.
+     */
     public Vertex remove(Vertex selectedVertex) {
         Vertex v = null;
         if (selectedVertex != null) {
@@ -202,6 +219,10 @@ class Polygon {
         return v;
     }
 
+    /**
+     * Converts points to JSON.
+     * @return JSON formatted array of point coords.
+     */
     public JSONArray getJSONArray(){
         // returns a JSONArray containing a JSONArray for each (x,y) point of the polygon, so [[x1,y1],[x2,y2]..]
         JSONArray out = new JSONArray();
