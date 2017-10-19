@@ -38,10 +38,18 @@ public class CreateMetadataController implements Initializable {
     @FXML private Label segmentationLabel;
     @FXML private Label verticesLabel;
 
+    /**
+     * Sets the session info.
+     * @param s The SessionInfo to set.
+     */
     public void setSessionInfo(SessionInfo s){
         this.sessionInfo = s;
     }
 
+    /**
+     * Sets the scene.
+     * @param s The scene to set.
+     */
     public void setScene(Scene s){
         this.scene = s;
     }
@@ -51,6 +59,10 @@ public class CreateMetadataController implements Initializable {
         this.resources = resources;
     }
 
+    /**
+     * Shows the dialog to choose a folder to save the files in.
+     * @param event Not currently used.
+     */
     @FXML public void chooseDirectory(ActionEvent event){
         // open a DirectoryChooser to choose a folder/directory to save the files in
         DirectoryChooser dc = new DirectoryChooser();
@@ -62,6 +74,10 @@ public class CreateMetadataController implements Initializable {
 
     }
 
+    /**
+     * Sets the text of the labels based upon the base name text field.
+     * @param event Not currently used.
+     */
     @FXML
     public void onEditBaseName(Event event){
         String base = baseNameTextField.getText() + "_";
@@ -71,6 +87,10 @@ public class CreateMetadataController implements Initializable {
         verticesLabel.setText(base + "tool_vertices.json");
     }
 
+    /**
+     * Creates a information dialog upon creation of the meta data files.
+     * @param event Not currently used.
+     */
     @FXML
     public void onCreateButton(ActionEvent event){
         createAllFiles(false);
@@ -81,6 +101,10 @@ public class CreateMetadataController implements Initializable {
         alert.showAndWait();
     }
 
+    /**
+     * Creates a information dialog upon creating and using the meta data files.
+     * @param event Not currently used.
+     */
     @FXML
     public void onCreateAndUse(ActionEvent event){
         createAllFiles(true);
@@ -92,6 +116,10 @@ public class CreateMetadataController implements Initializable {
         alert.showAndWait();
     }
 
+    /**
+     * Handles the case of there being no data yet in the JSON files.
+     * @return Content of an empty image info file.
+     */
     private String getEmptyImageDataText(){
         // return a string for the content of an empty image info file, instead of using the JSON tools
         String contributor = "COMP314 Project Tool User";
@@ -106,6 +134,10 @@ public class CreateMetadataController implements Initializable {
                 "\"images\": []}";
     }
 
+    /**
+     * Creates all meta data files that the user has enabled.
+     * @param use Whether or not the sessionInfo uses the meta data files given.
+     */
     private void createAllFiles(boolean use){
         // for each toggle, if true, create a file using the base file name and the chosen directory.
         String emptyObject = "{}";     // mimic an empty JSONObject
@@ -148,6 +180,13 @@ public class CreateMetadataController implements Initializable {
         }
     }
 
+    /**
+     * Writes the meta data files.
+     * @param fileName File name to use.
+     * @param content The content to write.
+     * @return The file itself.
+     * @throws IOException
+     */
     private File createMetadataFile(String fileName, String content) throws IOException{
         File newFile = new File(this.baseDirectory, fileName);
         PrintWriter writer = new PrintWriter(newFile);
@@ -158,6 +197,10 @@ public class CreateMetadataController implements Initializable {
         return newFile;
     }
 
+    /**
+     * Close the window.
+     * @param event Not currently used.
+     */
     @FXML
     public void onCancelButton(ActionEvent event){
         ((Stage)scene.getWindow()).close();
