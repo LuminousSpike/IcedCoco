@@ -19,26 +19,56 @@ public class SelectTool implements Tool {
         polygons = new_Polygon;
     }
 
+    /**
+     * Sets the canvas to draw on.
+     *
+     * @param canvas the canvas to set.
+     */
     @Override
     public void setCanvas(Canvas canvas) {
         drawingCanvas = canvas;
     }
 
+    /**
+     * Handles the onKeyPress event.
+     * Redraws all the polygons.
+     *
+     * @param e KeyEvent.
+     */
     @Override
     public void onKeyPress(KeyEvent e) {
         draw();
     }
 
+    /**
+     * Handles the onDragEntered event.
+     * Redraws all the polygons.
+     *
+     * @param e MouseEvent.
+     */
     @Override
     public void onDragEntered(MouseEvent e) {
         draw();
     }
 
+    /**
+     * Handles the onMouseClicked event.
+     * Redraws all the polygon.
+     *
+     * @param e MouseEvent.
+     */
     @Override
     public void onMouseClicked(MouseEvent e) {
         draw();
     }
 
+    /**
+     * Handles the onMouseDragged event.
+     * Redraws all the polygon and sets
+     * the end coords for the select box.
+     *
+     * @param e MouseEvent.
+     */
     @Override
     public void onMouseDragged(MouseEvent e) {
         if (e.isPrimaryButtonDown()) {
@@ -55,6 +85,13 @@ public class SelectTool implements Tool {
         draw();
     }
 
+    /**
+     * Handles the onMousePressed event.
+     * Redraws all the polygon and sets
+     * the values for the beginning of the selection box.
+     *
+     * @param e MouseEvent.
+     */
     @Override
     public void onMousePressed(MouseEvent e) {
         if (e.isSecondaryButtonDown()) {
@@ -74,6 +111,13 @@ public class SelectTool implements Tool {
         draw();
     }
 
+    /**
+     * Handles the onMouseReleased event.
+     * Redraws all the polygons and stops drawing
+     * the selection box.
+     *
+     * @param e MouseEvent.
+     */
     @Override
     public void onMouseReleased(MouseEvent e) {
         drawSquare = false;
@@ -81,6 +125,9 @@ public class SelectTool implements Tool {
         draw();
     }
 
+    /**
+     * Draws the tool's contents onto the set canvas.
+     */
     @Override
     public void draw() {
         GraphicsContext gc = drawingCanvas.getGraphicsContext2D();

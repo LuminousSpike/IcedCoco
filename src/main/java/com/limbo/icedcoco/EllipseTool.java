@@ -25,26 +25,56 @@ public class EllipseTool implements Tool {
         this.size = Math.min(this.size, 200);
     }
 
+    /**
+     * Sets the canvas to draw on.
+     *
+     * @param canvas the canvas to set.
+     */
     @Override
     public void setCanvas(Canvas canvas) {
         drawingCanvas = canvas;
     }
 
+    /**
+     * Handles the onDragEntered event.
+     * Redraws all the polygons.
+     *
+     * @param e MouseEvent.
+     */
     @Override
     public void onKeyPress(KeyEvent e) {
         draw();
     }
 
+    /**
+     * Handles the onDragEntered event.
+     * Redraws all the polygons.
+     *
+     * @param e MouseEvent.
+     */
     @Override
     public void onDragEntered(MouseEvent e) {
         draw();
     }
 
+    /**
+     * Handles the onMouseClicked event.
+     * Redraws all the polygon.
+     *
+     * @param e MouseEvent.
+     */
     @Override
     public void onMouseClicked(MouseEvent e) {
         draw();
     }
 
+    /**
+     * Handles the onMouseDragged event.
+     * Redraws all the polygon and sets
+     * the values for the preview ellipse.
+     *
+     * @param e MouseEvent.
+     */
     @Override
     public void onMouseDragged(MouseEvent e) {
         if (!drawSquare)
@@ -80,6 +110,13 @@ public class EllipseTool implements Tool {
         draw();
     }
 
+    /**
+     * Handles the onMousePressed event.
+     * Redraws all the polygon and sets
+     * the values for the beginning of the ellipse preview.
+     *
+     * @param e MouseEvent.
+     */
     @Override
     public void onMousePressed(MouseEvent e) {
         if (e.isSecondaryButtonDown()) {
@@ -101,6 +138,14 @@ public class EllipseTool implements Tool {
         draw();
     }
 
+    /**
+     * Handles the onMouseReleased event.
+     * Redraws all the polygons and stops drawing
+     * the preview ellipse box.
+     * Also added the new ellipse.
+     *
+     * @param e MouseEvent.
+     */
     @Override
     public void onMouseReleased(MouseEvent e) {
         Polygon p = new Polygon();
@@ -118,6 +163,9 @@ public class EllipseTool implements Tool {
         }
     }
 
+    /**
+     * Draws the tool's contents onto the set canvas.
+     */
     @Override
     public void draw() {
         GraphicsContext gc = drawingCanvas.getGraphicsContext2D();

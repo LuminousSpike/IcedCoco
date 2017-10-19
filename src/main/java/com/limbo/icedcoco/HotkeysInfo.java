@@ -9,6 +9,9 @@ import java.awt.event.ActionEvent;
 import java.io.File;
 import java.io.IOException;
 
+/**
+ * Wrapper class for the hotkeys.
+ */
 @XmlRootElement(name = "hotkeys")
 public class HotkeysInfo {
     // 26 Hotkeys START!
@@ -98,6 +101,10 @@ public class HotkeysInfo {
     void setActionUndoAlt(String combination) { ActionUndoAlt = KeyCombination.keyCombination(combination); }
     // 26 Hotkeys setters END!
 
+    /**
+     * Writes out the class to xml using jaxb.
+     * @param filepath Path of the file to write.
+     */
     void save (String filepath) {
         try {
             File file = new File(filepath);
@@ -113,6 +120,15 @@ public class HotkeysInfo {
         }
     }
 
+    /**
+     * Create a new HotkeysInfo from a xml file.
+     * @param filepath Path of the file to load.
+     * @return The loaded HotkeysInfo object.
+     * @throws Exception Any general error.
+     * @throws IOException Any IO related error.
+     * @throws JAXBException Any JAXB related error.
+     * @throws UnmarshalException Any Unmarshal related error.
+     */
     static HotkeysInfo load (String filepath) throws Exception, IOException, JAXBException, UnmarshalException {
             File file = new File(filepath);
             if (file.exists()) {
@@ -123,6 +139,9 @@ public class HotkeysInfo {
         return null;
     }
 
+    /**
+     * Hardcoded default key bindings for the hotkeys.
+     */
     void loadDefault () {
         GlobalZoomInPrimary = KeyCombination.keyCombination("SHORTCUT+N");
         GlobalZoomInAlt = KeyCombination.keyCombination("SHORTCUT+N");
