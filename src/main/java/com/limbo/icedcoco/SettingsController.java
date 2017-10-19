@@ -81,6 +81,9 @@ public class SettingsController implements Initializable {
     private GridPane settingsHotkeysPane;
 
     @FXML
+    private GridPane settingsServerPane;
+
+    @FXML
     private TitledPane titledGlobalHotkeys;
 
     @FXML
@@ -293,6 +296,11 @@ public class SettingsController implements Initializable {
     private void focusHotkeysPane () {
         settingsStackPane.getChildren().clear();;
         settingsStackPane.getChildren().add(settingsHotkeysPane);
+    }
+    @FXML
+    private void focusServerPane () {
+        settingsStackPane.getChildren().clear();;
+        settingsStackPane.getChildren().add(settingsServerPane);
     }
 
     private void constrainTitlePanes () {
