@@ -166,6 +166,7 @@ public class SettingsController implements Initializable {
 
     private ArrayList<TextField> textFields;
 
+    private SettingsInfo settingsInfo;
     private HotkeysInfo hotkeysInfo;
 
     @FXML
@@ -240,13 +241,24 @@ public class SettingsController implements Initializable {
 
     @FXML
     void shrinkCanvas(ActionEvent event) {
+}
 
+    void setHotkeysInfo (HotkeysInfo hotkeysInfo) {
+        this.hotkeysInfo = hotkeysInfo;
+    }
+
+    void setSettingsInfo (SettingsInfo settingsInfo) {
+        this.settingsInfo = settingsInfo;
     }
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         constrainTitlePanes();
         focusGeneralPane();
+    }
+
+    public void start() {
+        loadHotkeys();
     }
 
     @FXML

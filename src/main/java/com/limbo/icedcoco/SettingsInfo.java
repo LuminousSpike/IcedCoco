@@ -7,6 +7,7 @@ import javax.xml.bind.Unmarshaller;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 import java.io.File;
+import java.io.IOException;
 
 @XmlRootElement (name = "settings")
 public class SettingsInfo {
@@ -34,12 +35,16 @@ public class SettingsInfo {
 
     void save (String filepath) {
         try {
+            File file = new File(filepath);
+            if (!file.exists())
+                file.createNewFile();
+
             JAXBContext jc = JAXBContext.newInstance("com.limbo.icedcoco");
 
             Marshaller m = jc.createMarshaller();
             m.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
-            m.marshal(this, System.out);
-        } catch (JAXBException e) {
+            m.marshal(this, file);
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
