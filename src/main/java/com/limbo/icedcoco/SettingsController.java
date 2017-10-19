@@ -247,24 +247,6 @@ public class SettingsController implements Initializable {
     public void initialize(URL location, ResourceBundle resources) {
         constrainTitlePanes();
         focusGeneralPane();
-        try {
-            JAXBContext jc = JAXBContext.newInstance("com.limbo.icedcoco");
-            SettingsInfo sInfo = new SettingsInfo();
-            sInfo.defaultSaveLocation = "/How/Are/You/";
-            sInfo.showHelpDialogOnStartup = false;
-            sInfo.showHelpDialogOnUpdate = true;
-            sInfo.showMetaDataWarning = true;
-            sInfo.checkForUpdates = SettingsInfo.OptionFrequency.Always;
-            sInfo.reopenLastFile = SettingsInfo.OptionFrequency.Ask;
-            sInfo.reopenLastDirectory = SettingsInfo.OptionFrequency.Ask;
-            sInfo.automaticallyExport = SettingsInfo.OptionFrequency.Never;
-
-            Marshaller m = jc.createMarshaller();
-            m.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
-            m.marshal(sInfo, System.out);
-        } catch (JAXBException e) {
-            e.printStackTrace();
-        }
     }
 
     @FXML
@@ -364,34 +346,6 @@ public class SettingsController implements Initializable {
         hotkeyActionModifierAlt.setText(hotkeysInfo.ActionModifierAlt.getDisplayText());
         hotkeyActionUndoPrimary.setText(hotkeysInfo.ActionUndoPrimary.getDisplayText());
         hotkeyActionUndoAlt.setText(hotkeysInfo.ActionUndoAlt.getDisplayText());
-    }
-    private void defaultHotkeys () {
-        hotkeysInfo.GlobalZoomInPrimary = KeyCombination.keyCombination("SHORTCUT+N");
-        hotkeysInfo.GlobalZoomInAlt = KeyCombination.keyCombination("SHORTCUT+N");
-        hotkeysInfo.GlobalZoomOutPrimary = KeyCombination.keyCombination("SHORTCUT+M");
-        hotkeysInfo.GlobalZoomOutAlt = KeyCombination.keyCombination("SHORTCUT+M");
-        hotkeysInfo.GlobalSaveFilePrimary = KeyCombination.keyCombination("SHORTCUT+S");
-        hotkeysInfo.GlobalSaveFileAlt = KeyCombination.keyCombination("SHORTCUT+S");
-        hotkeysInfo.GlobalSaveFileAsPrimary = KeyCombination.keyCombination("SHORTCUT+SHIFT+S");
-        hotkeysInfo.GlobalSaveFileAsAlt = KeyCombination.keyCombination("SHORTCUT+SHIFT+S");
-        hotkeysInfo.GlobalExportMaskPrimary = KeyCombination.keyCombination("SHORTCUT+X");
-        hotkeysInfo.GlobalExportMaskAlt = KeyCombination.keyCombination("SHORTCUT+X");
-        hotkeysInfo.ToolPolygonPrimary = KeyCombination.keyCombination("P");
-        hotkeysInfo.ToolPolygonAlt = KeyCombination.keyCombination("P");
-        hotkeysInfo.ToolEllipsePrimary = KeyCombination.keyCombination("E");
-        hotkeysInfo.ToolEllipseAlt = KeyCombination.keyCombination("E");
-        hotkeysInfo.ToolSelectPrimary = KeyCombination.keyCombination("S");
-        hotkeysInfo.ToolSelectAlt = KeyCombination.keyCombination("S");
-        hotkeysInfo.ToolMovePrimary = KeyCombination.keyCombination("M");
-        hotkeysInfo.ToolMoveAlt = KeyCombination.keyCombination("M");
-        hotkeysInfo.ActionPrimaryPrimary = KeyCombination.keyCombination("1");
-        hotkeysInfo.ActionPrimaryAlt = KeyCombination.keyCombination("1");
-        hotkeysInfo.ActionSecondaryPrimary = KeyCombination.keyCombination("2");
-        hotkeysInfo.ActionSecondaryAlt = KeyCombination.keyCombination("2");
-        hotkeysInfo.ActionModifierPrimary = KeyCombination.keyCombination("3");
-        hotkeysInfo.ActionModifierAlt = KeyCombination.keyCombination("3");
-        hotkeysInfo.ActionUndoPrimary = KeyCombination.keyCombination("SHORTCUT+Z");
-        hotkeysInfo.ActionUndoAlt = KeyCombination.keyCombination("SHORTCUT+Z");
     }
 
     private void saveHotkeys() {
