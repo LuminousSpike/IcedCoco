@@ -5,6 +5,7 @@ import javafx.scene.paint.Color;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 
+import java.util.Collection;
 import java.util.Iterator;
 import java.util.LinkedList;
 
@@ -15,6 +16,7 @@ public class PolyList {
     private Vertex selectedVertex;
     private double scale = 1, previousMousePosX = 0, previousMousePosY = 0;
     private Color[] colorList = new Color[] {Color.HOTPINK, Color.BLUE, Color.GREEN, Color.PURPLE, Color.BEIGE, Color.ORANGE, Color.CORNSILK, Color.YELLOW, Color.AQUAMARINE, Color.SANDYBROWN};
+    private boolean undoBackThree = false;
 
     public PolyList() {
         polygons = new LinkedList<Polygon>();
@@ -257,6 +259,41 @@ public class PolyList {
     public void setPreviousMousePos(double x, double y) {
         previousMousePosX = x;
         previousMousePosY = y;
+    }
+
+    public void clear() {
+        polygons.clear();
+        selectedVertices.clear();
+    }
+    public void addAll(Collection<Polygon> newPolygons) {
+        undoBackThree = false;
+        for (Polygon p: newPolygons) {
+            if(p.size() > 3) {
+                polygons.add(p.clonePolygon());
+            }
+            else if(p.size() > 2)
+            {
+                polygons.add(p.clonePolygon());
+                undoBackThree = true;
+            }
+            else
+            {
+                undoBackThree = true;
+            }
+        }
+    }
+    public void addAllVertexs(Collection<Vertex> newVertexs) {
+        undoBackThree = false;
+        for (Vertex v: newVertexs) {
+            selectedVertices.add(new Vertex(v.getAxisX(),v.getAxisY()));
+        }
+    }
+
+
+    public boolean clone(PolyList newPolyList) {
+        addAll(newPolyList.getPolygons());
+        addAllVertexs(newPolyList.selectedVertices);
+        return undoBackThree;
     }
 
     public void getVerticesInBounds(double startingX, double startingY, double endX, double endY) {
