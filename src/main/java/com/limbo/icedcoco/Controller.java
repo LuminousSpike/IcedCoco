@@ -21,6 +21,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
@@ -36,6 +37,7 @@ import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.nio.Buffer;
+import java.util.LinkedList;
 import java.util.ResourceBundle;
 
 public class Controller implements Initializable{
@@ -71,6 +73,7 @@ public class Controller implements Initializable{
     private Tool currentTool = null;
 
     private PolyList polygons;
+    private LinkedList<PolyList> polygonsList = new LinkedList<PolyList>();
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -268,6 +271,7 @@ public class Controller implements Initializable{
 
     @FXML
     public void menuOpenImage(ActionEvent event){
+
         // load the image to the canvas without any metadata
         System.out.println("Open file");
         FileChooser fc = new FileChooser();
@@ -278,6 +282,7 @@ public class Controller implements Initializable{
         File imgFile = fc.showOpenDialog(scene.getWindow());
         try {
             if (imgFile != null) {
+                polygonsList = new LinkedList<PolyList>();
                 img = new Image(imgFile.toURI().toURL().toExternalForm());       // not tested on mac
                 sessionInfo.baseImageFile = imgFile;
                 sessionInfo.polygons = new PolyList();
@@ -332,7 +337,14 @@ public class Controller implements Initializable{
         if (currentTool != null) {
             drawImageInCanvas(img, false);
             currentTool.onMouseClicked(scaleMouseEvent(e));
+            if(!(e.getButton()== MouseButton.SECONDARY))
+            {
+                PolyList p = new PolyList();
+                p.clone(polygons);
+                polygonsList.addFirst(p);
+            }
         }
+
     }
 
     @FXML
@@ -348,6 +360,7 @@ public class Controller implements Initializable{
         if (currentTool != null) {
             drawImageInCanvas(img, false);
             currentTool.onMouseReleased(scaleMouseEvent(e));
+
         }
     }
 
@@ -375,6 +388,26 @@ public class Controller implements Initializable{
             // TODO: Turn this into a class for global hotkey support
             if (e.getCode() == KeyCode.DELETE) {
                 polygons.remove(polygons.getSelectedVertex());
+            }
+            if (e.getCode() == KeyCode.C) {
+                if(polygonsList.size() > 1) {
+                    polygonsList.removeFirst();
+                    polygons.clear();
+                    if((polygons.clone(polygonsList.getFirst())) == true)
+                    {
+                        polygonsList.removeFirst();
+                        polygonsList.removeFirst();
+                    }
+
+
+                }
+                else
+                {
+                    polygons.clear();
+                }
+                polygons.polygonClickedSecondary();
+                //drawImageInCanvas(img, false);
+                //currentTool.draw();
             }
 
             currentTool.onKeyPress(e);
