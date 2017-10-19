@@ -14,16 +14,12 @@ import javafx.scene.control.MenuBar;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.TextField;
 import javafx.scene.control.TitledPane;
-import javafx.scene.input.KeyCodeCombination;
 import javafx.scene.input.KeyCombination;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 
-import javax.xml.bind.JAXBContext;
-import javax.xml.bind.JAXBException;
-import javax.xml.bind.Marshaller;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
@@ -164,7 +160,35 @@ public class SettingsController implements Initializable {
     @FXML
     private TextField hotkeyActionUndoPrimary;
 
-    private ArrayList<TextField> textFields;
+    @FXML
+    private CheckBox startupShdOnStartupCheckbox;
+
+    @FXML
+    private CheckBox startupShdOnUpdateCheckbox;
+
+    @FXML
+    private ChoiceBox<SettingsInfo.OptionFrequency> startupReopenLastDirectoryChoicebox;
+
+    @FXML
+    private ChoiceBox<SettingsInfo.OptionFrequency> startupReopenLastFileChoicebox;
+
+    @FXML
+    private ChoiceBox<SettingsInfo.OptionFrequency> startupCheckForUpdatesChoiceBox;
+
+    @FXML
+    private CheckBox savingOnOpeningImageCheckbox;
+
+    @FXML
+    private Button savingDefaultSaveLocationButton;
+
+    @FXML
+    private TextField savingDefaultSaveLocationTextField;
+
+    @FXML
+    private ChoiceBox<SettingsInfo.OptionFrequency> savingAutomaticallyExportChoiceBox;
+
+    @FXML
+    private CheckBox savingDefaultSaveLocationCheckbox;
 
     private SettingsInfo settingsInfo;
     private HotkeysInfo hotkeysInfo;
@@ -258,6 +282,14 @@ public class SettingsController implements Initializable {
     }
 
     public void start() {
+        // Populate the choice boxes
+        startupReopenLastDirectoryChoicebox.getItems().setAll(SettingsInfo.OptionFrequency.values());
+        startupReopenLastFileChoicebox.getItems().setAll(SettingsInfo.OptionFrequency.values());
+        startupCheckForUpdatesChoiceBox.getItems().setAll(SettingsInfo.OptionFrequency.values());
+        savingAutomaticallyExportChoiceBox.getItems().setAll(SettingsInfo.OptionFrequency.values());
+
+        // Load the settings
+        loadGeneralSettings();
         loadHotkeys();
     }
 
@@ -329,6 +361,30 @@ public class SettingsController implements Initializable {
         }
 
         return nodes;
+    }
+
+    private void loadGeneralSettings () {
+        startupShdOnStartupCheckbox.setSelected(settingsInfo.showHelpDialogOnStartup);
+        startupShdOnUpdateCheckbox.setSelected(settingsInfo.showHelpDialogOnUpdate);
+        startupReopenLastDirectoryChoicebox.setValue(settingsInfo.reopenLastDirectory);
+        startupReopenLastFileChoicebox.setValue(settingsInfo.reopenLastFile);
+        startupCheckForUpdatesChoiceBox.setValue(settingsInfo.checkForUpdates);
+        savingOnOpeningImageCheckbox.setSelected(settingsInfo.showMetaDataWarning);
+        savingDefaultSaveLocationTextField.setText(settingsInfo.defaultSaveLocation);
+        savingAutomaticallyExportChoiceBox.setValue(settingsInfo.automaticallyExport);
+        savingDefaultSaveLocationCheckbox.setSelected(settingsInfo.useDefaultSaveLocation);
+    }
+
+    private void saveGeneralSettings () {
+        settingsInfo.showHelpDialogOnStartup = startupShdOnStartupCheckbox.isSelected();
+        settingsInfo.showHelpDialogOnUpdate = startupShdOnUpdateCheckbox.isSelected();
+        settingsInfo.reopenLastDirectory = startupReopenLastDirectoryChoicebox.getValue();
+        settingsInfo.reopenLastFile = startupReopenLastFileChoicebox.getValue();
+        settingsInfo.checkForUpdates = startupCheckForUpdatesChoiceBox.getValue();
+        settingsInfo.showMetaDataWarning = savingOnOpeningImageCheckbox.isSelected();
+        settingsInfo.defaultSaveLocation = savingDefaultSaveLocationTextField.getText();
+        settingsInfo.automaticallyExport = savingAutomaticallyExportChoiceBox.getValue();
+        settingsInfo.useDefaultSaveLocation = savingDefaultSaveLocationCheckbox.isSelected();
     }
 
     private void loadHotkeys () {
