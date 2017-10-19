@@ -2,14 +2,12 @@ package com.limbo.icedcoco;
 
 import javafx.scene.input.KeyCombination;
 
-import javax.xml.bind.JAXBContext;
-import javax.xml.bind.JAXBException;
-import javax.xml.bind.Marshaller;
-import javax.xml.bind.Unmarshaller;
+import javax.xml.bind.*;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 import java.awt.event.ActionEvent;
 import java.io.File;
+import java.io.IOException;
 
 @XmlRootElement(name = "hotkeys")
 public class HotkeysInfo {
@@ -115,19 +113,13 @@ public class HotkeysInfo {
         }
     }
 
-    static HotkeysInfo load (String filepath) {
-        try {
+    static HotkeysInfo load (String filepath) throws Exception, IOException, JAXBException, UnmarshalException {
             File file = new File(filepath);
             if (file.exists()) {
                 JAXBContext jaxbContext = JAXBContext.newInstance("com.limbo.icedcoco");
                 Unmarshaller unmarshaller = jaxbContext.createUnmarshaller();
-                HotkeysInfo hotkeysInfo = (HotkeysInfo) unmarshaller.unmarshal(file);
-                return hotkeysInfo;
+                return (HotkeysInfo) unmarshaller.unmarshal(file);
             }
-        }
-        catch (Exception ex) {
-            System.err.println(ex.getStackTrace());
-        }
         return null;
     }
 
