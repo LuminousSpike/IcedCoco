@@ -1,5 +1,6 @@
 package com.limbo.icedcoco;
 
+import javafx.application.Platform;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -19,6 +20,8 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
+import javafx.stage.Stage;
+import javafx.stage.Window;
 
 import java.net.URL;
 import java.util.ArrayList;
@@ -36,7 +39,16 @@ public class SettingsController implements Initializable {
     private Button btnHotkeys;
 
     @FXML
-    private Button btnEllipse1;
+    private Button btnSave;
+
+    @FXML
+    private Button btnLoad;
+
+    @FXML
+    private Button btnDefaults;
+
+    @FXML
+    private Button btnExit;
 
     @FXML
     private MenuBar menuBar;
@@ -45,10 +57,19 @@ public class SettingsController implements Initializable {
     private Menu fileMenu;
 
     @FXML
-    private MenuItem saveMenuItem;
+    private MenuItem menuItemSave;
 
     @FXML
-    private Button btnExit;
+    private MenuItem menuItemSaveAs;
+
+    @FXML
+    private MenuItem menuItemOpen;
+
+    @FXML
+    private MenuItem menuItemDefaults;
+
+    @FXML
+    private MenuItem menuItemExit;
 
     @FXML
     private StackPane settingsStackPane;
@@ -109,6 +130,7 @@ public class SettingsController implements Initializable {
 
     @FXML
     private TitledPane titledToolActionHotkeys;
+
     @FXML
     private TextField hotkeyToolPolygonPrimary;
 
@@ -179,9 +201,6 @@ public class SettingsController implements Initializable {
     private CheckBox savingOnOpeningImageCheckbox;
 
     @FXML
-    private Button savingDefaultSaveLocationButton;
-
-    @FXML
     private TextField savingDefaultSaveLocationTextField;
 
     @FXML
@@ -199,73 +218,44 @@ public class SettingsController implements Initializable {
     }
 
     @FXML
-    void activateEllipseTool(ActionEvent event) {
-
+    private void loadFromFile() {
+        System.err.println("loadFromFile has been called!");
     }
 
     @FXML
-    void activatePolygonTool(ActionEvent event) {
-
+    private void saveToFile() {
+        if (settingsStackPane.getChildren().get(0) == settingsGeneralPane) {
+            saveGeneralSettings();
+            settingsInfo.save("Settings.xml");
+        }
+        else if (settingsStackPane.getChildren().get(0) == settingsHotkeysPane) {
+            saveHotkeys();
+            hotkeysInfo.save("Hotkeys.xml");
+        }
     }
 
     @FXML
-    void activateSelectTool(ActionEvent event) {
-
+    private void saveToFileAs() {
+        System.err.println("saveToFileAs has been called!");
     }
 
     @FXML
-    void createMetadataFiles(ActionEvent event) {
-
+    private void loadDefaults() {
+        if (settingsStackPane.getChildren().get(0) == settingsGeneralPane) {
+            settingsInfo.loadDefault();
+            loadGeneralSettings();
+        }
+        else if (settingsStackPane.getChildren().get(0) == settingsHotkeysPane) {
+            hotkeysInfo.loadDefault();
+            loadHotkeys();
+        }
     }
 
     @FXML
-    void exportSegmentation(ActionEvent event) {
-
+    private void exit() {
+        // Weird hacky way that works.
+        ((Stage)btnExit.getScene().getWindow()).close();
     }
-
-    @FXML
-    void growCanvas(ActionEvent event) {
-
-    }
-
-    @FXML
-    void menuExit(ActionEvent event) {
-
-    }
-
-    @FXML
-    void menuOpenImage(ActionEvent event) {
-
-    }
-
-    @FXML
-    void menuOpenImageWithCoco(ActionEvent event) {
-
-    }
-
-    @FXML
-    void menuSaveData(ActionEvent event) {
-
-    }
-
-    @FXML
-    void onKeyPressListener(KeyEvent event) {
-
-    }
-
-    @FXML
-    void prepareFileMenu(ActionEvent event) {
-
-    }
-
-    @FXML
-    void selectMetadataFiles(ActionEvent event) {
-
-    }
-
-    @FXML
-    void shrinkCanvas(ActionEvent event) {
-}
 
     void setHotkeysInfo (HotkeysInfo hotkeysInfo) {
         this.hotkeysInfo = hotkeysInfo;
