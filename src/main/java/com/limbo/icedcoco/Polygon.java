@@ -120,6 +120,14 @@ class Polygon {
         }
     }
 
+    public Polygon clonePolygon()
+    {
+        Polygon returnPolygon = new Polygon();
+        for (Vertex po: points) {
+            returnPolygon.add(po.getAxisX(), po.getAxisY());
+        }
+      return returnPolygon;
+    }
 
     /**
      * @return The selected vertex of the polygon.
